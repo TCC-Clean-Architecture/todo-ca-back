@@ -4,7 +4,7 @@
   "description": "Software criado para fins de pesquisa de TCC",
   "main": "index.js",
   "scripts": {
-    "test": "mocha './src/**/*.test.js'",
+    "test": "mocha --require ts-node/register src/**/*.test.ts",
     "dev": "nodemon --watch src/** --ext ts,json --ignore src/**/*.test.ts --exec ts-node src/index.ts"
   },
   "author": "",
@@ -15,7 +15,9 @@
     "mongodb": "^6.0.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.6",
     "@types/express": "^4.17.17",
+    "@types/mocha": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "chai": "^4.3.8",
