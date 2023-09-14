@@ -1,5 +1,7 @@
+import dotenv from 'dotenv'
 import { type Document, MongoClient, ServerApiVersion, type Collection } from 'mongodb'
 
+dotenv.config()
 const uri = process.env.MONGO_URI ?? 'mongodb+srv://user:pass@xxxxx.xxxxxx.mongodb.net/'
 
 const client = new MongoClient(uri, {

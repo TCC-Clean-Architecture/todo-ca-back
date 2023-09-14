@@ -29,6 +29,27 @@ const todoRepository: ITodoRepository = {
     }) as ITodoInserted
 
     return result
+  },
+  delete: async (id: string | ObjectId): Promise<ObjectId | string | null> => {
+    const result = await todoCollection.deleteOne({
+      _id: typeof id === 'string' ? new ObjectId(id) : id
+    })
+    if (!result) {
+      return null
+    }
+
+    return id
+  },
+  update: async (id: string | ObjectId, content: Omit<ITodoInserted, '_id'>): Promise<ITodoInserted | null> => {
+    const idConverted = typeof id === 'string' ? new ObjectId(id) : id
+    const updateResult = await todoCollection.updateOne({
+      _id: idConverted
+    }, content)
+    if (!updateResult) {
+      return null
+    }
+    const result = await todoCollection.findOne({ _id: idConverted }) as ITodoInserted
+    return result
   }
 }
 

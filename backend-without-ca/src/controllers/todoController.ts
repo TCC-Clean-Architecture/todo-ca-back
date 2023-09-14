@@ -48,6 +48,35 @@ const todoController = {
       })
     }
     res.status(200).json(result)
+  },
+  delete: async (req: Request, res: Response) => {
+    const { id } = req.params
+    const result = await todoService.delete(id)
+    if (!result) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: 'Not found',
+        description: 'Id not found',
+        content: {
+        }
+      })
+    }
+    res.status(200).json(result)
+  },
+  update: async (req: Request, res: Response) => {
+    const { body } = req
+    const { id } = req.params
+    const result = await todoService.update(id, body)
+    if (!result) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: 'Not found',
+        description: 'Id not found',
+        content: {
+        }
+      })
+    }
+    res.status(200).json(result)
   }
 }
 
