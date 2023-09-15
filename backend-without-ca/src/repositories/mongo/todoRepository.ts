@@ -44,7 +44,9 @@ const todoRepository: ITodoRepository = {
     const idConverted = typeof id === 'string' ? new ObjectId(id) : id
     const updateResult = await todoCollection.updateOne({
       _id: idConverted
-    }, content)
+    }, {
+      $set: content
+    })
     if (!updateResult) {
       return null
     }
