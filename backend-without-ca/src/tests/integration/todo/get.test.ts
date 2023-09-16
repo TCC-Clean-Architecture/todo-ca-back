@@ -6,7 +6,7 @@ import { initializeRepository, todoRepository } from '../../../repositories'
 import { todoFixture } from '../../fixtures/todo.fixture'
 import { type ITodoInserted } from '../../../interfaces'
 
-describe('GET /todo testing', () => {
+describe('GET /todos testing', () => {
   let sandbox: sinon.SinonSandbox
   let clock: sinon.SinonFakeTimers
   before(async () => {
@@ -28,11 +28,11 @@ describe('GET /todo testing', () => {
     await todoRepository.create(todoToInsert2)
 
     const response = await request(server)
-      .get('/todo')
+      .get('/todos')
 
     assert.strictEqual(response.statusCode, 200)
 
-    assert.deepEqual(response.body.map((bodyItem: ITodoInserted) => ({
+    assert.deepEqual(response.body.content.map((bodyItem: ITodoInserted) => ({
       _id: bodyItem._id,
       name: bodyItem.name,
       description: bodyItem.description,
@@ -43,11 +43,11 @@ describe('GET /todo testing', () => {
 
   it('should return 200 with empty array', async () => {
     const response = await request(server)
-      .get('/todo')
+      .get('/todos')
 
     assert.strictEqual(response.statusCode, 200)
 
-    assert.deepEqual(response.body, [])
+    assert.deepEqual(response.body.content, [])
   })
 
   it('should return specific item on todo list', async () => {
@@ -57,11 +57,11 @@ describe('GET /todo testing', () => {
     await todoRepository.create(todoToInsert2)
 
     const response = await request(server)
-      .get(`/todo/${todoToInsert._id.toString()}`)
+      .get(`/todos/${todoToInsert._id.toString()}`)
 
     assert.strictEqual(response.statusCode, 200)
 
-    assert.deepEqual(response.body, JSON.parse(JSON.stringify(todoToInsert)))
+    assert.deepEqual(response.body.content, JSON.parse(JSON.stringify(todoToInsert)))
   })
 
   it('should not found specific id and get 404', async () => {
@@ -69,16 +69,58 @@ describe('GET /todo testing', () => {
     await todoRepository.create(todoToInsert)
 
     const response = await request(server)
-      .get('/todo/abcde')
+      .get('/todos/abcde')
 
     assert.strictEqual(response.statusCode, 404)
 
     assert.deepEqual(response.body, {
       statusCode: 404,
-      message: 'Not found',
+      message: 'Not Found',
+      type: 'error',
       description: 'Id not found',
       content: {
       }
     })
+  })
+
+  it('should return 500 status when something went wrong on service', async () => {
+    sandbox.stub(todoRepository, 'getById').throws('Explosion')
+    const response = await request(server)
+      .get('/todos/abcde')
+
+    const expectedErrorMessage = {
+      statusCode: 500,
+      message: 'Internal Server Error',
+      description: 'Something went wrong',
+      type: 'error',
+      content: {
+        error: {
+          name: 'Explosion'
+        }
+      }
+    }
+
+    assert.strictEqual(response.statusCode, 500)
+    assert.deepEqual(response.body, expectedErrorMessage)
+  })
+  it('should return 500 status when something went wrong on service', async () => {
+    sandbox.stub(todoRepository, 'listAll').throws('Explosion')
+    const response = await request(server)
+      .get('/todos')
+
+    const expectedErrorMessage = {
+      statusCode: 500,
+      message: 'Internal Server Error',
+      description: 'Something went wrong',
+      type: 'error',
+      content: {
+        error: {
+          name: 'Explosion'
+        }
+      }
+    }
+
+    assert.strictEqual(response.statusCode, 500)
+    assert.deepEqual(response.body, expectedErrorMessage)
   })
 })

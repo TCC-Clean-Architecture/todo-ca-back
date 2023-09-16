@@ -2,7 +2,7 @@ import request from 'supertest'
 import { server } from '../../../server'
 import { assert } from 'chai'
 
-describe('GET /todo testing', () => {
+describe('GET /todos testing', () => {
   it('should return 200 with value', async () => {
     const response = await request(server).get('/health')
     assert.strictEqual(response.statusCode, 200)

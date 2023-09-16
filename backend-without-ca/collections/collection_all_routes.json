@@ -7,11 +7,11 @@
     },
     "item": [
         {
-            "name": "/todo",
+            "name": "/todos",
             "request": {
                 "method": "POST",
                 "url": {
-                    "raw": "http://localhost:3000/todo",
+                    "raw": "http://localhost:3000/todos",
                     "path": [
                         "todo"
                     ],
@@ -33,11 +33,11 @@
             }
         },
         {
-            "name": "/todo",
+            "name": "/todos",
             "request": {
                 "method": "GET",
                 "url": {
-                    "raw": "http://localhost:3000/todo",
+                    "raw": "http://localhost:3000/todos",
                     "path": [
                         "todo"
                     ],
@@ -50,11 +50,11 @@
             }
         },
         {
-            "name": "/todo/:id",
+            "name": "/todos/:id",
             "request": {
                 "method": "GET",
                 "url": {
-                    "raw": "http://localhost:3000/todo/64fd37e2c8709494862b15c1",
+                    "raw": "http://localhost:3000/todos/64fd37e2c8709494862b15c1",
                     "path": [
                         "todo",
                         "64fd37e2c8709494862b15c1"
@@ -68,11 +68,11 @@
             }
         },
         {
-            "name": "/todo/:id",
+            "name": "/todos/:id",
             "request": {
                 "method": "PUT",
                 "url": {
-                    "raw": "http://localhost:3000/todo/6503bf036805e66ffc263078",
+                    "raw": "http://localhost:3000/todos/6503bf036805e66ffc263078",
                     "path": [
                         "todo",
                         "6503bf036805e66ffc263078"
@@ -95,11 +95,11 @@
             }
         },
         {
-            "name": "/todo/:id",
+            "name": "/todos/:id",
             "request": {
                 "method": "DELETE",
                 "url": {
-                    "raw": "http://localhost:3000/todo/64fd37e2c8709494862b15c1",
+                    "raw": "http://localhost:3000/todos/64fd37e2c8709494862b15c1",
                     "path": [
                         "todo",
                         "64fd37e2c8709494862b15c1"

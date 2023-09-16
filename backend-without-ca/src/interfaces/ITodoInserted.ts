@@ -1,7 +1,7 @@
 import { type ObjectId } from 'mongodb'
-import { type ITodoCreate } from './todoCreate'
+import { type ITodoPayload } from './todoInterfaces'
 
-interface ITodoInserted extends ITodoCreate {
+interface ITodoInserted extends ITodoPayload {
   _id: ObjectId | string
   createdAt: Date
 }

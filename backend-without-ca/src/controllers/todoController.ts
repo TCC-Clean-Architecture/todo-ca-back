@@ -1,82 +1,141 @@
 import { type Request, type Response } from 'express'
-import * as yup from 'yup'
-import { todoFactory } from '../factories/todo'
+import { responseFactory, todoFactory } from '../factories'
 import { todoService } from '../services/todoService'
+import { type ITodoPayload } from '../interfaces'
 
 const todoController = {
   post: async (req: Request, res: Response) => {
-    const { body } = req
-    const yupValidation = yup.object({
-      name: yup.string().min(1).required(),
-      description: yup.string().min(1).required(),
-      status: yup.string().oneOf(['todo', 'inprogress', 'done']).required()
-    })
-    await yupValidation.validate(body).catch((err) => {
-      return res.status(400).json({
-        statusCode: 400,
-        message: 'Bad Request',
-        description: 'The sent contract is not correct.',
+    try {
+      const { body } = req
+
+      const todoItem: ITodoPayload = body
+      const todoInstance = todoFactory(todoItem)
+      if (todoInstance instanceof Error) {
+        return res.status(400).json(responseFactory({
+          statusCode: 400,
+          description: 'The sent contract is not correct.',
+          content: {
+            error: todoInstance.message
+          }
+        }))
+      }
+      const result = await todoService.create(todoInstance)
+      res.status(200).json(responseFactory({
+        statusCode: 200,
+        description: 'Todo created successfuly',
+        content: result
+      }))
+    } catch (err: any) {
+      return res.status(500).json(responseFactory({
+        statusCode: 500,
+        description: 'Something went wrong',
         content: {
-          errors: err.errors.join(' | ')
+          error: err
         }
-      })
-    })
-
-    const todoInstance = todoFactory({
-      name: body.name,
-      description: body.description,
-      status: body.status
-    })
-
-    const result = await todoService.create(todoInstance)
-    res.status(200).json(result)
+      }))
+    }
   },
   get: async (req: Request, res: Response) => {
-    const result = await todoService.list()
-    res.status(200).json(result)
+    try {
+      const result = await todoService.list()
+      res.status(200).json(responseFactory({
+        statusCode: 200,
+        description: 'GET of all todos',
+        content: result
+      }))
+    } catch (err: any) {
+      return res.status(500).json(responseFactory({
+        statusCode: 500,
+        description: 'Something went wrong',
+        content: {
+          error: err
+        }
+      }))
+    }
   },
   getById: async (req: Request, res: Response) => {
-    const { id } = req.params
-    const result = await todoService.getById(id)
-    if (!result) {
-      return res.status(404).json({
-        statusCode: 404,
-        message: 'Not found',
-        description: 'Id not found',
+    try {
+      const { id } = req.params
+      const result = await todoService.getById(id)
+      if (!result) {
+        return res.status(404).json(responseFactory({
+          statusCode: 404,
+          description: 'Id not found',
+          content: {
+          }
+        }))
+      }
+      res.status(200).json(responseFactory({
+        statusCode: 200,
+        description: `GET of ${id}`,
+        content: result
+      }))
+    } catch (err: any) {
+      return res.status(500).json(responseFactory({
+        statusCode: 500,
+        description: 'Something went wrong',
         content: {
+          error: err
         }
-      })
+      }))
     }
-    res.status(200).json(result)
   },
   delete: async (req: Request, res: Response) => {
-    const { id } = req.params
-    const result = await todoService.delete(id)
-    if (!result) {
-      return res.status(404).json({
-        statusCode: 404,
-        message: 'Not found',
-        description: 'Id not found',
+    try {
+      const { id } = req.params
+      const result = await todoService.delete(id)
+      if (!result) {
+        return res.status(404).json(responseFactory({
+          statusCode: 404,
+          description: 'Id not found',
+          content: {
+          }
+        }))
+      }
+      res.status(200).json(responseFactory({
+        statusCode: 200,
+        description: `DELETE of ${id}`,
         content: {
+          deletedId: id
         }
-      })
+      }))
+    } catch (err: any) {
+      return res.status(500).json(responseFactory({
+        statusCode: 500,
+        description: 'Something went wrong',
+        content: {
+          error: err
+        }
+      }))
     }
-    res.status(200).json(result)
   },
   update: async (req: Request, res: Response) => {
-    const { body } = req
-    const { id } = req.params
-    const result = await todoService.update(id, body)
-    if (!result) {
-      return res.status(404).json({
-        statusCode: 404,
-        message: 'Not found',
-        description: 'Id not found',
+    try {
+      const { body } = req
+      const { id } = req.params
+      const result = await todoService.update(id, body)
+      if (!result) {
+        return res.status(404).json(responseFactory({
+          statusCode: 404,
+          description: 'Id not found',
+          content: {
+          }
+        }))
+      }
+      res.status(200).json(responseFactory({
+        statusCode: 200,
+        description: `UPDATE of ${id}`,
+        content: result
+      }))
+    } catch (err: any) {
+      return res.status(500).json(responseFactory({
+        statusCode: 500,
+        description: 'Something went wrong',
         content: {
+          error: err
         }
-      })
+      }))
     }
-    res.status(200).json(result)
   }
 }
 

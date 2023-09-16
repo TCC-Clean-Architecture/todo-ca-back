@@ -1,7 +1,7 @@
 import { expect } from 'chai'
-import { todoFactory } from '../../../factories/todo'
+import { todoFactory } from '../../../factories'
 import { initializeRepository, todoRepository } from '../../../repositories'
-import { type ITodoCreate } from '../../../interfaces'
+import { type ITodoCreated, type ITodoPayload } from '../../../interfaces'
 import { todoFixture } from '../../fixtures/todo.fixture'
 
 describe('Todo repository testing', () => {
@@ -12,12 +12,12 @@ describe('Todo repository testing', () => {
     await todoRepository.removeAll()
   })
   it('should create todo', async () => {
-    const todoToTest: ITodoCreate = {
+    const todoToTest: ITodoPayload = {
       name: 'test1',
       description: 'this is a description',
       status: 'done'
     }
-    const todoInstance = todoFactory(todoToTest)
+    const todoInstance = todoFactory(todoToTest) as ITodoCreated
     const result = await todoRepository.create(todoInstance)
     expect(result).to.deep.include(todoInstance)
     expect(result).to.have.property('_id')

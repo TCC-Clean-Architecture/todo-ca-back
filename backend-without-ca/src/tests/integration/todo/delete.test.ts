@@ -5,7 +5,7 @@ import sinon from 'sinon'
 import { initializeRepository, todoRepository } from '../../../repositories'
 import { todoFixture } from '../../fixtures/todo.fixture'
 
-describe('DELETE /todo testing', () => {
+describe('DELETE /todos testing', () => {
   let sandbox: sinon.SinonSandbox
   let clock: sinon.SinonFakeTimers
   before(async () => {
@@ -27,26 +27,47 @@ describe('DELETE /todo testing', () => {
     await todoRepository.create(todoToInsert2)
 
     const response = await request(server)
-      .delete(`/todo/${todoToInsert2._id.toString()}`)
+      .delete(`/todos/${todoToInsert2._id.toString()}`)
 
     assert.strictEqual(response.statusCode, 200)
-    assert.strictEqual(response.body, todoToInsert2._id.toString())
+    assert.strictEqual(response.body.content.deletedId, todoToInsert2._id.toString())
 
     const allTodo = await todoRepository.listAll()
     assert.deepEqual(allTodo, [todoToInsert])
   })
   it('should return 404 when not found', async () => {
     const response = await request(server)
-      .delete('/todo/abcde')
+      .delete('/todos/abcde')
 
     assert.strictEqual(response.statusCode, 404)
 
     assert.deepEqual(response.body, {
       statusCode: 404,
-      message: 'Not found',
+      message: 'Not Found',
+      type: 'error',
       description: 'Id not found',
       content: {
       }
     })
+  })
+  it('should return 500 status when something went wrong on service', async () => {
+    sandbox.stub(todoRepository, 'delete').throws('Explosion')
+    const response = await request(server)
+      .delete('/todos/abcde')
+
+    const expectedErrorMessage = {
+      statusCode: 500,
+      message: 'Internal Server Error',
+      description: 'Something went wrong',
+      type: 'error',
+      content: {
+        error: {
+          name: 'Explosion'
+        }
+      }
+    }
+
+    assert.strictEqual(response.statusCode, 500)
+    assert.deepEqual(response.body, expectedErrorMessage)
   })
 })
