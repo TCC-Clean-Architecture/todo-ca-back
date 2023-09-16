@@ -30,7 +30,7 @@ describe('DELETE /todos testing', () => {
       .delete(`/todos/${todoToInsert2._id.toString()}`)
 
     assert.strictEqual(response.statusCode, 200)
-    assert.strictEqual(response.body.content.deletedId, todoToInsert2._id.toString())
+    assert.strictEqual(response.body.content._id, todoToInsert2._id.toString())
 
     const allTodo = await todoRepository.listAll()
     assert.deepEqual(allTodo, [todoToInsert])

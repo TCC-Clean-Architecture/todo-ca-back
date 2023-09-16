@@ -96,7 +96,7 @@ const todoController = {
         statusCode: 200,
         description: `DELETE of ${id}`,
         content: {
-          deletedId: id
+          _id: id
         }
       }))
     } catch (err: any) {
