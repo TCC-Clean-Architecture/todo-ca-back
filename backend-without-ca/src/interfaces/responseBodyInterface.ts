@@ -1,14 +1,14 @@
 type ResponseType = 'success' | 'error'
-type Content = object
+type ResponseContent = object
 
 interface IResponseBody {
   statusCode: number
   type: ResponseType
   message: string
   description: string
-  content: Content
+  content: ResponseContent
 }
 
 interface IResponseFactoryPayload extends Omit<IResponseBody, 'type' | 'message'> {}
 
-export type { Content, IResponseBody, IResponseFactoryPayload }
+export type { ResponseContent, IResponseBody, IResponseFactoryPayload }

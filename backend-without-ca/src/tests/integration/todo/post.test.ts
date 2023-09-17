@@ -4,7 +4,7 @@ import { server } from '../../../server'
 import { assert } from 'chai'
 import sinon from 'sinon'
 import { initializeRepository, todoRepository } from '../../../repositories'
-import { type ITodoCreated, type ITodoInserted } from '../../../interfaces'
+import { type ITodoBeforeInsert, type ITodoInserted } from '../../../interfaces'
 
 describe('POST /todos testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -27,7 +27,7 @@ describe('POST /todos testing', () => {
       description: 'todo description',
       status: 'todo'
     }
-    sandbox.stub(todoRepository, 'create').callsFake(async (todoToInsert: ITodoCreated): Promise<ITodoInserted> => {
+    sandbox.stub(todoRepository, 'create').callsFake(async (todoToInsert: ITodoBeforeInsert): Promise<ITodoInserted> => {
       return { ...todoToInsert, createdAt: new Date(), _id: uuid }
     })
 
@@ -44,7 +44,7 @@ describe('POST /todos testing', () => {
     const todoToInsert = {
       name: 'todo1'
     }
-    sandbox.stub(todoRepository, 'create').callsFake(async (todoToInsert: ITodoCreated): Promise<ITodoInserted> => {
+    sandbox.stub(todoRepository, 'create').callsFake(async (todoToInsert: ITodoBeforeInsert): Promise<ITodoInserted> => {
       return { ...todoToInsert, createdAt: new Date(), _id: uuid }
     })
     const response = await request(server)
