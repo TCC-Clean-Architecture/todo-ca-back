@@ -1,14 +1,14 @@
 import { type Request, type Response } from 'express'
 import { responseFactory, todoFactory } from '../factories'
 import { todoService } from '../services/todoService'
-import { type ITodoPayload } from '../interfaces'
+import { type ITodoBase } from '../interfaces'
 
 const todoController = {
   post: async (req: Request, res: Response) => {
     try {
       const { body } = req
 
-      const todoItem: ITodoPayload = body
+      const todoItem: ITodoBase = body
       const todoInstance = todoFactory(todoItem)
       if (todoInstance instanceof Error) {
         return res.status(400).json(responseFactory({

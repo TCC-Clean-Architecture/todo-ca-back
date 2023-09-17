@@ -1,11 +1,11 @@
 import crypto from 'crypto'
-import { type ITodoCreated, type ITodoInserted } from '../../interfaces'
+import { type ITodoBeforeInsert, type ITodoInserted } from '../../interfaces'
 import { type ITodoRepository } from '../repositoryInterfaces'
 import { type ObjectId } from 'mongodb'
 console.log('Memory repository in use')
 let todoInMemory: ITodoInserted[] = []
 
-function convertToInsertedHelper (item: ITodoCreated): ITodoInserted {
+function convertToInsertedHelper (item: ITodoBeforeInsert): ITodoInserted {
   return {
     _id: crypto.randomUUID(),
     ...item
@@ -13,7 +13,7 @@ function convertToInsertedHelper (item: ITodoCreated): ITodoInserted {
 }
 
 const todoRepository: ITodoRepository = {
-  create: async (todoToInsert: ITodoCreated): Promise<ITodoInserted> => {
+  create: async (todoToInsert: ITodoBeforeInsert): Promise<ITodoInserted> => {
     todoInMemory.push(convertToInsertedHelper(todoToInsert))
     return todoInMemory[todoInMemory.length - 1]
   },

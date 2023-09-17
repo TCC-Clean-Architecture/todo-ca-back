@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import sinon from 'sinon'
 import { todoFactory } from '../../../factories'
-import { type ITodoPayload } from '../../../interfaces'
+import { type ITodoBase } from '../../../interfaces'
 
 describe('Todo factory testing', () => {
   let clock: sinon.SinonFakeTimers
@@ -12,7 +12,7 @@ describe('Todo factory testing', () => {
     clock.restore()
   })
   it('should create todo instance', () => {
-    const todo: ITodoPayload = {
+    const todo: ITodoBase = {
       name: 'test1',
       description: 'its a description',
       status: 'done'
@@ -29,7 +29,7 @@ describe('Todo factory testing', () => {
     const todo = {
       name: 'test1',
       description: 'its a description'
-    } as ITodoPayload
+    } as ITodoBase
 
     const todoInstance = todoFactory(todo) as Error
     assert.instanceOf(todoInstance, Error)

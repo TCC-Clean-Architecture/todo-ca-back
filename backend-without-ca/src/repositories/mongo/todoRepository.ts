@@ -1,12 +1,12 @@
 import { ObjectId } from 'mongodb'
 import { getCollection } from '../../database'
-import { type ITodoCreated, type ITodoInserted } from '../../interfaces'
+import { type ITodoBeforeInsert, type ITodoInserted } from '../../interfaces'
 import { type ITodoRepository } from '../repositoryInterfaces'
 console.log('Mongo repository in use')
 const todoCollection = getCollection('todo')
 
 const todoRepository: ITodoRepository = {
-  create: async (todoToInsert: ITodoCreated): Promise<ITodoInserted> => {
+  create: async (todoToInsert: ITodoBeforeInsert): Promise<ITodoInserted> => {
     const { insertedId } = await todoCollection.insertOne(todoToInsert)
     const result = await todoCollection.findOne({ _id: insertedId }) as ITodoInserted
     return result

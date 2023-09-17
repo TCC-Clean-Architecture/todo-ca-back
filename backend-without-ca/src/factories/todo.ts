@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { type ITodoPayload, type ITodoCreated } from '../interfaces'
+import { type ITodoBase, type ITodoBeforeInsert } from '../interfaces'
 
 const yupValidation = yup.object({
   name: yup.string().min(1).required(),
@@ -7,7 +7,7 @@ const yupValidation = yup.object({
   status: yup.string().oneOf(['todo', 'inprogress', 'done']).required()
 })
 
-const todoFactory = (todoItem: ITodoPayload): ITodoCreated | Error => {
+const todoFactory = (todoItem: ITodoBase): ITodoBeforeInsert | Error => {
   try {
     yupValidation.validateSync(todoItem)
     return {

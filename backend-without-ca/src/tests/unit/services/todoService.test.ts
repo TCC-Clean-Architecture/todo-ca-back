@@ -4,7 +4,7 @@ import { todoFactory } from '../../../factories'
 import { todoService } from '../../../services/todoService'
 import { todoRepository } from '../../../repositories'
 import { assert } from 'chai'
-import { type ITodoInserted, type ITodoCreated, type ITodoPayload } from '../../../interfaces'
+import { type ITodoInserted, type ITodoBeforeInsert, type ITodoBase } from '../../../interfaces'
 import { ObjectId } from 'mongodb'
 import { type ITodoRepository } from '../../../repositories/repositoryInterfaces'
 import { todoFixture } from '../../fixtures/todo.fixture'
@@ -47,12 +47,12 @@ describe('Todo Service testing', () => {
     sandbox.restore()
   })
   it('should execute create service and call todoRepository with correct params', async () => {
-    const todo: ITodoPayload = {
+    const todo: ITodoBase = {
       name: 'test1',
       description: 'this is a description',
       status: 'done'
     }
-    const todoInstance = todoFactory(todo) as ITodoCreated
+    const todoInstance = todoFactory(todo) as ITodoBeforeInsert
     const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'create').callsFake(stubTodoRepository.create)
     await todoService.create(todoInstance)
     assert.isTrue(todoRepositoryCreateStub.calledOnce)

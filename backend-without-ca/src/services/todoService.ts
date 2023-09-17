@@ -1,9 +1,9 @@
 import { type ObjectId } from 'mongodb'
-import { type ITodoInserted, type ITodoCreated } from '../interfaces'
+import { type ITodoInserted, type ITodoBeforeInsert } from '../interfaces'
 import { todoRepository } from '../repositories'
 
 const todoService = {
-  create: async (todoInstance: ITodoCreated): Promise<ITodoInserted> => {
+  create: async (todoInstance: ITodoBeforeInsert): Promise<ITodoInserted> => {
     const result = await todoRepository.create(todoInstance)
     return result
   },

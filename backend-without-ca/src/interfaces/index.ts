@@ -1,5 +1,4 @@
-import { type ITodoPayload, type ITodoCreated } from './todoInterfaces'
-import { type ITodoInserted } from './ITodoInserted'
-import { type Content, type IResponseBody, type IResponseFactoryPayload } from './responseBody'
+import { type ITodoBase, type ITodoBeforeInsert, type ITodoInserted } from './todoInterfaces'
+import { type ResponseContent, type IResponseBody, type IResponseFactoryPayload } from './responseBodyInterface'
 
-export type { ITodoPayload, ITodoCreated, ITodoInserted, Content, IResponseBody, IResponseFactoryPayload }
+export type { ITodoBase, ITodoBeforeInsert, ITodoInserted, ResponseContent, IResponseBody, IResponseFactoryPayload }
