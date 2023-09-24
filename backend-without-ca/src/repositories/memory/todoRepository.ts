@@ -1,46 +1,39 @@
 import crypto from 'crypto'
-import { type ITodoBeforeInsert, type ITodoInserted } from '../../interfaces'
+import { type ITodoListBeforeInsert, type ITodoInserted, type ITodoListInserted } from '../../interfaces'
 import { type ITodoRepository } from '../repositoryInterfaces'
-import { type ObjectId } from 'mongodb'
+import { type Id } from '../../interfaces/ids'
 console.log('Memory repository in use')
-let todoInMemory: ITodoInserted[] = []
-
-function convertToInsertedHelper (item: ITodoBeforeInsert): ITodoInserted {
-  return {
-    _id: crypto.randomUUID(),
-    ...item
-  }
-}
+let todoListInMemory: ITodoListInserted[] = []
 
 const todoRepository: ITodoRepository = {
-  create: async (todoToInsert: ITodoBeforeInsert): Promise<ITodoInserted> => {
-    todoInMemory.push(convertToInsertedHelper(todoToInsert))
-    return todoInMemory[todoInMemory.length - 1]
+  listAll: async (id: Id): Promise<ITodoInserted[] | []> => {
+    const todoList = todoListInMemory.filter(item => item._id === id)
+    return todoList[0].todos
   },
-  listAll: async (): Promise<ITodoInserted[] | []> => {
-    return todoInMemory
-  },
-  removeAll: async (): Promise<boolean> => {
-    todoInMemory.splice(0, todoInMemory.length)
-    return todoInMemory.length === 0
-  },
-  getById: async (id: string | ObjectId): Promise<ITodoInserted | null> => {
-    const result = todoInMemory.find(todo => todo._id === id)
+  getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
+    const todoList = todoListInMemory.find(list => list._id === listId)
+    if (todoList === undefined) {
+      return null
+    }
+    const result = todoList.todos.find(item => item._id === todoId)
     if (result === undefined) {
       return null
     }
     return result
   },
-  delete: async (id: string | ObjectId): Promise<ObjectId | string | null> => {
-    const hasItem = todoInMemory.find(item => item._id === id)
-    if (!hasItem) {
-      return null
-    }
-    todoInMemory = todoInMemory.filter(todo => todo._id !== id)
-    return id
+  createTodoList: async (todoListToInsert: ITodoListBeforeInsert): Promise<ITodoListInserted> => {
+    const todoList = { ...todoListToInsert, _id: crypto.randomUUID().toString() }
+    todoListInMemory.push(todoList)
+    return todoList
   },
-  update: async (id: string | ObjectId, content: Omit<ITodoInserted, '_id'>): Promise<ITodoInserted | null> => {
-    todoInMemory = todoInMemory.map(todo => {
+  getTodoLists: async (): Promise<ITodoListInserted[]> => {
+    return todoListInMemory
+  },
+  getTodoListById: async (id: Id): Promise<ITodoListInserted | null> => {
+    return todoListInMemory.find(item => item._id === id) ?? null
+  },
+  updateTodoList: async (id: Id, content: ITodoListBeforeInsert): Promise<ITodoListInserted | null> => {
+    todoListInMemory = todoListInMemory.map(todo => {
       if (todo._id === id) {
         return {
           _id: id,
@@ -51,11 +44,20 @@ const todoRepository: ITodoRepository = {
       }
     })
 
-    const result = todoInMemory.find(todo => todo._id === id)
+    const result = todoListInMemory.find(list => list._id === id)
     if (result === undefined) {
       return null
     }
     return result
+  },
+  removeAllTodoLists: async (): Promise<boolean> => {
+    todoListInMemory.splice(0, todoListInMemory.length)
+    return todoListInMemory.length === 0
+  },
+  deleteList: async (id: Id): Promise<boolean> => {
+    const previousLength = todoListInMemory.length
+    todoListInMemory = todoListInMemory.filter(item => item._id !== id)
+    return (previousLength - 1) === todoListInMemory.length
   }
 }
 

@@ -3,11 +3,15 @@ import { todoController } from '../controllers/todoController'
 
 const todoRouter = express.Router()
 
-todoRouter.post('/', todoController.post)
-todoRouter.get('/', todoController.get)
-todoRouter.get('/:id', todoController.getById)
-todoRouter.delete('/:id', todoController.delete)
-todoRouter.put('/:id', todoController.update)
+todoRouter.post('/list/:listId', todoController.post)
+todoRouter.get('/list/:listId', todoController.get)
+todoRouter.get('/:todoId/list/:listId', todoController.getById)
+todoRouter.delete('/:todoId/list/:listId', todoController.delete)
+todoRouter.put('/:todoId/list/:listId', todoController.update)
+
+todoRouter.post('/list', todoController.createList)
+todoRouter.delete('/list/:listId', todoController.deleteList)
+todoRouter.get('/lists', todoController.getLists)
 
 export {
   todoRouter

@@ -1,13 +1,14 @@
-import { type ObjectId } from 'mongodb'
-import { type ITodoBeforeInsert, type ITodoInserted } from '../../interfaces'
+import { type ITodoListBeforeInsert, type ITodoInserted, type ITodoListInserted, type Id } from '../../interfaces'
 
 interface ITodoRepository {
-  create: (todoToInsert: ITodoBeforeInsert) => Promise<ITodoInserted>
-  listAll: () => Promise<ITodoInserted[] | []>
-  removeAll: () => Promise<boolean>
-  getById: (id: string | ObjectId) => Promise<ITodoInserted | null>
-  delete: (id: string | ObjectId) => Promise<ObjectId | string | null>
-  update: (id: string | ObjectId, content: Omit<ITodoInserted, '_id'>) => Promise<ITodoInserted | null>
+  listAll: (listId: Id) => Promise<ITodoInserted[] | []>
+  getById: (listId: Id, todoId: Id) => Promise<ITodoInserted | null>
+  createTodoList: (todoListToInsert: ITodoListBeforeInsert) => Promise<ITodoListInserted>
+  getTodoLists: () => Promise<ITodoListInserted[]>
+  getTodoListById: (id: Id) => Promise<ITodoListInserted | null>
+  updateTodoList: (id: Id, content: ITodoListBeforeInsert) => Promise<ITodoListInserted | null>
+  removeAllTodoLists: () => Promise<boolean>
+  deleteList: (id: Id) => Promise<boolean>
 }
 
 export type {

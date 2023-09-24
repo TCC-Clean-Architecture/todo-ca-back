@@ -4,6 +4,8 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 import { initializeRepository, todoRepository } from '../../../repositories'
 import { todoFixture } from '../../fixtures/todo.fixture'
+import { type ITodoListBeforeInsert } from '../../../interfaces'
+import { todoService } from '../../../services/todoService'
 
 describe('DELETE /todos testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -12,7 +14,6 @@ describe('DELETE /todos testing', () => {
     await initializeRepository()
   })
   beforeEach(async () => {
-    await todoRepository.removeAll()
     sandbox = sinon.createSandbox()
     clock = sandbox.useFakeTimers()
   })
@@ -20,54 +21,118 @@ describe('DELETE /todos testing', () => {
     clock.restore()
     sandbox.restore()
   })
-  it('should return 200 with value', async () => {
-    const todoToInsert = todoFixture()
-    const todoToInsert2 = todoFixture()
-    await todoRepository.create(todoToInsert)
-    await todoRepository.create(todoToInsert2)
-
-    const response = await request(server)
-      .delete(`/todos/${todoToInsert2._id.toString()}`)
-
-    assert.strictEqual(response.statusCode, 200)
-    assert.strictEqual(response.body.content._id, todoToInsert2._id.toString())
-
-    const allTodo = await todoRepository.listAll()
-    assert.deepEqual(allTodo, [todoToInsert])
-  })
-  it('should return 404 when not found', async () => {
-    const response = await request(server)
-      .delete('/todos/abcde')
-
-    assert.strictEqual(response.statusCode, 404)
-
-    assert.deepEqual(response.body, {
-      statusCode: 404,
-      message: 'Not Found',
-      type: 'error',
-      description: 'Id not found',
-      content: {
+  describe('Todo testing', () => {
+    it('should delete todo and return 200', async () => {
+      const todoToInsert = todoFixture()
+      const todoToInsert2 = todoFixture()
+      const todoList: ITodoListBeforeInsert = {
+        name: 'list',
+        createdAt: new Date(),
+        todos: [todoToInsert, todoToInsert2]
       }
-    })
-  })
-  it('should return 500 status when something went wrong on service', async () => {
-    sandbox.stub(todoRepository, 'delete').throws('Explosion')
-    const response = await request(server)
-      .delete('/todos/abcde')
+      const todoListCreated = await todoRepository.createTodoList(todoList)
 
-    const expectedErrorMessage = {
-      statusCode: 500,
-      message: 'Internal Server Error',
-      description: 'Something went wrong',
-      type: 'error',
-      content: {
-        error: {
-          name: 'Explosion'
+      const response = await request(server)
+        .delete(`/todos/${todoToInsert2._id.toString()}/list/${todoListCreated._id.toString()}`)
+
+      assert.strictEqual(response.statusCode, 200)
+      assert.strictEqual(response.body.content._id, todoToInsert2._id.toString())
+
+      const allTodo = await todoRepository.listAll(todoListCreated._id)
+      assert.deepEqual(allTodo, [todoToInsert])
+    })
+    it('should return 404 when not todo not found', async () => {
+      const todoList: ITodoListBeforeInsert = {
+        name: 'list',
+        createdAt: new Date(),
+        todos: []
+      }
+      const todoListCreated = await todoRepository.createTodoList(todoList)
+
+      const response = await request(server)
+        .delete(`/todos/abcde/list/${todoListCreated._id.toString()}`)
+
+      assert.strictEqual(response.statusCode, 404)
+
+      assert.deepEqual(response.body, {
+        statusCode: 404,
+        message: 'Not Found',
+        type: 'error',
+        description: `Todo id abcde not found in list ${todoListCreated._id.toString()}`,
+        content: {
+        }
+      })
+    })
+    it('should return 404 when not list not found', async () => {
+      const listId = 'fghij'
+      const response = await request(server)
+        .delete(`/todos/abcde/list/${listId}`)
+
+      assert.strictEqual(response.statusCode, 404)
+
+      assert.deepEqual(response.body, {
+        statusCode: 404,
+        message: 'Not Found',
+        type: 'error',
+        description: `Id ${listId} of list not found`,
+        content: {
+        }
+      })
+    })
+    it('should return 500 status when something went wrong on service', async () => {
+      const todoList: ITodoListBeforeInsert = {
+        name: 'list',
+        createdAt: new Date(),
+        todos: []
+      }
+      const todoListCreated = await todoRepository.createTodoList(todoList)
+      sandbox.stub(todoRepository, 'getTodoListById').throws('Explosion')
+      const response = await request(server)
+        .delete(`/todos/abcde/list/${todoListCreated._id.toString()}`)
+
+      const expectedErrorMessage = {
+        statusCode: 500,
+        message: 'Internal Server Error',
+        description: 'Something went wrong',
+        type: 'error',
+        content: {
+          error: {
+            name: 'Explosion'
+          }
         }
       }
-    }
 
-    assert.strictEqual(response.statusCode, 500)
-    assert.deepEqual(response.body, expectedErrorMessage)
+      assert.strictEqual(response.statusCode, 500)
+      assert.deepEqual(response.body, expectedErrorMessage)
+    })
+  })
+  describe('List testing', () => {
+    it('should remove list', async () => {
+      const todoList: ITodoListBeforeInsert = {
+        name: 'list',
+        createdAt: new Date(),
+        todos: []
+      }
+      const todoListCreated = await todoRepository.createTodoList(todoList)
+      const response = await request(server)
+        .delete(`/todos/list/${todoListCreated._id.toString()}`)
+      assert.strictEqual(response.body.content._id, todoListCreated._id)
+    })
+    it('should return an error on attempt to remove list', async () => {
+      sandbox.stub(todoService, 'deleteTodoList').throws('Explosion')
+      const response = await request(server)
+        .delete('/todos/list/abcde')
+      assert.deepEqual(response.body, {
+        statusCode: 500,
+        type: 'error',
+        message: 'Internal Server Error',
+        description: 'Something went wrong',
+        content: {
+          error: {
+            name: 'Explosion'
+          }
+        }
+      })
+    })
   })
 })
