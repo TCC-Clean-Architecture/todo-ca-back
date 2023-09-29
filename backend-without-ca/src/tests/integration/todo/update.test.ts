@@ -42,10 +42,10 @@ describe('PUT /todos testing', () => {
       .put(`/todos/${todoToInsert._id.toString()}/list/${todoListCreated._id.toString()}`)
       .send(updateContent)
     assert.strictEqual(response.statusCode, 200)
-    assert.strictEqual(response.body.content.todos[0].name, updateContent.name)
-    assert.strictEqual(response.body.content.todos[0].description, updateContent.description)
-    assert.strictEqual(response.body.content.todos[0].status, updateContent.status)
-    assert.strictEqual(response.body.content.todos[0].createdAt, updateContent.createdAt.toISOString())
+    assert.strictEqual(response.body.content.name, updateContent.name)
+    assert.strictEqual(response.body.content.description, updateContent.description)
+    assert.strictEqual(response.body.content.status, updateContent.status)
+    assert.strictEqual(response.body.content.createdAt, updateContent.createdAt.toISOString())
   })
   it('should return 404 when not found', async () => {
     const todoList: ITodoListBeforeInsert = {

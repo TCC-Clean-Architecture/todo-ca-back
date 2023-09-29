@@ -111,10 +111,11 @@ const todoService = {
         }
       }
     }
-    todoList.todos[indexOfTodoItem] = {
+    const newTodoContent = {
       _id: todoList.todos[indexOfTodoItem]._id,
       ...content
     }
+    todoList.todos[indexOfTodoItem] = newTodoContent
 
     const result = await todoRepository.updateTodoList(listId, todoList)
     if (!result) {
@@ -128,7 +129,7 @@ const todoService = {
     return {
       statusCode: 200,
       description: `Updated on list ${listId.toString()}`,
-      content: result
+      content: newTodoContent
     }
   },
   createTodoList: async (todoList: ITodoListBeforeInsert): Promise<ITodoListInserted> => {
