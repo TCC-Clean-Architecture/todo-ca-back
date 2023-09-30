@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import { userFactory } from '../../../factories'
 import { type IUser } from '../../../interfaces'
 
-describe.only('Todo factory testing', () => {
+describe('Todo factory testing', () => {
   it('should create user instance with hashed password', () => {
     const user: IUser = {
       name: 'Gustavo Hiroaki',
