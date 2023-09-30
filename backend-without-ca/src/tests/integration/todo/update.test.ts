@@ -4,6 +4,7 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 import { initializeRepository, todoRepository } from '../../../repositories'
 import { todoFixture } from '../../fixtures/todo.fixture'
+import { type ITodoListBeforeInsert } from '../../../interfaces'
 
 describe('PUT /todos testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -12,7 +13,7 @@ describe('PUT /todos testing', () => {
     await initializeRepository()
   })
   beforeEach(async () => {
-    await todoRepository.removeAll()
+    await todoRepository.removeAllTodoLists()
     sandbox = sinon.createSandbox()
     clock = sandbox.useFakeTimers()
   })
@@ -20,12 +21,17 @@ describe('PUT /todos testing', () => {
     clock.restore()
     sandbox.restore()
   })
-  it('should return 200 with value', async () => {
+  it('should update todo and return 200', async () => {
     const todoToInsert = todoFixture()
     const todoToInsert2 = todoFixture()
+    const todoList: ITodoListBeforeInsert = {
+      name: 'list',
+      createdAt: new Date(),
+      todos: [todoToInsert, todoToInsert2]
+    }
+    const todoListCreated = await todoRepository.createTodoList(todoList)
+
     const todoToUpdate = todoFixture()
-    await todoRepository.create(todoToInsert)
-    await todoRepository.create(todoToInsert2)
     const updateContent = {
       name: todoToUpdate.name,
       description: todoToUpdate.description,
@@ -33,9 +39,8 @@ describe('PUT /todos testing', () => {
       createdAt: todoToUpdate.createdAt
     }
     const response = await request(server)
-      .put(`/todos/${todoToInsert._id.toString()}`)
+      .put(`/todos/${todoToInsert._id.toString()}/list/${todoListCreated._id.toString()}`)
       .send(updateContent)
-
     assert.strictEqual(response.statusCode, 200)
     assert.strictEqual(response.body.content.name, updateContent.name)
     assert.strictEqual(response.body.content.description, updateContent.description)
@@ -43,8 +48,15 @@ describe('PUT /todos testing', () => {
     assert.strictEqual(response.body.content.createdAt, updateContent.createdAt.toISOString())
   })
   it('should return 404 when not found', async () => {
+    const todoList: ITodoListBeforeInsert = {
+      name: 'list',
+      createdAt: new Date(),
+      todos: []
+    }
+    const todoListCreated = await todoRepository.createTodoList(todoList)
+    const listId = todoListCreated._id.toString()
     const response = await request(server)
-      .put('/todos/abcde')
+      .put(`/todos/abcde/list/${listId}`)
 
     assert.strictEqual(response.statusCode, 404)
 
@@ -52,7 +64,7 @@ describe('PUT /todos testing', () => {
       statusCode: 404,
       message: 'Not Found',
       type: 'error',
-      description: 'Id not found',
+      description: `Todo id abcde not found in list ${listId}`,
       content: {
       }
     })
@@ -63,9 +75,9 @@ describe('PUT /todos testing', () => {
       description: 'todo description',
       status: 'todo'
     }
-    sandbox.stub(todoRepository, 'update').throws('Explosion')
+    sandbox.stub(todoRepository, 'getTodoListById').throws('Explosion')
     const response = await request(server)
-      .put('/todos/abcde')
+      .put('/todos/abcde/list/abcde')
       .send(todoToUpdate)
 
     const expectedErrorMessage = {

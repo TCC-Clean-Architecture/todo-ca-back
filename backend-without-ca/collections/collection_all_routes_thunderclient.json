@@ -1,0 +1,136 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "TCC",
+    "dateExported": "2023-09-24T21:15:19.351Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "b307eb6c-6b43-4b13-924a-2b3138f9f812",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todos/list - Criar lista",
+            "url": "http://localhost:3000/todos/list",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-09-13T00:03:46.010Z",
+            "modified": "2023-09-24T20:58:28.229Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"test1\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "696a8291-3ed5-45d4-b594-9a044fc70a3c",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todos/list - Exibir listas",
+            "url": "http://localhost:3000/todos/lists",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-09-14T00:03:15.679Z",
+            "modified": "2023-09-24T21:03:58.235Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "35fde882-e21e-42df-9547-3a7f78d19f08",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todos/list/:id - Exibir uma lista",
+            "url": "http://localhost:3000/todos/list/6510a481859d6019d2abc34a",
+            "method": "GET",
+            "sortNum": 22500,
+            "created": "2023-09-24T21:11:18.379Z",
+            "modified": "2023-09-24T21:11:43.960Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d335c12b-58b3-458d-acb8-b1772f7839f0",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todos/list/:id - Remover lista",
+            "url": "http://localhost:3000/todos/list/6510a41c859d6019d2abc349",
+            "method": "DELETE",
+            "sortNum": 25000,
+            "created": "2023-09-15T02:17:08.433Z",
+            "modified": "2023-09-24T21:04:32.486Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a8edab23-5864-4517-b076-72e45d05eb87",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todos/list/:id - Criar todo dentro de uma lista",
+            "url": "http://localhost:3000/todos/list/6510a481859d6019d2abc34a",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-09-15T02:13:49.820Z",
+            "modified": "2023-09-24T21:06:49.152Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"teste\",\n  \"description\": \"this is description\",\n  \"status\": \"done\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "247bbc28-5f86-4bc3-a5cc-b40002608952",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todo/:id/list/:id - Exibir todo dentro de uma lista",
+            "url": "http://localhost:3000/todos/f623b6e9-dffb-4c30-8a74-14bc7227c625/list/6510a481859d6019d2abc34a",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-09-15T02:16:11.094Z",
+            "modified": "2023-09-24T21:08:46.688Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "196be257-048e-4b6c-88b1-e48fd42c34cf",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todos/:id/list/:id - Atualizar todo dentro de uma lista",
+            "url": "http://localhost:3000/todos/3cb3760e-1b9f-456e-a8ab-9bb01e0ec1c9/list/6510a481859d6019d2abc34a",
+            "method": "PUT",
+            "sortNum": 50000,
+            "created": "2023-09-24T21:09:46.261Z",
+            "modified": "2023-09-24T21:13:12.344Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"teste-updated\",\n  \"description\": \"this is description updated\",\n  \"status\": \"inprogress\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "2d04c4aa-ae00-43dd-aa60-abf79d0ed75e",
+            "colId": "afa49998-2afc-4ab8-959f-318ea56c983c",
+            "containerId": "",
+            "name": "/todos/:id/list/:id - Deletar todo dentro de uma lista",
+            "url": "http://localhost:3000/todos/3cb3760e-1b9f-456e-a8ab-9bb01e0ec1c9/list/6510a481859d6019d2abc34a",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2023-09-24T21:13:43.535Z",
+            "modified": "2023-09-24T21:14:23.405Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

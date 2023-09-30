@@ -1,48 +1,48 @@
 import { ObjectId } from 'mongodb'
 import { getCollection } from '../../database'
-import { type ITodoBeforeInsert, type ITodoInserted } from '../../interfaces'
+import { type ITodoListBeforeInsert, type ITodoInserted, type ITodoListInserted, type Id } from '../../interfaces'
 import { type ITodoRepository } from '../repositoryInterfaces'
 console.log('Mongo repository in use')
-const todoCollection = getCollection('todo')
+const todoListCollection = getCollection('todoListCollection')
 
 const todoRepository: ITodoRepository = {
-  create: async (todoToInsert: ITodoBeforeInsert): Promise<ITodoInserted> => {
-    const { insertedId } = await todoCollection.insertOne(todoToInsert)
-    const result = await todoCollection.findOne({ _id: insertedId }) as ITodoInserted
-    return result
+  listAll: async (id: Id): Promise<ITodoInserted[] | []> => {
+    const idConverted = typeof id === 'string' ? new ObjectId(id) : id
+    const result = await todoListCollection.findOne({
+      _id: idConverted
+    }) as ITodoListInserted
+    return result.todos
   },
-  listAll: async (): Promise<ITodoInserted[] | []> => {
-    const result = await todoCollection.find().toArray() as ITodoInserted[]
-    return result
-  },
-  removeAll: async (): Promise<boolean> => {
-    const success = await todoCollection.deleteMany()
-    if (success.deletedCount > 0) {
-      return true
-    } else {
-      return false
-    }
-  },
-  getById: async (id: string | ObjectId): Promise<ITodoInserted | null> => {
-    const result = await todoCollection.findOne({
-      _id: typeof id === 'string' ? new ObjectId(id) : id
-    }) as ITodoInserted
-
-    return result
-  },
-  delete: async (id: string | ObjectId): Promise<ObjectId | string | null> => {
-    const result = await todoCollection.deleteOne({
-      _id: typeof id === 'string' ? new ObjectId(id) : id
-    })
-    if (!result) {
+  getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
+    const todoList = await todoListCollection.findOne({
+      _id: typeof listId === 'string' ? new ObjectId(listId) : listId
+    }) as ITodoListInserted
+    if (!todoList) {
       return null
     }
-
-    return id
+    const result = todoList.todos.find(item => item._id === todoId)
+    if (result === undefined) {
+      return null
+    }
+    return result
   },
-  update: async (id: string | ObjectId, content: Omit<ITodoInserted, '_id'>): Promise<ITodoInserted | null> => {
+  createTodoList: async (todoListToInsert: ITodoListBeforeInsert): Promise<ITodoListInserted> => {
+    const { insertedId } = await todoListCollection.insertOne(todoListToInsert)
+    const result = await todoListCollection.findOne({ _id: insertedId }) as ITodoListInserted
+    return result
+  },
+  getTodoLists: async (): Promise<ITodoListInserted[]> => {
+    const result = await todoListCollection.find().toArray() as ITodoListInserted[]
+    return result
+  },
+  getTodoListById: async (id: Id): Promise<ITodoListInserted | null> => {
     const idConverted = typeof id === 'string' ? new ObjectId(id) : id
-    const updateResult = await todoCollection.updateOne({
+    const result = await todoListCollection.findOne({ _id: idConverted }) as ITodoListInserted
+    return result ?? null
+  },
+  updateTodoList: async (id: Id, content: ITodoListBeforeInsert): Promise<ITodoListInserted | null> => {
+    const idConverted = typeof id === 'string' ? new ObjectId(id) : id
+    const updateResult = await todoListCollection.updateOne({
       _id: idConverted
     }, {
       $set: content
@@ -50,8 +50,26 @@ const todoRepository: ITodoRepository = {
     if (!updateResult) {
       return null
     }
-    const result = await todoCollection.findOne({ _id: idConverted }) as ITodoInserted
+    const result = await todoListCollection.findOne({ _id: idConverted }) as ITodoListInserted
     return result
+  },
+  removeAllTodoLists: async (): Promise<boolean> => {
+    const success = await todoListCollection.deleteMany()
+    if (success.deletedCount > 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+  deleteList: async (id: Id) => {
+    const success = await todoListCollection.deleteOne({
+      _id: typeof id === 'string' ? new ObjectId(id) : id
+    })
+    if (success.deletedCount > 0) {
+      return true
+    } else {
+      return false
+    }
   }
 }
 
