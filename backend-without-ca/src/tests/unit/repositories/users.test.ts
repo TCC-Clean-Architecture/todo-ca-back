@@ -9,6 +9,7 @@ describe('Todo repository testing', () => {
   let sandbox: sinon.SinonSandbox
   beforeEach(async () => {
     await initializeRepository()
+    await usersRepository.deleteAll()
     sandbox = sinon.createSandbox()
   })
   afterEach(() => {
