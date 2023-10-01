@@ -1,15 +1,15 @@
 import sinon from 'sinon'
 import crypto from 'crypto'
+import { assert } from 'chai'
+import { before } from 'mocha'
 
 import { todoFactory } from '../../../factories'
 import { todoService } from '../../../services/todoService'
 import { initializeRepository, todoRepository } from '../../../repositories'
-import { assert } from 'chai'
 import { type ITodoInserted, type ITodoBeforeInsert, type ITodoBase, type ITodoListBeforeInsert } from '../../../interfaces'
 import { type ITodoRepository } from '../../../repositories/repositoryInterfaces'
 import { todoFixture } from '../../fixtures/todo.fixture'
 import { todoListFixture } from '../../fixtures/todoList.fixture'
-import { before } from 'mocha'
 
 describe('Todo Service testing', () => {
   let sandbox: sinon.SinonSandbox
