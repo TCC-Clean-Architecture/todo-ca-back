@@ -18,7 +18,9 @@ describe('Users service testing', () => {
     sandbox.restore()
   })
   const stubUsersRepository: IUsersRepository = {
-    create: async (user) => userFixture({ _id: 'thisisid', ...user })
+    create: async (user) => userFixture({ _id: 'thisisid', ...user }),
+    getByEmail: async () => null,
+    deleteAll: async () => {}
   }
   it('should register an user correctly', async () => {
     const user: IUser = {
