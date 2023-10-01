@@ -11,6 +11,18 @@ const usersRepository: IUsersRepository = {
     }
     const insertedUser = await usersCollection.findOne<IUserInserted>({ _id: insertedId })
     return insertedUser
+  },
+  getByEmail: async (email: string): Promise<Required<IUserInserted> | null> => {
+    const user = await usersCollection.findOne<Required<IUserInserted>>({
+      email
+    })
+    if (!user) {
+      return null
+    }
+    return user
+  },
+  deleteAll: async (): Promise<void> => {
+    await usersCollection.deleteMany()
   }
 }
 
