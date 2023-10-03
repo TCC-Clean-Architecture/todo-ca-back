@@ -1,13 +1,17 @@
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 import { type IResponseFactoryPayload } from '../interfaces'
 import { usersRepository } from '../repositories'
 import { responseFactory } from '../factories'
 
+interface ITokenPayload extends JwtPayload {
+  _id: string
+}
+
 const authenticateService = {
   authenticate: async (email: string, password: string): Promise<IResponseFactoryPayload> => {
     const userFound = await usersRepository.getByEmail(email)
-    const authenticationFailed = !userFound || !bcrypt.compareSync(password, userFound?.password)
+    const authenticationFailed = !userFound || !bcrypt.compareSync(password, userFound.password)
     if (authenticationFailed) {
       return responseFactory({
         statusCode: 400,
@@ -29,6 +33,14 @@ const authenticateService = {
       },
       statusCode: 200
     })
+  },
+  validate: (token: string): ITokenPayload | Error => {
+    try {
+      const decoded = jwt.verify(token, 'abcde') as ITokenPayload
+      return decoded
+    } catch (err) {
+      return new Error('Invalid Token')
+    }
   }
 }
 
