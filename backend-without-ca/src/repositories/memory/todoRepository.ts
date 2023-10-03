@@ -30,8 +30,8 @@ const todoRepository: ITodoRepository = {
     const result = todoListInMemory.filter(todo => todo.userId === userId)
     return result
   },
-  getTodoListById: async (id: Id): Promise<ITodoListInserted | null> => {
-    return todoListInMemory.find(item => item._id === id) ?? null
+  getTodoListById: async (id: Id, userId: Id): Promise<ITodoListInserted | null> => {
+    return todoListInMemory.find(item => (item._id === id) && (item.userId === userId)) ?? null
   },
   updateTodoList: async (id: Id, content: ITodoListBeforeInsert): Promise<ITodoListInserted | null> => {
     todoListInMemory = todoListInMemory.map(todo => {

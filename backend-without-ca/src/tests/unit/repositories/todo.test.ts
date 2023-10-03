@@ -85,11 +85,13 @@ describe('Todo repository testing', () => {
   describe('getTodoListById', () => {
     it('should get todo list by id', async () => {
       const listInserted = await insertList({ todosToInsert: [] })
-      const result = await todoRepository.getTodoListById(listInserted._id) as ITodoListInserted
+      const userId = 'thisisuserid'
+      const result = await todoRepository.getTodoListById(listInserted._id, userId) as ITodoListInserted
       expect(result).to.deep.equals({ ...listInserted, createdAt: new Date(), todos: [] })
     })
     it('should not find the id', async () => {
-      const result = await todoRepository.getTodoListById('abcde') as ITodoListInserted
+      const userId = 'thisisuserid'
+      const result = await todoRepository.getTodoListById('abcde', userId) as ITodoListInserted
       expect(result).to.deep.equals(null)
     })
   })

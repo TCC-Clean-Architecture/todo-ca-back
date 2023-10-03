@@ -8,6 +8,7 @@ const todoController = {
   post: async (req: Request, res: Response) => {
     try {
       const listId = req.params.listId
+      const { userId } = req.tokenData
       const todoItem: ITodoBase = req.body
       const todoInstance = todoFactory(todoItem)
       if (todoInstance instanceof Error) {
@@ -19,7 +20,7 @@ const todoController = {
           }
         }))
       }
-      const result = await todoService.create(listId, todoInstance)
+      const result = await todoService.create(listId, todoInstance, userId)
       res.status(result.statusCode).json(responseFactory(result))
     } catch (err: any) {
       return res.status(500).json(responseFactory({
@@ -64,7 +65,8 @@ const todoController = {
   delete: async (req: Request, res: Response) => {
     try {
       const { todoId, listId } = req.params
-      const result = await todoService.delete(listId, todoId)
+      const { userId } = req.tokenData
+      const result = await todoService.delete(listId, todoId, userId)
       res.status(result.statusCode).json(responseFactory(result))
     } catch (err: any) {
       return res.status(500).json(responseFactory({
@@ -80,7 +82,8 @@ const todoController = {
     try {
       const { body } = req
       const { todoId, listId } = req.params
-      const result = await todoService.update(listId, todoId, body)
+      const { userId } = req.tokenData
+      const result = await todoService.update(listId, todoId, body, userId)
 
       res.status(result.statusCode).json(responseFactory(result))
     } catch (err: any) {
