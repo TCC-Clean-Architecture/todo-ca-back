@@ -31,7 +31,7 @@ const todoRepository: ITodoRepository = {
     const result = await todoListCollection.findOne({ _id: insertedId }) as ITodoListInserted
     return result
   },
-  getTodoLists: async (): Promise<ITodoListInserted[]> => {
+  getTodoLists: async (userId: Id): Promise<ITodoListInserted[]> => {
     const result = await todoListCollection.find().toArray() as ITodoListInserted[]
     return result
   },

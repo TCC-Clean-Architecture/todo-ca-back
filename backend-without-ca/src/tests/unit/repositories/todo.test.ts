@@ -77,8 +77,8 @@ describe('Todo repository testing', () => {
   describe('getTodoLists', () => {
     it('should get all todo lists', async () => {
       const listInserted = await insertList({ todosToInsert: [] })
-
-      const result = await todoRepository.getTodoLists()
+      const userId = 'thisisuserid'
+      const result = await todoRepository.getTodoLists(userId)
       expect(result[0]).to.deep.equals({ ...listInserted, createdAt: new Date(), todos: [] })
     })
   })

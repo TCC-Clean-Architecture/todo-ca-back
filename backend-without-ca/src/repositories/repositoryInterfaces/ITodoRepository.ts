@@ -4,7 +4,7 @@ interface ITodoRepository {
   listAll: (listId: Id) => Promise<ITodoInserted[] | []>
   getById: (listId: Id, todoId: Id) => Promise<ITodoInserted | null>
   createTodoList: (todoListToInsert: ITodoListBeforeInsert) => Promise<ITodoListInserted>
-  getTodoLists: () => Promise<ITodoListInserted[]>
+  getTodoLists: (userId: Id) => Promise<ITodoListInserted[]>
   getTodoListById: (id: Id) => Promise<ITodoListInserted | null>
   updateTodoList: (id: Id, content: ITodoListBeforeInsert) => Promise<ITodoListInserted | null>
   removeAllTodoLists: () => Promise<boolean>

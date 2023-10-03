@@ -26,8 +26,9 @@ const todoRepository: ITodoRepository = {
     todoListInMemory.push(todoList)
     return todoList
   },
-  getTodoLists: async (): Promise<ITodoListInserted[]> => {
-    return todoListInMemory
+  getTodoLists: async (userId): Promise<ITodoListInserted[]> => {
+    const result = todoListInMemory.filter(todo => todo.userId === userId)
+    return result
   },
   getTodoListById: async (id: Id): Promise<ITodoListInserted | null> => {
     return todoListInMemory.find(item => item._id === id) ?? null

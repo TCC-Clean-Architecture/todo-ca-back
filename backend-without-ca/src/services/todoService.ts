@@ -152,8 +152,8 @@ const todoService = {
       content: { _id: listId }
     }
   },
-  getTodoLists: async (): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.getTodoLists()
+  getTodoLists: async (userId: Id): Promise<IResponseFactoryPayload> => {
+    const result = await todoRepository.getTodoLists(userId)
     return {
       statusCode: 200,
       description: 'Get all lists',
