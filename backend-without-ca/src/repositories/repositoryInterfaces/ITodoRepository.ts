@@ -2,7 +2,7 @@ import { type ITodoListBeforeInsert, type ITodoInserted, type ITodoListInserted,
 
 interface ITodoRepository {
   listAll: (listId: Id, userId: Id) => Promise<ITodoInserted[] | []>
-  getById: (listId: Id, todoId: Id) => Promise<ITodoInserted | null>
+  getById: (listId: Id, todoId: Id, userId: Id) => Promise<ITodoInserted | null>
   createTodoList: (todoListToInsert: ITodoListBeforeInsert) => Promise<ITodoListInserted>
   getTodoLists: (userId: Id) => Promise<ITodoListInserted[]>
   getTodoListById: (id: Id, userId: Id) => Promise<ITodoListInserted | null>

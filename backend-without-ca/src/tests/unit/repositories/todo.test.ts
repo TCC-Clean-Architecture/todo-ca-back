@@ -49,17 +49,19 @@ describe('Todo repository testing', () => {
       const todoToInsert = todoFixture()
       const todoToInsert2 = todoFixture()
       const todoListCreated = await insertList({ todosToInsert: [todoToInsert, todoToInsert2] })
-
-      const result = await todoRepository.getById(todoListCreated._id, todoToInsert._id)
+      const userId = 'thisisuserid'
+      const result = await todoRepository.getById(todoListCreated._id, todoToInsert._id, userId)
       expect(result).to.deep.equals(todoToInsert)
     })
     it('should not find list when attempt to get a list', async () => {
-      const result = await todoRepository.getById('abcde', 'abcde')
+      const userId = 'thisisuserid'
+      const result = await todoRepository.getById('abcde', 'abcde', userId)
       expect(result).to.equals(null)
     })
     it('should not find todo inside of list todo list', async () => {
       const todoListCreated = await insertList({ todosToInsert: [] })
-      const result = await todoRepository.getById(todoListCreated._id, 'abcde')
+      const userId = 'thisisuserid'
+      const result = await todoRepository.getById(todoListCreated._id, 'abcde', userId)
       expect(result).to.equals(null)
     })
   })

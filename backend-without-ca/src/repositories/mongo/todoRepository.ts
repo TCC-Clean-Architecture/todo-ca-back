@@ -17,9 +17,10 @@ const todoRepository: ITodoRepository = {
     }) as ITodoListInserted
     return result.todos
   },
-  getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
+  getById: async (listId: Id, todoId: Id, userId: Id): Promise<ITodoInserted | null> => {
     const todoList = await todoListCollection.findOne({
-      _id: convertToObjectId(listId)
+      _id: convertToObjectId(listId),
+      userId: convertToObjectId(userId)
     }) as ITodoListInserted
     if (!todoList) {
       return null

@@ -120,16 +120,18 @@ describe('Todo Service testing', () => {
     it('should execute getById service and call todoRepository with correct params', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
+      const userId = 'thisisuserid'
       const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'getById').callsFake(stubTodoRepository.getById)
-      await todoService.getById(listId, todoId)
-      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId, todoId))
+      await todoService.getById(listId, todoId, userId)
+      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId, todoId, userId))
     })
     it('should return an 404 error when id not found', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
+      const userId = 'thisisuserid'
       const todoRepositoryGetByIdStub = sandbox.stub(todoRepository, 'getById').callsFake(async () => null)
-      const result = await todoService.getById(listId, todoId)
-      assert.isTrue(todoRepositoryGetByIdStub.calledOnceWithExactly(listId, todoId))
+      const result = await todoService.getById(listId, todoId, userId)
+      assert.isTrue(todoRepositoryGetByIdStub.calledOnceWithExactly(listId, todoId, userId))
       assert.deepEqual(result, {
         statusCode: 404,
         description: 'Id not found',

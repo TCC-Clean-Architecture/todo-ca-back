@@ -10,8 +10,8 @@ const todoRepository: ITodoRepository = {
     const todoList = todoListInMemory.filter(item => (item._id === id) && (item.userId === userId))
     return todoList[0].todos
   },
-  getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
-    const todoList = todoListInMemory.find(list => list._id === listId)
+  getById: async (listId: Id, todoId: Id, userId: Id): Promise<ITodoInserted | null> => {
+    const todoList = todoListInMemory.find(list => (list._id === listId) && (list.userId === userId))
     if (todoList === undefined) {
       return null
     }
