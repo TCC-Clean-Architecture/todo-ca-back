@@ -32,7 +32,9 @@ const todoRepository: ITodoRepository = {
     return result
   },
   getTodoLists: async (userId: Id): Promise<ITodoListInserted[]> => {
-    const result = await todoListCollection.find().toArray() as ITodoListInserted[]
+    const result = await todoListCollection.find({
+      userId
+    }).toArray() as ITodoListInserted[]
     return result
   },
   getTodoListById: async (id: Id): Promise<ITodoListInserted | null> => {
