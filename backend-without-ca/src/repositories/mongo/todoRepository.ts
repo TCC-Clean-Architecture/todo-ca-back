@@ -63,9 +63,10 @@ const todoRepository: ITodoRepository = {
       return false
     }
   },
-  deleteList: async (id: Id) => {
+  deleteList: async (id: Id, userId: Id) => {
     const success = await todoListCollection.deleteOne({
-      _id: typeof id === 'string' ? new ObjectId(id) : id
+      _id: typeof id === 'string' ? new ObjectId(id) : id,
+      userId
     })
     if (success.deletedCount > 0) {
       return true

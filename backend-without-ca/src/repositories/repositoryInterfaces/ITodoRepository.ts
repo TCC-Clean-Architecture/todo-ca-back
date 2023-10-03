@@ -8,7 +8,7 @@ interface ITodoRepository {
   getTodoListById: (id: Id) => Promise<ITodoListInserted | null>
   updateTodoList: (id: Id, content: ITodoListBeforeInsert) => Promise<ITodoListInserted | null>
   removeAllTodoLists: () => Promise<boolean>
-  deleteList: (id: Id) => Promise<boolean>
+  deleteList: (id: Id, userId: Id) => Promise<boolean>
 }
 
 export type {

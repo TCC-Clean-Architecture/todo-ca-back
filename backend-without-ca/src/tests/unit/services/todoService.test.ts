@@ -382,11 +382,11 @@ describe('Todo Service testing', () => {
         description: `Deleted on list ${listId.toString()}`,
         content: { _id: listId }
       }
-
+      const userId = 'thisisuserid'
       const deleteListRepositoryStub = sandbox.stub(todoRepository, 'deleteList').callsFake(async () => true)
-      const response = await todoService.deleteTodoList(listId)
+      const response = await todoService.deleteTodoList(listId, userId)
       assert.deepEqual(response, expectedResponse)
-      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId))
+      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId, userId))
     })
     it('should return an error when something went wrong on repository', async () => {
       const listId = 'abcde'
@@ -406,11 +406,11 @@ describe('Todo Service testing', () => {
         content: {
         }
       }
-
+      const userId = 'thisisuserid'
       const deleteListRepositoryStub = sandbox.stub(todoRepository, 'deleteList').callsFake(async () => false)
-      const response = await todoService.deleteTodoList(listId)
+      const response = await todoService.deleteTodoList(listId, userId)
       assert.deepEqual(response, expectedResponse)
-      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId))
+      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId, userId))
     })
   })
   describe('Testing of getTodoLists service', () => {

@@ -136,8 +136,8 @@ const todoService = {
     const result = await todoRepository.createTodoList(todoList)
     return result
   },
-  deleteTodoList: async (listId: Id): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.deleteList(listId)
+  deleteTodoList: async (listId: Id, userId: Id): Promise<IResponseFactoryPayload> => {
+    const result = await todoRepository.deleteList(listId, userId)
     if (!result) {
       return {
         statusCode: 500,

@@ -55,9 +55,9 @@ const todoRepository: ITodoRepository = {
     todoListInMemory.splice(0, todoListInMemory.length)
     return todoListInMemory.length === 0
   },
-  deleteList: async (id: Id): Promise<boolean> => {
+  deleteList: async (id: Id, userId: Id): Promise<boolean> => {
     const previousLength = todoListInMemory.length
-    todoListInMemory = todoListInMemory.filter(item => item._id !== id)
+    todoListInMemory = todoListInMemory.filter(item => (item._id !== id) && (item.userId === userId))
     return (previousLength - 1) === todoListInMemory.length
   }
 }

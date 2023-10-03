@@ -125,7 +125,8 @@ const todoController = {
   deleteList: async (req: Request, res: Response) => {
     try {
       const { listId } = req.params
-      const result = await todoService.deleteTodoList(listId)
+      const { userId } = req.tokenData
+      const result = await todoService.deleteTodoList(listId, userId)
       res.status(result.statusCode).json(responseFactory(result))
     } catch (err: any) {
       return res.status(500).json(responseFactory({

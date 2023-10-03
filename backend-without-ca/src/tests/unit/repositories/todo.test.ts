@@ -129,7 +129,8 @@ describe('Todo repository testing', () => {
     it('should delete list', async () => {
       const todoToInsert = todoFixture()
       const todoListCreated = await insertList({ todosToInsert: [todoToInsert] })
-      const result = await todoRepository.deleteList(todoListCreated._id.toString())
+      const userId = 'thisisuserid'
+      const result = await todoRepository.deleteList(todoListCreated._id.toString(), userId)
       expect(result).to.equals(true)
     })
   })
