@@ -30,8 +30,8 @@ const todoService = {
       content: newTodo
     }
   },
-  list: async (listId: Id): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.listAll(listId)
+  list: async (listId: Id, userId: Id): Promise<IResponseFactoryPayload> => {
+    const result = await todoRepository.listAll(listId, userId)
     return {
       statusCode: 200,
       description: `All items of list ${listId.toString()}`,

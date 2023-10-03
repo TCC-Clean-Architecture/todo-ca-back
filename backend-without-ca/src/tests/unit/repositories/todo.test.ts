@@ -38,8 +38,9 @@ describe('Todo repository testing', () => {
   describe('listAll testing', () => {
     it('should list all todo', async () => {
       const todo = todoFixture()
+      const userId = 'thisisuserid'
       const todoListCreated = await insertList({ todosToInsert: [todo, todo] })
-      const result = await todoRepository.listAll(todoListCreated._id)
+      const result = await todoRepository.listAll(todoListCreated._id, userId)
       expect(result).to.deep.equals([todo, todo])
     })
   })

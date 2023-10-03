@@ -110,9 +110,10 @@ describe('Todo Service testing', () => {
   describe('Testing of list service', () => {
     it('should execute list service and call todoRepository with correct params', async () => {
       const listId = 'abcde'
+      const userId = 'thisisuserid'
       const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'listAll').callsFake(stubTodoRepository.listAll)
-      await todoService.list(listId)
-      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId))
+      await todoService.list(listId, userId)
+      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId, userId))
     })
   })
   describe('Testing of getById service', () => {

@@ -10,9 +10,10 @@ const convertToObjectId = (param: Id): ObjectId => {
 }
 
 const todoRepository: ITodoRepository = {
-  listAll: async (id: Id): Promise<ITodoInserted[] | []> => {
+  listAll: async (id: Id, userId: Id): Promise<ITodoInserted[] | []> => {
     const result = await todoListCollection.findOne({
-      _id: convertToObjectId(id)
+      _id: convertToObjectId(id),
+      userId: convertToObjectId(userId)
     }) as ITodoListInserted
     return result.todos
   },

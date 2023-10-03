@@ -6,8 +6,8 @@ console.log('Memory repository in use')
 let todoListInMemory: ITodoListInserted[] = []
 
 const todoRepository: ITodoRepository = {
-  listAll: async (id: Id): Promise<ITodoInserted[] | []> => {
-    const todoList = todoListInMemory.filter(item => item._id === id)
+  listAll: async (id: Id, userId: Id): Promise<ITodoInserted[] | []> => {
+    const todoList = todoListInMemory.filter(item => (item._id === id) && (item.userId === userId))
     return todoList[0].todos
   },
   getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
