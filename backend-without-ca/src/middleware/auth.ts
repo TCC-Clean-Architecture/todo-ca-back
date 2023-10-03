@@ -3,7 +3,7 @@ import { responseFactory } from '../factories'
 import { authenticateService } from '../services/authenticationService'
 
 const verifyToken = (req: Request, res: Response, next: NextFunction): Response | undefined => {
-  const token = req.headers.Authorization ?? req.headers['x-access-token']
+  const token = req.headers['x-access-token']
   if (!token || Array.isArray(token)) {
     return res.status(403).json(responseFactory({
       description: 'A token is required for authentication',
@@ -20,6 +20,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction): Response 
     }))
   }
   req.tokenData = decoded
+  next()
 }
 
 export { verifyToken }

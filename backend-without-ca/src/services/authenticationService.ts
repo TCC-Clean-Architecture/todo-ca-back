@@ -5,7 +5,7 @@ import { usersRepository } from '../repositories'
 import { responseFactory } from '../factories'
 
 interface ITokenPayload extends JwtPayload {
-  _id: string
+  userId: string
 }
 
 const authenticateService = {
@@ -21,7 +21,7 @@ const authenticateService = {
       })
     }
     const token = jwt.sign({
-      id: userFound._id
+      userId: userFound._id
     }, 'abcde')
     return responseFactory({
       description: 'User authenticated',

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Express } from 'express-serve-static-core'
 interface ITokenData {
-  _id: string
+  userId: string
   iat?: int
 }
 

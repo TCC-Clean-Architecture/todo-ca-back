@@ -5,6 +5,7 @@ import { assert, expect } from 'chai'
 import sinon from 'sinon'
 import { initializeRepository, todoRepository } from '../../../repositories'
 import { type ITodoListBeforeInsert, type ITodoListInserted } from '../../../interfaces'
+import { authenticateService } from '../../../services/authenticationService'
 
 describe('POST /todos testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -15,6 +16,12 @@ describe('POST /todos testing', () => {
   beforeEach(async () => {
     await todoRepository.removeAllTodoLists()
     sandbox = sinon.createSandbox()
+    sandbox.stub(authenticateService, 'validate').callsFake(() => {
+      return {
+        iat: 9999999,
+        userId: 'abcde'
+      }
+    })
     clock = sandbox.useFakeTimers()
   })
   afterEach(() => {
@@ -28,6 +35,7 @@ describe('POST /todos testing', () => {
       }
       const todoListResponse = await request(server)
         .post('/todos/list')
+        .set('x-access-token', 'thisistoken')
         .send(TodoListPayload)
       const listId = todoListResponse.body.content._id
       assert.isOk(listId)
@@ -40,6 +48,7 @@ describe('POST /todos testing', () => {
 
       const response = await request(server)
         .post(`/todos/list/${listId}`)
+        .set('x-access-token', 'thisistoken')
         .send(todoToInsert)
 
       assert.strictEqual(response.statusCode, 200)
@@ -52,6 +61,7 @@ describe('POST /todos testing', () => {
       }
       const response = await request(server)
         .post('/todos/list/abcde')
+        .set('x-access-token', 'thisistoken')
         .send(todoToInsert)
 
       const expectedErrorMessage = {
@@ -77,6 +87,7 @@ describe('POST /todos testing', () => {
       sandbox.stub(todoRepository, 'updateTodoList').throws('Explosion')
       const response = await request(server)
         .post(`/todos/list/${listId}`)
+        .set('x-access-token', 'thisistoken')
         .send(todoToInsert)
 
       const expectedErrorMessage = {
@@ -97,6 +108,7 @@ describe('POST /todos testing', () => {
       }
       const todoListResponse = await request(server)
         .post('/todos/list')
+        .set('x-access-token', 'thisistoken')
         .send(todoListToInsert)
       const listId = todoListResponse.body.content._id
       assert.isOk(listId)
@@ -110,6 +122,7 @@ describe('POST /todos testing', () => {
       sandbox.stub(todoRepository, 'updateTodoList').throws('Explosion')
       const response = await request(server)
         .post(`/todos/list/${listId}`)
+        .set('x-access-token', 'thisistoken')
         .send(todoToInsert)
 
       const expectedErrorMessage = {
@@ -142,6 +155,7 @@ describe('POST /todos testing', () => {
 
       const response = await request(server)
         .post('/todos/list')
+        .set('x-access-token', 'thisistoken')
         .send(todoListToInsert)
 
       assert.strictEqual(response.statusCode, 200)
@@ -152,6 +166,7 @@ describe('POST /todos testing', () => {
       }
       const response = await request(server)
         .post('/todos/list')
+        .set('x-access-token', 'thisistoken')
         .send(todoListToInsert)
 
       const expectedErrorMessage = {
@@ -174,6 +189,7 @@ describe('POST /todos testing', () => {
       sandbox.stub(todoRepository, 'createTodoList').throws('Explosion')
       const response = await request(server)
         .post('/todos/list')
+        .set('x-access-token', 'thisistoken')
         .send(todoListToInsert)
 
       const expectedErrorMessage = {

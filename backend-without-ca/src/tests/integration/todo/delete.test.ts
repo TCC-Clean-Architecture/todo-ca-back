@@ -6,6 +6,7 @@ import { initializeRepository, todoRepository } from '../../../repositories'
 import { todoFixture } from '../../fixtures/todo.fixture'
 import { type ITodoListBeforeInsert } from '../../../interfaces'
 import { todoService } from '../../../services/todoService'
+import { authenticateService } from '../../../services/authenticationService'
 
 describe('DELETE /todos testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -15,6 +16,12 @@ describe('DELETE /todos testing', () => {
   })
   beforeEach(async () => {
     sandbox = sinon.createSandbox()
+    sandbox.stub(authenticateService, 'validate').callsFake(() => {
+      return {
+        iat: 9999999,
+        userId: 'abcde'
+      }
+    })
     clock = sandbox.useFakeTimers()
   })
   afterEach(() => {
@@ -34,6 +41,7 @@ describe('DELETE /todos testing', () => {
 
       const response = await request(server)
         .delete(`/todos/${todoToInsert2._id.toString()}/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 200)
       assert.strictEqual(response.body.content._id, todoToInsert2._id.toString())
@@ -51,6 +59,7 @@ describe('DELETE /todos testing', () => {
 
       const response = await request(server)
         .delete(`/todos/abcde/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 404)
 
@@ -67,6 +76,7 @@ describe('DELETE /todos testing', () => {
       const listId = 'fghij'
       const response = await request(server)
         .delete(`/todos/abcde/list/${listId}`)
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 404)
 
@@ -89,6 +99,7 @@ describe('DELETE /todos testing', () => {
       sandbox.stub(todoRepository, 'getTodoListById').throws('Explosion')
       const response = await request(server)
         .delete(`/todos/abcde/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
 
       const expectedErrorMessage = {
         statusCode: 500,
@@ -116,12 +127,14 @@ describe('DELETE /todos testing', () => {
       const todoListCreated = await todoRepository.createTodoList(todoList)
       const response = await request(server)
         .delete(`/todos/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
       assert.strictEqual(response.body.content._id, todoListCreated._id)
     })
     it('should return an error on attempt to remove list', async () => {
       sandbox.stub(todoService, 'deleteTodoList').throws('Explosion')
       const response = await request(server)
         .delete('/todos/list/abcde')
+        .set('x-access-token', 'thisistoken')
       assert.deepEqual(response.body, {
         statusCode: 500,
         type: 'error',
