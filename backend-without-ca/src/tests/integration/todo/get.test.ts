@@ -20,7 +20,7 @@ describe('GET /todos testing', () => {
     sandbox.stub(authenticateService, 'validate').callsFake(() => {
       return {
         iat: 9999999,
-        userId: 'abcde'
+        userId: 'thisisuserid'
       }
     })
     clock = sandbox.useFakeTimers()
@@ -36,6 +36,7 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert, todoToInsert2]
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
@@ -59,6 +60,7 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: []
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
@@ -78,6 +80,7 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert, todoToInsert2]
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
@@ -95,6 +98,7 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert]
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
@@ -166,6 +170,7 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert, todoToInsert2]
       }
       await todoRepository.createTodoList(todoList)

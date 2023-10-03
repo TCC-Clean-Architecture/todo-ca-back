@@ -19,7 +19,7 @@ describe('PUT /todos testing', () => {
     sandbox.stub(authenticateService, 'validate').callsFake(() => {
       return {
         iat: 9999999,
-        userId: 'abcde'
+        userId: 'thisisuserid'
       }
     })
     clock = sandbox.useFakeTimers()
@@ -34,6 +34,7 @@ describe('PUT /todos testing', () => {
     const todoList: ITodoListBeforeInsert = {
       name: 'list',
       createdAt: new Date(),
+      userId: 'thisisuserid',
       todos: [todoToInsert, todoToInsert2]
     }
     const todoListCreated = await todoRepository.createTodoList(todoList)
@@ -59,6 +60,7 @@ describe('PUT /todos testing', () => {
     const todoList: ITodoListBeforeInsert = {
       name: 'list',
       createdAt: new Date(),
+      userId: 'thisisuserid',
       todos: []
     }
     const todoListCreated = await todoRepository.createTodoList(todoList)

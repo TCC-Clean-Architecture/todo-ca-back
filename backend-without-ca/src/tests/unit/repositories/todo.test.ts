@@ -17,6 +17,7 @@ describe('Todo repository testing', () => {
     const todoList: ITodoListBeforeInsert = {
       name: listName ?? 'list',
       createdAt: new Date(),
+      userId: 'thisisuserid',
       todos: todosToInsert
     }
     const todoListCreated = await todoRepository.createTodoList(todoList)
@@ -66,7 +67,8 @@ describe('Todo repository testing', () => {
       const todoList: ITodoList = {
         name: 'test1'
       }
-      const todoListInstance = todoListFactory(todoList) as ITodoListBeforeInsert
+      const userId = 'thisisuserid'
+      const todoListInstance = todoListFactory(todoList, userId) as ITodoListBeforeInsert
       const result = await todoRepository.createTodoList(todoListInstance)
       expect(result).to.deep.include({ ...todoList, todos: [] })
       expect(result).to.have.property('_id')
@@ -99,7 +101,8 @@ describe('Todo repository testing', () => {
       const updateContent: ITodoList = {
         name: 'testUpdated'
       }
-      const todoListUpdated = todoListFactory(updateContent) as ITodoListBeforeInsert
+      const userId = 'thisisuserid'
+      const todoListUpdated = todoListFactory(updateContent, userId) as ITodoListBeforeInsert
       const result = await todoRepository.updateTodoList(todoListCreated._id.toString(), todoListUpdated)
       expect(result).to.deep.include({ ...updateContent, createdAt: new Date(), todos: [] })
     })
@@ -107,7 +110,8 @@ describe('Todo repository testing', () => {
       const updateContent: ITodoList = {
         name: 'testUpdated'
       }
-      const todoListUpdated = todoListFactory(updateContent) as ITodoListBeforeInsert
+      const userId = 'thisisuserid'
+      const todoListUpdated = todoListFactory(updateContent, userId) as ITodoListBeforeInsert
       const result = await todoRepository.updateTodoList('abcde', todoListUpdated)
       expect(result).to.equals(null)
     })

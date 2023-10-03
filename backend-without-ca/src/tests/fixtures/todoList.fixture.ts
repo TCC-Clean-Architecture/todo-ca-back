@@ -6,7 +6,8 @@ const todoListFixture = (data?: Partial<ITodoListInserted>): ITodoListInserted =
     name: faker.lorem.text(),
     _id: data?._id ?? faker.string.uuid(),
     createdAt: new Date(),
-    todos: []
+    todos: [],
+    userId: data?.userId ?? faker.string.uuid()
   }
 }
 

@@ -96,7 +96,7 @@ const todoController = {
   createList: async (req: Request, res: Response) => {
     try {
       const body: Omit<ITodoList, 'todos'> = req.body
-      const todoListInstance = todoListFactory(body)
+      const todoListInstance = todoListFactory(body, req.tokenData.userId)
       if (todoListInstance instanceof Error) {
         return res.status(400).json(responseFactory({
           statusCode: 400,

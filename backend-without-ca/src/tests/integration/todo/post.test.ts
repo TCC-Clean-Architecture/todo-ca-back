@@ -19,7 +19,7 @@ describe('POST /todos testing', () => {
     sandbox.stub(authenticateService, 'validate').callsFake(() => {
       return {
         iat: 9999999,
-        userId: 'abcde'
+        userId: 'thisisuserid'
       }
     })
     clock = sandbox.useFakeTimers()
@@ -150,7 +150,7 @@ describe('POST /todos testing', () => {
       }
 
       sandbox.stub(todoRepository, 'createTodoList').callsFake(async (todoList: ITodoListBeforeInsert): Promise<ITodoListInserted> => {
-        return { ...todoList, todos: [], createdAt: new Date(), _id: uuid }
+        return { ...todoList, todos: [], createdAt: new Date(), _id: uuid, userId: 'thisisuserid' }
       })
 
       const response = await request(server)
@@ -159,7 +159,7 @@ describe('POST /todos testing', () => {
         .send(todoListToInsert)
 
       assert.strictEqual(response.statusCode, 200)
-      assert.deepEqual(response.body.content, { ...todoListToInsert, todos: [], createdAt: new Date().toISOString(), _id: uuid })
+      assert.deepEqual(response.body.content, { ...todoListToInsert, todos: [], createdAt: new Date().toISOString(), _id: uuid, userId: 'thisisuserid' })
     })
     it('should return 400 status when incorrect information is sent', async () => {
       const todoListToInsert = {

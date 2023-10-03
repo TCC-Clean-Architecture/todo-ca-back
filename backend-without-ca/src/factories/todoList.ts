@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { type ITodoList, type ITodoListBeforeInsert } from '../interfaces'
+import { type Id, type ITodoList, type ITodoListBeforeInsert } from '../interfaces'
 
 const yupValidation = yup.object({
   name: yup.string().min(1).required(),
@@ -14,12 +14,13 @@ const yupValidation = yup.object({
   )
 })
 
-const todoListFactory = (todoListPayload: ITodoList): ITodoListBeforeInsert | Error => {
+const todoListFactory = (todoListPayload: ITodoList, userId: Id): ITodoListBeforeInsert | Error => {
   try {
     yupValidation.validateSync(todoListPayload)
     return {
       name: todoListPayload.name,
       todos: todoListPayload.todos ? todoListPayload.todos : [],
+      userId,
       createdAt: new Date()
     }
   } catch (err: any) {

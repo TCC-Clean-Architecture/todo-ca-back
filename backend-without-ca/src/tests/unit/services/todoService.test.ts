@@ -149,7 +149,8 @@ describe('Todo Service testing', () => {
             description: 'to be deleted',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -157,7 +158,8 @@ describe('Todo Service testing', () => {
         _id: listId,
         name: 'name',
         createdAt: new Date(),
-        todos: []
+        todos: [],
+        userId: 'thisisuserid'
       }
       const todoRepositoryUpdateTodoListStub = sandbox.stub(todoRepository, 'updateTodoList').callsFake(stubTodoRepository.updateTodoList)
       await todoService.delete(listId, todoId)
@@ -177,7 +179,8 @@ describe('Todo Service testing', () => {
             description: 'to be deleted',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -239,7 +242,8 @@ describe('Todo Service testing', () => {
             description: 'to be changed',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -250,7 +254,8 @@ describe('Todo Service testing', () => {
         todos: [{
           _id: todoId,
           ...todo
-        }]
+        }],
+        userId: 'thisisuserid'
       }
       const todoRepositoryUpdateTodoListStub = sandbox.stub(todoRepository, 'updateTodoList').callsFake(stubTodoRepository.updateTodoList)
       await todoService.update(listId, todoId, todo)
@@ -294,7 +299,8 @@ describe('Todo Service testing', () => {
           _id: listId,
           name: 'name',
           createdAt: new Date(),
-          todos: []
+          todos: [],
+          userId: 'thisisuserid'
         }
       })
       const expectedResult = {
@@ -308,7 +314,7 @@ describe('Todo Service testing', () => {
       assert.deepEqual(result, expectedResult)
     })
 
-    it('should execute update service and call todoRepository with correct params', async () => {
+    it('should execute update service and call todoRepository failing on update', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
       const todo: Omit<ITodoInserted, '_id'> = {
@@ -328,7 +334,8 @@ describe('Todo Service testing', () => {
             description: 'to be changed',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -349,7 +356,8 @@ describe('Todo Service testing', () => {
       const todoToInsert: ITodoListBeforeInsert = {
         name: 'Some list',
         todos: [],
-        createdAt: new Date()
+        createdAt: new Date(),
+        userId: 'thisisuserid'
       }
       const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'createTodoList').callsFake(stubTodoRepository.createTodoList)
       await todoService.createTodoList(todoToInsert)
@@ -364,7 +372,8 @@ describe('Todo Service testing', () => {
           _id: listId,
           name: 'name',
           createdAt: new Date(),
-          todos: []
+          todos: [],
+          userId: 'thisisuserid'
         }
       })
 
@@ -386,7 +395,8 @@ describe('Todo Service testing', () => {
           _id: listId,
           name: 'name',
           createdAt: new Date(),
-          todos: []
+          todos: [],
+          userId: 'thisisuserid'
         }
       })
 
