@@ -38,7 +38,7 @@ describe('GET /todos testing', () => {
 
       assert.strictEqual(response.statusCode, 200)
 
-      assert.deepEqual(response.body.content.map((bodyItem: ITodoInserted) => ({
+      assert.deepEqual(response.body.content.todos.map((bodyItem: ITodoInserted) => ({
         _id: bodyItem._id,
         name: bodyItem.name,
         description: bodyItem.description,
@@ -60,7 +60,7 @@ describe('GET /todos testing', () => {
 
       assert.strictEqual(response.statusCode, 200)
 
-      assert.deepEqual(response.body.content, [])
+      assert.deepEqual(response.body.content.todos, [])
     })
 
     it('should return specific item on todo list', async () => {

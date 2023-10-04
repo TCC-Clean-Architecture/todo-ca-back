@@ -16,7 +16,7 @@ describe('Todo Service testing', () => {
   let clock: sinon.SinonFakeTimers
   const stubTodoRepository: Omit<ITodoRepository, 'removeAll' | 'removeAllTodoLists'> = {
     listAll: async (id) => {
-      return [todoFixture()]
+      return todoListFixture()
     },
     getById: async (id) => {
       const fixture = todoFixture()
