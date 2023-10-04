@@ -32,6 +32,7 @@ const todoService = {
   },
   list: async (listId: Id): Promise<IResponseFactoryPayload> => {
     const result = await todoRepository.getTodoListById(listId)
+    console.log(result)
     if (!result) {
       return {
         statusCode: 404,

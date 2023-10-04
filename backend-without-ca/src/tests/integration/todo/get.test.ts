@@ -23,7 +23,7 @@ describe('GET /todos testing', () => {
     sandbox.restore()
   })
   describe('Todo testing', () => {
-    it('should get todo and return 200', async () => {
+    it('should get todo list and return 200', async () => {
       const todoToInsert = todoFixture()
       const todoToInsert2 = todoFixture()
       const todoList: ITodoListBeforeInsert = {
@@ -47,7 +47,7 @@ describe('GET /todos testing', () => {
       })), [todoToInsert, todoToInsert2])
     })
 
-    it('should return 200 with empty array', async () => {
+    it('should get todo list and return 200 with empty array', async () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
@@ -61,6 +61,22 @@ describe('GET /todos testing', () => {
       assert.strictEqual(response.statusCode, 200)
 
       assert.deepEqual(response.body.content.todos, [])
+    })
+
+    it('should not find list on get todo list', async () => {
+      const response = await request(server)
+        .get('/todos/list/abcde')
+
+      assert.strictEqual(response.statusCode, 404)
+
+      assert.deepEqual(response.body, {
+        type: 'error',
+        message: 'Not Found',
+        statusCode: 404,
+        description: 'Id not found',
+        content: {
+        }
+      })
     })
 
     it('should return specific item on todo list', async () => {
