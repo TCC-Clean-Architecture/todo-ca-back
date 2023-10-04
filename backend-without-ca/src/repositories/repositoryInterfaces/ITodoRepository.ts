@@ -1,7 +1,6 @@
 import { type ITodoListBeforeInsert, type ITodoInserted, type ITodoListInserted, type Id } from '../../interfaces'
 
 interface ITodoRepository {
-  listAll: (listId: Id, userId: Id) => Promise<ITodoInserted[] | []>
   getById: (listId: Id, todoId: Id, userId: Id) => Promise<ITodoInserted | null>
   createTodoList: (todoListToInsert: ITodoListBeforeInsert) => Promise<ITodoListInserted>
   getTodoLists: (userId: Id) => Promise<ITodoListInserted[]>
