@@ -34,14 +34,6 @@ describe('Todo repository testing', () => {
     clock.restore()
     sandbox.restore()
   })
-  describe('listAll testing', () => {
-    it('should list all todo', async () => {
-      const todo = todoFixture()
-      const todoListCreated = await insertList({ todosToInsert: [todo, todo] })
-      const result = await todoRepository.listAll(todoListCreated._id)
-      expect(result.todos).to.deep.equals([todo, todo])
-    })
-  })
   describe('getById', () => {
     it('should get one todo by id', async () => {
       const todoToInsert = todoFixture()

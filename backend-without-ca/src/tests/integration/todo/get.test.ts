@@ -124,8 +124,8 @@ describe('GET /todos testing', () => {
       assert.deepEqual(response.body, expectedErrorMessage)
     })
 
-    it('should return 500 status when something went wrong on listAll service', async () => {
-      sandbox.stub(todoRepository, 'listAll').throws('Explosion')
+    it('should return 500 status when something went wrong on getTodoListById service', async () => {
+      sandbox.stub(todoRepository, 'getTodoListById').throws('Explosion')
       const response = await request(server)
         .get('/todos/list/abcde')
 

@@ -38,8 +38,8 @@ describe('DELETE /todos testing', () => {
       assert.strictEqual(response.statusCode, 200)
       assert.strictEqual(response.body.content._id, todoToInsert2._id.toString())
 
-      const allTodo = await todoRepository.listAll(todoListCreated._id)
-      assert.deepEqual(allTodo.todos, [todoToInsert])
+      const allTodo = await todoRepository.getTodoListById(todoListCreated._id)
+      assert.deepEqual(allTodo?.todos, [todoToInsert])
     })
     it('should return 404 when not todo not found', async () => {
       const todoList: ITodoListBeforeInsert = {

@@ -6,13 +6,6 @@ console.log('Mongo repository in use')
 const todoListCollection = getCollection('todoListCollection')
 
 const todoRepository: ITodoRepository = {
-  listAll: async (id: Id): Promise<ITodoListInserted> => {
-    const idConverted = typeof id === 'string' ? new ObjectId(id) : id
-    const result = await todoListCollection.findOne({
-      _id: idConverted
-    }) as ITodoListInserted
-    return result
-  },
   getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
     const todoList = await todoListCollection.findOne({
       _id: typeof listId === 'string' ? new ObjectId(listId) : listId
