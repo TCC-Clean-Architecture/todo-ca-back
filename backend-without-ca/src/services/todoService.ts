@@ -31,7 +31,15 @@ const todoService = {
     }
   },
   list: async (listId: Id): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.listAll(listId)
+    const result = await todoRepository.getTodoListById(listId)
+    if (!result) {
+      return {
+        statusCode: 404,
+        description: 'Id not found',
+        content: {
+        }
+      }
+    }
     return {
       statusCode: 200,
       description: `All items of list ${listId.toString()}`,

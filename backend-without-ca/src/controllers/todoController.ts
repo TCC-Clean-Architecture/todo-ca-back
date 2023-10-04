@@ -35,7 +35,7 @@ const todoController = {
     try {
       const { listId } = req.params
       const result = await todoService.list(listId)
-      res.status(200).json(responseFactory(result))
+      res.status(result.statusCode).json(responseFactory(result))
     } catch (err: any) {
       return res.status(500).json(responseFactory({
         statusCode: 500,

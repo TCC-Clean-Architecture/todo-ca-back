@@ -15,9 +15,6 @@ describe('Todo Service testing', () => {
   let sandbox: sinon.SinonSandbox
   let clock: sinon.SinonFakeTimers
   const stubTodoRepository: Omit<ITodoRepository, 'removeAll' | 'removeAllTodoLists'> = {
-    listAll: async (id) => {
-      return [todoFixture()]
-    },
     getById: async (id) => {
       const fixture = todoFixture()
       fixture._id = id
@@ -107,7 +104,7 @@ describe('Todo Service testing', () => {
   describe('Testing of list service', () => {
     it('should execute list service and call todoRepository with correct params', async () => {
       const listId = 'abcde'
-      const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'listAll').callsFake(stubTodoRepository.listAll)
+      const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'getTodoListById').callsFake(stubTodoRepository.getTodoListById)
       await todoService.list(listId)
       assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId))
     })
