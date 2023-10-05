@@ -13,7 +13,7 @@ const todoRepository: ITodoRepository = {
   getById: async (listId: Id, todoId: Id, userId: Id): Promise<ITodoInserted | null> => {
     const todoList = await todoListCollection.findOne({
       _id: convertToObjectId(listId),
-      userId: convertToObjectId(userId)
+      userId
     }) as ITodoListInserted
     if (!todoList) {
       return null
@@ -31,14 +31,14 @@ const todoRepository: ITodoRepository = {
   },
   getTodoLists: async (userId: Id): Promise<ITodoListInserted[]> => {
     const result = await todoListCollection.find({
-      userId: convertToObjectId(userId)
+      userId
     }).toArray() as ITodoListInserted[]
     return result
   },
   getTodoListById: async (id: Id, userId: Id): Promise<ITodoListInserted | null> => {
     const result = await todoListCollection.findOne({
       _id: convertToObjectId(id),
-      userId: convertToObjectId(userId)
+      userId
     }) as ITodoListInserted
     return result ?? null
   },
@@ -65,7 +65,7 @@ const todoRepository: ITodoRepository = {
   deleteList: async (id: Id, userId: Id) => {
     const success = await todoListCollection.deleteOne({
       _id: convertToObjectId(id),
-      userId: convertToObjectId(userId)
+      userId
     })
     if (success.deletedCount > 0) {
       return true
