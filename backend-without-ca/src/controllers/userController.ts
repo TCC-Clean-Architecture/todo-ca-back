@@ -18,7 +18,7 @@ const userController = {
         }))
       }
       const result = await usersService.register(user)
-      res.status(200).json(responseFactory(result))
+      res.status(result.statusCode).json(responseFactory(result))
     } catch (err: any) {
       return res.status(500).json(responseFactory({
         statusCode: 500,

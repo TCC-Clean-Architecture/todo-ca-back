@@ -13,8 +13,9 @@ describe('POST /register testing', () => {
   beforeEach(async () => {
     sandbox = sinon.createSandbox()
   })
-  afterEach(() => {
+  afterEach(async () => {
     sandbox.restore()
+    await usersRepository.deleteAll()
   })
   it('should register new user', async () => {
     const newUser = {
@@ -37,6 +38,30 @@ describe('POST /register testing', () => {
         _id: expectedId,
         name: 'Gustavo Hiroaki',
         email: 'gustavo@email.com'
+      }
+    })
+  })
+  it('should not allow the registration of a new user when a user with the same email already exists', async () => {
+    const newUser = {
+      name: 'Gustavo Hiroaki',
+      email: 'gustavo@email.com',
+      password: '123456'
+    }
+    const expectedId = 'b543fc52-922a-4636-97dc-dcf9b27614aa'
+    sandbox.stub(crypto, 'randomUUID').callsFake(() => expectedId)
+    await request(server)
+      .post('/users/register')
+      .send(newUser)
+    const response = await request(server)
+      .post('/users/register')
+      .send(newUser)
+
+    assert.deepEqual(response.body, {
+      statusCode: 400,
+      type: 'error',
+      message: 'Bad Request',
+      description: 'User already exists',
+      content: {
       }
     })
   })

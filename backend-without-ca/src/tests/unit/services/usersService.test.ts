@@ -14,8 +14,9 @@ describe('Users service testing', () => {
   beforeEach(async () => {
     sandbox = sinon.createSandbox()
   })
-  afterEach(() => {
+  afterEach(async () => {
     sandbox.restore()
+    await usersRepository.deleteAll()
   })
   const stubUsersRepository: IUsersRepository = {
     create: async (user) => userFixture({ _id: 'thisisid', ...user }),
@@ -33,8 +34,6 @@ describe('Users service testing', () => {
     assert.isTrue(createRepositoryStub.calledOnceWithExactly(user))
     const expectedResult = {
       statusCode: 200,
-      type: 'success',
-      message: 'OK',
       description: 'User created successfully',
       content: {
         _id: 'thisisid',
@@ -44,7 +43,23 @@ describe('Users service testing', () => {
     }
     assert.deepEqual(result, expectedResult)
   })
-  it('should register an user correctly', async () => {
+  it('should not create if user already exists', async () => {
+    const user: IUser = {
+      name: 'Gustavo',
+      email: 'gustavo@email.com',
+      password: '123456'
+    }
+    sandbox.stub(usersRepository, 'getByEmail').callsFake(async () => userFixture({}))
+    const result = await usersService.register(user)
+    const expectedResult = {
+      statusCode: 400,
+      content: {
+      },
+      description: 'User already exists'
+    }
+    assert.deepEqual(result, expectedResult)
+  })
+  it('should return an error on attempt to create user', async () => {
     const user: IUser = {
       name: 'Gustavo',
       email: 'gustavo@email.com',
@@ -54,8 +69,6 @@ describe('Users service testing', () => {
     const result = await usersService.register(user)
     assert.isTrue(createRepositoryStub.calledOnceWithExactly(user))
     const expectedResult = {
-      type: 'error',
-      message: 'Internal Server Error',
       statusCode: 500,
       content: {
       },
