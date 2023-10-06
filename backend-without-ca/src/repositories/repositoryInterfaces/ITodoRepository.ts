@@ -1,13 +1,13 @@
 import { type ITodoListBeforeInsert, type ITodoInserted, type ITodoListInserted, type Id } from '../../interfaces'
 
 interface ITodoRepository {
-  getById: (listId: Id, todoId: Id) => Promise<ITodoInserted | null>
+  getById: (listId: Id, todoId: Id, userId: Id) => Promise<ITodoInserted | null>
   createTodoList: (todoListToInsert: ITodoListBeforeInsert) => Promise<ITodoListInserted>
-  getTodoLists: () => Promise<ITodoListInserted[]>
-  getTodoListById: (id: Id) => Promise<ITodoListInserted | null>
+  getTodoLists: (userId: Id) => Promise<ITodoListInserted[]>
+  getTodoListById: (id: Id, userId: Id) => Promise<ITodoListInserted | null>
   updateTodoList: (id: Id, content: ITodoListBeforeInsert) => Promise<ITodoListInserted | null>
   removeAllTodoLists: () => Promise<boolean>
-  deleteList: (id: Id) => Promise<boolean>
+  deleteList: (id: Id, userId: Id) => Promise<boolean>
 }
 
 export type {

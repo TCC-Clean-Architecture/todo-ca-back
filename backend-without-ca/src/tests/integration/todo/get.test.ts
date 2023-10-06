@@ -6,6 +6,7 @@ import { initializeRepository, todoRepository } from '../../../repositories'
 import { todoFixture } from '../../fixtures/todo.fixture'
 import { type ITodoListBeforeInsert, type ITodoInserted } from '../../../interfaces'
 import { todoService } from '../../../services/todoService'
+import { authenticateService } from '../../../services/authenticationService'
 
 describe('GET /todos testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -16,6 +17,12 @@ describe('GET /todos testing', () => {
   beforeEach(async () => {
     await todoRepository.removeAllTodoLists()
     sandbox = sinon.createSandbox()
+    sandbox.stub(authenticateService, 'validate').callsFake(() => {
+      return {
+        iat: 9999999,
+        userId: 'thisisuserid'
+      }
+    })
     clock = sandbox.useFakeTimers()
   })
   afterEach(() => {
@@ -29,12 +36,14 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert, todoToInsert2]
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
 
       const response = await request(server)
         .get(`/todos/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 200)
 
@@ -51,12 +60,14 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: []
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
 
       const response = await request(server)
         .get(`/todos/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 200)
 
@@ -66,6 +77,7 @@ describe('GET /todos testing', () => {
     it('should not find list on get todo list', async () => {
       const response = await request(server)
         .get('/todos/list/abcde')
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 404)
 
@@ -85,11 +97,13 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert, todoToInsert2]
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
       const response = await request(server)
         .get(`/todos/${todoToInsert._id.toString()}/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 200)
 
@@ -101,11 +115,13 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert]
       }
       const todoListCreated = await todoRepository.createTodoList(todoList)
       const response = await request(server)
         .get(`/todos/abcde/list/${todoListCreated._id.toString()}`)
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 404)
 
@@ -123,6 +139,7 @@ describe('GET /todos testing', () => {
       sandbox.stub(todoRepository, 'getById').throws('Explosion')
       const response = await request(server)
         .get('/todos/abcde/list/abcde')
+        .set('x-access-token', 'thisistoken')
 
       const expectedErrorMessage = {
         statusCode: 500,
@@ -144,6 +161,7 @@ describe('GET /todos testing', () => {
       sandbox.stub(todoRepository, 'getTodoListById').throws('Explosion')
       const response = await request(server)
         .get('/todos/list/abcde')
+        .set('x-access-token', 'thisistoken')
 
       const expectedErrorMessage = {
         statusCode: 500,
@@ -169,11 +187,13 @@ describe('GET /todos testing', () => {
       const todoList: ITodoListBeforeInsert = {
         name: 'list',
         createdAt: new Date(),
+        userId: 'thisisuserid',
         todos: [todoToInsert, todoToInsert2]
       }
       await todoRepository.createTodoList(todoList)
       const response = await request(server)
         .get('/todos/lists')
+        .set('x-access-token', 'thisistoken')
 
       assert.strictEqual(response.statusCode, 200)
       assert.deepEqual(response.body.content.map(({ _id, ...rest }: any) => ({
@@ -184,6 +204,7 @@ describe('GET /todos testing', () => {
       sandbox.stub(todoService, 'getTodoLists').throws('Explosion')
       const response = await request(server)
         .get('/todos/lists')
+        .set('x-access-token', 'thisistoken')
       assert.deepEqual(response.body, {
         statusCode: 500,
         type: 'error',

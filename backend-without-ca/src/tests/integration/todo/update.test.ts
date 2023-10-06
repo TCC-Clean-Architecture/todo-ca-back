@@ -5,6 +5,7 @@ import sinon from 'sinon'
 import { initializeRepository, todoRepository } from '../../../repositories'
 import { todoFixture } from '../../fixtures/todo.fixture'
 import { type ITodoListBeforeInsert } from '../../../interfaces'
+import { authenticateService } from '../../../services/authenticationService'
 
 describe('PUT /todos testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -15,6 +16,12 @@ describe('PUT /todos testing', () => {
   beforeEach(async () => {
     await todoRepository.removeAllTodoLists()
     sandbox = sinon.createSandbox()
+    sandbox.stub(authenticateService, 'validate').callsFake(() => {
+      return {
+        iat: 9999999,
+        userId: 'thisisuserid'
+      }
+    })
     clock = sandbox.useFakeTimers()
   })
   afterEach(() => {
@@ -27,6 +34,7 @@ describe('PUT /todos testing', () => {
     const todoList: ITodoListBeforeInsert = {
       name: 'list',
       createdAt: new Date(),
+      userId: 'thisisuserid',
       todos: [todoToInsert, todoToInsert2]
     }
     const todoListCreated = await todoRepository.createTodoList(todoList)
@@ -40,6 +48,7 @@ describe('PUT /todos testing', () => {
     }
     const response = await request(server)
       .put(`/todos/${todoToInsert._id.toString()}/list/${todoListCreated._id.toString()}`)
+      .set('x-access-token', 'thisistoken')
       .send(updateContent)
     assert.strictEqual(response.statusCode, 200)
     assert.strictEqual(response.body.content.name, updateContent.name)
@@ -51,12 +60,14 @@ describe('PUT /todos testing', () => {
     const todoList: ITodoListBeforeInsert = {
       name: 'list',
       createdAt: new Date(),
+      userId: 'thisisuserid',
       todos: []
     }
     const todoListCreated = await todoRepository.createTodoList(todoList)
     const listId = todoListCreated._id.toString()
     const response = await request(server)
       .put(`/todos/abcde/list/${listId}`)
+      .set('x-access-token', 'thisistoken')
 
     assert.strictEqual(response.statusCode, 404)
 
@@ -78,6 +89,7 @@ describe('PUT /todos testing', () => {
     sandbox.stub(todoRepository, 'getTodoListById').throws('Explosion')
     const response = await request(server)
       .put('/todos/abcde/list/abcde')
+      .set('x-access-token', 'thisistoken')
       .send(todoToUpdate)
 
     const expectedErrorMessage = {

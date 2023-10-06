@@ -1,5 +1,5 @@
-import { type ObjectId } from 'mongodb'
 import { type ITodoInserted } from './todoInterfaces'
+import { type Id } from './ids'
 
 interface ITodoList {
   name: string
@@ -8,10 +8,11 @@ interface ITodoList {
 
 interface ITodoListBeforeInsert extends Required<ITodoList> {
   createdAt: Date
+  userId: Id
 }
 
 interface ITodoListInserted extends ITodoListBeforeInsert {
-  _id: ObjectId | string
+  _id: Id
 }
 
 export type {

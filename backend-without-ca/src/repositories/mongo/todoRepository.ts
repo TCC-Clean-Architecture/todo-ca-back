@@ -5,10 +5,15 @@ import { type ITodoRepository } from '../repositoryInterfaces'
 console.log('Mongo repository in use')
 const todoListCollection = getCollection('todoListCollection')
 
+const convertToObjectId = (param: Id): ObjectId => {
+  return typeof param === 'string' ? new ObjectId(param) : param
+}
+
 const todoRepository: ITodoRepository = {
-  getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
+  getById: async (listId: Id, todoId: Id, userId: Id): Promise<ITodoInserted | null> => {
     const todoList = await todoListCollection.findOne({
-      _id: typeof listId === 'string' ? new ObjectId(listId) : listId
+      _id: convertToObjectId(listId),
+      userId
     }) as ITodoListInserted
     if (!todoList) {
       return null
@@ -24,26 +29,29 @@ const todoRepository: ITodoRepository = {
     const result = await todoListCollection.findOne({ _id: insertedId }) as ITodoListInserted
     return result
   },
-  getTodoLists: async (): Promise<ITodoListInserted[]> => {
-    const result = await todoListCollection.find().toArray() as ITodoListInserted[]
+  getTodoLists: async (userId: Id): Promise<ITodoListInserted[]> => {
+    const result = await todoListCollection.find({
+      userId
+    }).toArray() as ITodoListInserted[]
     return result
   },
-  getTodoListById: async (id: Id): Promise<ITodoListInserted | null> => {
-    const idConverted = typeof id === 'string' ? new ObjectId(id) : id
-    const result = await todoListCollection.findOne({ _id: idConverted }) as ITodoListInserted
+  getTodoListById: async (id: Id, userId: Id): Promise<ITodoListInserted | null> => {
+    const result = await todoListCollection.findOne({
+      _id: convertToObjectId(id),
+      userId
+    }) as ITodoListInserted
     return result ?? null
   },
   updateTodoList: async (id: Id, content: ITodoListBeforeInsert): Promise<ITodoListInserted | null> => {
-    const idConverted = typeof id === 'string' ? new ObjectId(id) : id
     const updateResult = await todoListCollection.updateOne({
-      _id: idConverted
+      _id: convertToObjectId(id)
     }, {
       $set: content
     })
     if (!updateResult) {
       return null
     }
-    const result = await todoListCollection.findOne({ _id: idConverted }) as ITodoListInserted
+    const result = await todoListCollection.findOne({ _id: convertToObjectId(id) }) as ITodoListInserted
     return result
   },
   removeAllTodoLists: async (): Promise<boolean> => {
@@ -54,9 +62,10 @@ const todoRepository: ITodoRepository = {
       return false
     }
   },
-  deleteList: async (id: Id) => {
+  deleteList: async (id: Id, userId: Id) => {
     const success = await todoListCollection.deleteOne({
-      _id: typeof id === 'string' ? new ObjectId(id) : id
+      _id: convertToObjectId(id),
+      userId
     })
     if (success.deletedCount > 0) {
       return true

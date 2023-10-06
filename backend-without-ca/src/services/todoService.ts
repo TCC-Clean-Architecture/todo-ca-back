@@ -3,8 +3,8 @@ import { type ITodoInserted, type ITodoBeforeInsert, type ITodoListBeforeInsert,
 import { todoRepository } from '../repositories'
 
 const todoService = {
-  create: async (listId: Id, todoInstance: ITodoBeforeInsert): Promise<IResponseFactoryPayload> => {
-    const todoList = await todoRepository.getTodoListById(listId)
+  create: async (listId: Id, todoInstance: ITodoBeforeInsert, userId: Id): Promise<IResponseFactoryPayload> => {
+    const todoList = await todoRepository.getTodoListById(listId, userId)
     if (!todoList) {
       return {
         statusCode: 400,
@@ -30,8 +30,11 @@ const todoService = {
       content: newTodo
     }
   },
-  list: async (listId: Id): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.getTodoListById(listId)
+
+  list: async (listId: Id, userId: Id): Promise<IResponseFactoryPayload> => {
+    console.log({ listId, userId })
+    const result = await todoRepository.getTodoListById(listId, userId)
+    console.log({ result })
     if (!result) {
       return {
         statusCode: 404,
@@ -46,8 +49,8 @@ const todoService = {
       content: result
     }
   },
-  getById: async (listId: Id, todoId: Id): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.getById(listId, todoId)
+  getById: async (listId: Id, todoId: Id, userId: Id): Promise<IResponseFactoryPayload> => {
+    const result = await todoRepository.getById(listId, todoId, userId)
     if (!result) {
       return {
         statusCode: 404,
@@ -62,8 +65,8 @@ const todoService = {
       content: result
     }
   },
-  delete: async (listId: Id, todoId: Id): Promise<IResponseFactoryPayload> => {
-    const todoList = await todoRepository.getTodoListById(listId)
+  delete: async (listId: Id, todoId: Id, userId: Id): Promise<IResponseFactoryPayload> => {
+    const todoList = await todoRepository.getTodoListById(listId, userId)
     if (!todoList) {
       return {
         statusCode: 404,
@@ -99,8 +102,8 @@ const todoService = {
       }
     }
   },
-  update: async (listId: Id, todoId: Id, content: Omit<ITodoInserted, '_id'>): Promise<IResponseFactoryPayload> => {
-    const todoList = await todoRepository.getTodoListById(listId)
+  update: async (listId: Id, todoId: Id, content: Omit<ITodoInserted, '_id'>, userId: Id): Promise<IResponseFactoryPayload> => {
+    const todoList = await todoRepository.getTodoListById(listId, userId)
     if (!todoList) {
       return {
         statusCode: 404,
@@ -144,8 +147,8 @@ const todoService = {
     const result = await todoRepository.createTodoList(todoList)
     return result
   },
-  deleteTodoList: async (listId: Id): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.deleteList(listId)
+  deleteTodoList: async (listId: Id, userId: Id): Promise<IResponseFactoryPayload> => {
+    const result = await todoRepository.deleteList(listId, userId)
     if (!result) {
       return {
         statusCode: 500,
@@ -160,8 +163,8 @@ const todoService = {
       content: { _id: listId }
     }
   },
-  getTodoLists: async (): Promise<IResponseFactoryPayload> => {
-    const result = await todoRepository.getTodoLists()
+  getTodoLists: async (userId: Id): Promise<IResponseFactoryPayload> => {
+    const result = await todoRepository.getTodoLists(userId)
     return {
       statusCode: 200,
       description: 'Get all lists',

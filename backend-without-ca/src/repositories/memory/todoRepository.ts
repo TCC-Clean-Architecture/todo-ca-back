@@ -6,8 +6,8 @@ console.log('Memory repository in use')
 let todoListInMemory: ITodoListInserted[] = []
 
 const todoRepository: ITodoRepository = {
-  getById: async (listId: Id, todoId: Id): Promise<ITodoInserted | null> => {
-    const todoList = todoListInMemory.find(list => list._id === listId)
+  getById: async (listId: Id, todoId: Id, userId: Id): Promise<ITodoInserted | null> => {
+    const todoList = todoListInMemory.find(list => (list._id === listId) && (list.userId === userId))
     if (todoList === undefined) {
       return null
     }
@@ -22,11 +22,12 @@ const todoRepository: ITodoRepository = {
     todoListInMemory.push(todoList)
     return todoList
   },
-  getTodoLists: async (): Promise<ITodoListInserted[]> => {
-    return todoListInMemory
+  getTodoLists: async (userId): Promise<ITodoListInserted[]> => {
+    const result = todoListInMemory.filter(todo => todo.userId === userId)
+    return result
   },
-  getTodoListById: async (id: Id): Promise<ITodoListInserted | null> => {
-    return todoListInMemory.find(item => item._id === id) ?? null
+  getTodoListById: async (id: Id, userId: Id): Promise<ITodoListInserted | null> => {
+    return todoListInMemory.find(item => (item._id === id) && (item.userId === userId)) ?? null
   },
   updateTodoList: async (id: Id, content: ITodoListBeforeInsert): Promise<ITodoListInserted | null> => {
     todoListInMemory = todoListInMemory.map(todo => {
@@ -50,9 +51,9 @@ const todoRepository: ITodoRepository = {
     todoListInMemory.splice(0, todoListInMemory.length)
     return todoListInMemory.length === 0
   },
-  deleteList: async (id: Id): Promise<boolean> => {
+  deleteList: async (id: Id, userId: Id): Promise<boolean> => {
     const previousLength = todoListInMemory.length
-    todoListInMemory = todoListInMemory.filter(item => item._id !== id)
+    todoListInMemory = todoListInMemory.filter(item => (item._id !== id) && (item.userId === userId))
     return (previousLength - 1) === todoListInMemory.length
   }
 }

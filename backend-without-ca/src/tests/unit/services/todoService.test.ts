@@ -1,15 +1,15 @@
 import sinon from 'sinon'
 import crypto from 'crypto'
+import { assert } from 'chai'
+import { before } from 'mocha'
 
 import { todoFactory } from '../../../factories'
 import { todoService } from '../../../services/todoService'
 import { initializeRepository, todoRepository } from '../../../repositories'
-import { assert } from 'chai'
 import { type ITodoInserted, type ITodoBeforeInsert, type ITodoBase, type ITodoListBeforeInsert } from '../../../interfaces'
 import { type ITodoRepository } from '../../../repositories/repositoryInterfaces'
 import { todoFixture } from '../../fixtures/todo.fixture'
 import { todoListFixture } from '../../fixtures/todoList.fixture'
-import { before } from 'mocha'
 
 describe('Todo Service testing', () => {
   let sandbox: sinon.SinonSandbox
@@ -55,11 +55,12 @@ describe('Todo Service testing', () => {
         status: 'done'
       }
       const listId = 'abcde'
+      const userId = 'thisisuserid'
       const todoInstance = todoFactory(todo) as ITodoBeforeInsert
       const todoRepositoryGetTodoListStub = sandbox.stub(todoRepository, 'getTodoListById').callsFake(stubTodoRepository.getTodoListById)
       const todoRepositoryUpdateTodoListStub = sandbox.stub(todoRepository, 'updateTodoList').callsFake(stubTodoRepository.updateTodoList)
-      await todoService.create(listId, todoInstance)
-      assert.isTrue(todoRepositoryGetTodoListStub.calledOnceWithExactly(listId))
+      await todoService.create(listId, todoInstance, userId)
+      assert.isTrue(todoRepositoryGetTodoListStub.calledOnceWithExactly(listId, userId))
       assert.isTrue(todoRepositoryUpdateTodoListStub.calledOnce)
     })
     it('should return an error when update repository doesnt work', async () => {
@@ -69,10 +70,11 @@ describe('Todo Service testing', () => {
         status: 'done'
       }
       const listId = 'abcde'
+      const userId = 'thisisuserid'
       const todoInstance = todoFactory(todo) as ITodoBeforeInsert
       sandbox.stub(todoRepository, 'getTodoListById').callsFake(async () => todoListFixture())
       sandbox.stub(todoRepository, 'updateTodoList').callsFake(async () => null)
-      const response = await todoService.create(listId, todoInstance)
+      const response = await todoService.create(listId, todoInstance, userId)
       assert.deepEqual(response, {
         statusCode: 500,
         description: 'Something went wrong on todo operation',
@@ -87,12 +89,13 @@ describe('Todo Service testing', () => {
         status: 'done'
       }
       const listId = 'abcde'
+      const userId = 'thisisuserid'
       const todoInstance = todoFactory(todo) as ITodoBeforeInsert
       const todoRepositoryGetTodoListStub = sandbox.stub(todoRepository, 'getTodoListById').callsFake(async () => {
         return null
       })
-      const result = await todoService.create(listId, todoInstance)
-      assert.isTrue(todoRepositoryGetTodoListStub.calledOnceWithExactly(listId))
+      const result = await todoService.create(listId, todoInstance, userId)
+      assert.isTrue(todoRepositoryGetTodoListStub.calledOnceWithExactly(listId, userId))
       assert.deepEqual(result, {
         statusCode: 400,
         description: `Id ${listId.toString()} of list not found`,
@@ -104,25 +107,28 @@ describe('Todo Service testing', () => {
   describe('Testing of list service', () => {
     it('should execute list service and call todoRepository with correct params', async () => {
       const listId = 'abcde'
+      const userId = 'thisisuserid'
       const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'getTodoListById').callsFake(stubTodoRepository.getTodoListById)
-      await todoService.list(listId)
-      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId))
+      await todoService.list(listId, userId)
+      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId, userId))
     })
   })
   describe('Testing of getById service', () => {
     it('should execute getById service and call todoRepository with correct params', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
+      const userId = 'thisisuserid'
       const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'getById').callsFake(stubTodoRepository.getById)
-      await todoService.getById(listId, todoId)
-      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId, todoId))
+      await todoService.getById(listId, todoId, userId)
+      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(listId, todoId, userId))
     })
     it('should return an 404 error when id not found', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
+      const userId = 'thisisuserid'
       const todoRepositoryGetByIdStub = sandbox.stub(todoRepository, 'getById').callsFake(async () => null)
-      const result = await todoService.getById(listId, todoId)
-      assert.isTrue(todoRepositoryGetByIdStub.calledOnceWithExactly(listId, todoId))
+      const result = await todoService.getById(listId, todoId, userId)
+      assert.isTrue(todoRepositoryGetByIdStub.calledOnceWithExactly(listId, todoId, userId))
       assert.deepEqual(result, {
         statusCode: 404,
         description: 'Id not found',
@@ -146,7 +152,8 @@ describe('Todo Service testing', () => {
             description: 'to be deleted',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -154,10 +161,12 @@ describe('Todo Service testing', () => {
         _id: listId,
         name: 'name',
         createdAt: new Date(),
-        todos: []
+        todos: [],
+        userId: 'thisisuserid'
       }
+      const userId = 'thisisuserid'
       const todoRepositoryUpdateTodoListStub = sandbox.stub(todoRepository, 'updateTodoList').callsFake(stubTodoRepository.updateTodoList)
-      await todoService.delete(listId, todoId)
+      await todoService.delete(listId, todoId, userId)
       assert.isTrue(todoRepositoryUpdateTodoListStub.calledOnceWithExactly(listId, expectedList))
     })
     it('should return error when some error happens on repository', async () => {
@@ -174,7 +183,8 @@ describe('Todo Service testing', () => {
             description: 'to be deleted',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -184,16 +194,18 @@ describe('Todo Service testing', () => {
         content: {
         }
       }
+      const userId = 'thisisuserid'
       sandbox.stub(todoRepository, 'updateTodoList').callsFake(async () => null)
-      const response = await todoService.delete(listId, todoId)
+      const response = await todoService.delete(listId, todoId, userId)
       assert.deepEqual(response, expectedResponse)
     })
     it('should return an error when list not found', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
+      const userId = 'thisisuserid'
       const todoRepositoryGetTodoListByIdStub = sandbox.stub(todoRepository, 'getTodoListById').callsFake(async () => null)
-      const result = await todoService.delete(listId, todoId)
-      assert.isTrue(todoRepositoryGetTodoListByIdStub.calledOnceWithExactly(listId))
+      const result = await todoService.delete(listId, todoId, userId)
+      assert.isTrue(todoRepositoryGetTodoListByIdStub.calledOnceWithExactly(listId, userId))
       assert.deepEqual(result, {
         statusCode: 404,
         description: `Id ${listId.toString()} of list not found`,
@@ -204,9 +216,10 @@ describe('Todo Service testing', () => {
     it('should return an error when todo item not found', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
+      const userId = 'thisisuserid'
       const todoRepositoryGetTodoListByIdStub = sandbox.stub(todoRepository, 'getTodoListById').callsFake(async () => todoListFixture({ _id: listId }))
-      const result = await todoService.delete(listId, todoId)
-      assert.isTrue(todoRepositoryGetTodoListByIdStub.calledOnceWithExactly(listId))
+      const result = await todoService.delete(listId, todoId, userId)
+      assert.isTrue(todoRepositoryGetTodoListByIdStub.calledOnceWithExactly(listId, userId))
       assert.deepEqual(result, {
         statusCode: 404,
         description: `Todo id ${todoId.toString()} not found in list ${listId.toString()}`,
@@ -236,7 +249,8 @@ describe('Todo Service testing', () => {
             description: 'to be changed',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -247,10 +261,12 @@ describe('Todo Service testing', () => {
         todos: [{
           _id: todoId,
           ...todo
-        }]
+        }],
+        userId: 'thisisuserid'
       }
+      const userId = 'thisisuserid'
       const todoRepositoryUpdateTodoListStub = sandbox.stub(todoRepository, 'updateTodoList').callsFake(stubTodoRepository.updateTodoList)
-      await todoService.update(listId, todoId, todo)
+      await todoService.update(listId, todoId, todo, userId)
       assert.isTrue(todoRepositoryUpdateTodoListStub.calledOnceWithExactly(listId, expectedList))
     })
 
@@ -272,8 +288,8 @@ describe('Todo Service testing', () => {
         content: {
         }
       }
-
-      const result = await todoService.update(listId, todoId, todo)
+      const userId = 'thisisuserid'
+      const result = await todoService.update(listId, todoId, todo, userId)
       assert.deepEqual(result, expectedResult)
     })
 
@@ -291,7 +307,8 @@ describe('Todo Service testing', () => {
           _id: listId,
           name: 'name',
           createdAt: new Date(),
-          todos: []
+          todos: [],
+          userId: 'thisisuserid'
         }
       })
       const expectedResult = {
@@ -300,12 +317,12 @@ describe('Todo Service testing', () => {
         content: {
         }
       }
-
-      const result = await todoService.update(listId, todoId, todo)
+      const userId = 'thisisuserid'
+      const result = await todoService.update(listId, todoId, todo, userId)
       assert.deepEqual(result, expectedResult)
     })
 
-    it('should execute update service and call todoRepository with correct params', async () => {
+    it('should execute update service and call todoRepository failing on update', async () => {
       const listId = 'abcde'
       const todoId = 'fghij'
       const todo: Omit<ITodoInserted, '_id'> = {
@@ -325,7 +342,8 @@ describe('Todo Service testing', () => {
             description: 'to be changed',
             status: 'inprogress',
             createdAt: new Date()
-          }]
+          }],
+          userId: 'thisisuserid'
         }
       })
 
@@ -336,8 +354,8 @@ describe('Todo Service testing', () => {
         content: {
         }
       }
-
-      const result = await todoService.update(listId, todoId, todo)
+      const userId = 'thisisuserid'
+      const result = await todoService.update(listId, todoId, todo, userId)
       assert.deepEqual(result, expectedResult)
     })
   })
@@ -346,7 +364,8 @@ describe('Todo Service testing', () => {
       const todoToInsert: ITodoListBeforeInsert = {
         name: 'Some list',
         todos: [],
-        createdAt: new Date()
+        createdAt: new Date(),
+        userId: 'thisisuserid'
       }
       const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'createTodoList').callsFake(stubTodoRepository.createTodoList)
       await todoService.createTodoList(todoToInsert)
@@ -361,7 +380,8 @@ describe('Todo Service testing', () => {
           _id: listId,
           name: 'name',
           createdAt: new Date(),
-          todos: []
+          todos: [],
+          userId: 'thisisuserid'
         }
       })
 
@@ -370,11 +390,11 @@ describe('Todo Service testing', () => {
         description: `Deleted on list ${listId.toString()}`,
         content: { _id: listId }
       }
-
+      const userId = 'thisisuserid'
       const deleteListRepositoryStub = sandbox.stub(todoRepository, 'deleteList').callsFake(async () => true)
-      const response = await todoService.deleteTodoList(listId)
+      const response = await todoService.deleteTodoList(listId, userId)
       assert.deepEqual(response, expectedResponse)
-      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId))
+      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId, userId))
     })
     it('should return an error when something went wrong on repository', async () => {
       const listId = 'abcde'
@@ -383,7 +403,8 @@ describe('Todo Service testing', () => {
           _id: listId,
           name: 'name',
           createdAt: new Date(),
-          todos: []
+          todos: [],
+          userId: 'thisisuserid'
         }
       })
 
@@ -393,18 +414,19 @@ describe('Todo Service testing', () => {
         content: {
         }
       }
-
+      const userId = 'thisisuserid'
       const deleteListRepositoryStub = sandbox.stub(todoRepository, 'deleteList').callsFake(async () => false)
-      const response = await todoService.deleteTodoList(listId)
+      const response = await todoService.deleteTodoList(listId, userId)
       assert.deepEqual(response, expectedResponse)
-      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId))
+      assert.isTrue(deleteListRepositoryStub.calledOnceWithExactly(listId, userId))
     })
   })
   describe('Testing of getTodoLists service', () => {
     it('should execute getTodoLists service and call todoRepository with correct params', async () => {
       const todoRepositoryCreateStub = sandbox.stub(todoRepository, 'getTodoLists').callsFake(stubTodoRepository.getTodoLists)
-      await todoService.getTodoLists()
-      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly())
+      const userId = 'thisisuserid'
+      await todoService.getTodoLists(userId)
+      assert.isTrue(todoRepositoryCreateStub.calledOnceWithExactly(userId))
     })
   })
 })

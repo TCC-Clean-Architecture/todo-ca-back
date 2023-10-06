@@ -16,17 +16,20 @@ describe('Todo list factory testing', () => {
     const todoList: ITodoList = {
       name: 'todoListSample'
     }
+    const userId = 'thisisuserid'
 
     const expectedTodoList: ITodoListBeforeInsert = {
       ...todoList,
       todos: [],
+      userId,
       createdAt: new Date()
     }
-    const todoListBuilded = todoListFactory(todoList)
+    const todoListBuilded = todoListFactory(todoList, userId)
     assert.deepEqual(todoListBuilded, expectedTodoList)
   })
   it('should create a todo list with todos', () => {
     const todoItem = todoFixture()
+    const userId = 'thisisuserid'
     const todoList: Required<ITodoList> = {
       name: 'todoListSample',
       todos: [todoItem]
@@ -34,13 +37,15 @@ describe('Todo list factory testing', () => {
 
     const expectedTodoList: ITodoListBeforeInsert = {
       ...todoList,
+      userId,
       createdAt: new Date()
     }
-    const todoListBuilded = todoListFactory(todoList)
+    const todoListBuilded = todoListFactory(todoList, userId)
     assert.deepEqual(todoListBuilded, expectedTodoList)
   })
   it('should create a todo list with todos', () => {
     const todoItem = todoFixture()
+    const userId = 'thisisuserid'
     const todoList: Required<ITodoList> = {
       name: 'todoListSample',
       todos: [todoItem]
@@ -48,19 +53,21 @@ describe('Todo list factory testing', () => {
 
     const expectedTodoList: ITodoListBeforeInsert = {
       ...todoList,
+      userId,
       createdAt: new Date()
     }
-    const todoListBuilded = todoListFactory(todoList)
+    const todoListBuilded = todoListFactory(todoList, userId)
     assert.deepEqual(todoListBuilded, expectedTodoList)
   })
   it('should create a todo list with todos', () => {
     const todoItem = todoFixture()
+    const userId = 'thisisuserid'
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const todoList = {
       todos: [todoItem]
     } as ITodoList
 
-    const todoListBuilded = todoListFactory(todoList) as Error
+    const todoListBuilded = todoListFactory(todoList, userId) as Error
     assert.instanceOf(todoListBuilded, Error)
     assert.strictEqual(todoListBuilded.message, 'Error on create todo list instance: name is a required field')
   })
