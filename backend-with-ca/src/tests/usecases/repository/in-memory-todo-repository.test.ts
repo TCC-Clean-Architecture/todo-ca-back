@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { type ITodo } from '../../../usecases/create-new-todo/interfaces/todo'
 import { InMemoryTodoRepository } from '../../../usecases/create-new-todo/repository/in-memory-todo-repository'
 
-describe.only('In memory todo repository testing', () => {
+describe('In memory todo repository testing', () => {
   it('should create a new todo on repository', async () => {
     const todo: ITodo = {
       name: 'thisisname',
