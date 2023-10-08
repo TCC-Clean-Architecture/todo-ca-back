@@ -1,4 +1,4 @@
-import { type ITodo } from '../interfaces/todo'
+import { type ITodo } from '../../../entities/interfaces/todo'
 import { type ITodoInserted } from '../interfaces/todo-inserted'
 
 export interface ITodoRepository {

@@ -1,5 +1,5 @@
 import { type Either, right, left } from '../../shared/either'
-import { type ITodo } from './interfaces/todo'
+import { type ITodo } from '../../entities/interfaces/todo'
 import { type ITodoInserted } from './interfaces/todo-inserted'
 import { type ITodoRepository } from './ports/todo-repository'
 

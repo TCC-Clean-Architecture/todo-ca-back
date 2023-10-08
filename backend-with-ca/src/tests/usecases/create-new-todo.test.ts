@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { CreateNewTodoUseCase } from '../../usecases/create-new-todo/create-new-todo'
-import { type ITodo } from '../../usecases/create-new-todo/interfaces/todo'
+import { type ITodo } from '../../entities/interfaces/todo'
 import { InMemoryTodoRepository } from '../../usecases/create-new-todo/repository/in-memory-todo-repository'
 
 describe('Create new todo', () => {

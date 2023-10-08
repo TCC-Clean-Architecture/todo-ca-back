@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { type ITodo } from '../../../usecases/create-new-todo/interfaces/todo'
+import { type ITodo } from '../../../entities/interfaces/todo'
 import { InMemoryTodoRepository } from '../../../usecases/create-new-todo/repository/in-memory-todo-repository'
 
 describe('In memory todo repository testing', () => {
