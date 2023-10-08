@@ -5,7 +5,7 @@ import { type ITodo } from '../../usecases/create-new-todo/interfaces/todo'
 import { InMemoryTodoRepository } from '../../usecases/create-new-todo/repository/in-memory-todo-repository'
 
 describe('Create new todo', () => {
-  it.only('should create a new todo', async () => {
+  it('should create a new todo', async () => {
     const todo: ITodo = {
       name: 'thisistodo',
       description: 'thisisdescription',
