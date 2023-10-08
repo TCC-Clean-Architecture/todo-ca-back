@@ -12,7 +12,9 @@
     },
     "author": "",
     "license": "ISC",
-    "dependencies": {},
+    "dependencies": {
+        "cross-env": "^7.0.3"
+    },
     "devDependencies": {
         "@faker-js/faker": "^8.0.2",
         "@types/bcrypt": "^5.0.0",
