@@ -14,8 +14,8 @@ describe('Entity todo description testing', () => {
     })
 
     it('should return an error when todo description validation is false', () => {
-      const todoName = 'a'
-      const todoInstance = TodoDescription.create(todoName)
+      const todoDescription = 'a'
+      const todoInstance = TodoDescription.create(todoDescription)
       expect(todoInstance.isLeft()).to.equal(true)
       expect(todoInstance.value).to.be.instanceOf(InvalidTodoDescriptionError)
     })
