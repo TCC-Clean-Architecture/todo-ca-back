@@ -2,10 +2,10 @@ import { type Either, right, left } from '../../shared/either'
 import { type ITodo } from '../../entities/interfaces/todo'
 import { type ITodoInserted } from './interfaces/todo-inserted'
 import { type ITodoRepository } from './ports/todo-repository'
-import { Todo } from '../../entities/todo'
 import { type InvalidTodoNameError } from '../../entities/errors/invalid-name-error'
 import { type InvalidTodoStatusError } from '../../entities/errors/invalid-status-error'
 import { type InvalidTodoDescriptionError } from '../../entities/errors/invalid-description-error'
+import { Todo } from '../../entities/todo'
 import { TodoNotFoundError } from '../errors/todo-not-found-error'
 
 type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError
