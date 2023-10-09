@@ -1,4 +1,4 @@
-import { type ITodo } from '../../../entities/interfaces/todo'
+import { type ICompleteTodo } from '../../../entities/interfaces/todo'
 import { type ITodoWithId } from '../../create-new-todo/interfaces/todo-inserted'
 import { type ITodoRepository } from '../ports/todo-repository'
 
@@ -8,12 +8,11 @@ class InMemoryTodoRepository implements ITodoRepository {
     this.repository = initialValue
   }
 
-  async create (todo: ITodo): Promise<string> {
+  async create (todo: ICompleteTodo): Promise<string> {
     const id = 'test'
     this.repository.push({
       id,
-      ...todo,
-      createdAt: new Date()
+      ...todo
     })
     return id
   }

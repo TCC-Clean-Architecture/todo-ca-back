@@ -1,7 +1,7 @@
-import { type ITodo } from '../../../entities/interfaces/todo'
-import { type ITodoInserted } from '../../create-new-todo/interfaces/todo-inserted'
+import { type ICompleteTodo } from '../../../entities/interfaces/todo'
+import { type ITodoWithId } from '../../create-new-todo/interfaces/todo-inserted'
 
 export interface ITodoRepository {
-  create: (todo: ITodo) => Promise<string>
-  findById: (todoId: string) => Promise<ITodoInserted | null>
+  create: (todo: ICompleteTodo) => Promise<string>
+  findById: (todoId: string) => Promise<ITodoWithId | null>
 }
