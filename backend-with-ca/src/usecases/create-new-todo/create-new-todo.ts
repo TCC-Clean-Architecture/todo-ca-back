@@ -21,11 +21,11 @@ class CreateNewTodoUseCase {
       return left(todoInstance.value)
     }
     const createdId = await this.todoRepository.create(todoInstance.value)
-    const result = await this.todoRepository.findById(createdId)
-    if (!createdId || !result) {
+    const todoCreated = await this.todoRepository.findById(createdId)
+    if (!todoCreated) {
       return left(null)
     }
-    return right(result)
+    return right(todoCreated)
   }
 }
 
