@@ -6,7 +6,7 @@ import { type InvalidTodoNameError } from '../../entities/errors/invalid-name-er
 import { type InvalidTodoStatusError } from '../../entities/errors/invalid-status-error'
 import { type InvalidTodoDescriptionError } from '../../entities/errors/invalid-description-error'
 import { Todo } from '../../entities/todo'
-import { TodoNotFoundError } from '../errors/todo-not-found-error'
+import { TodoNotFoundError } from './errors/todo-not-found-error'
 
 type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError
 
