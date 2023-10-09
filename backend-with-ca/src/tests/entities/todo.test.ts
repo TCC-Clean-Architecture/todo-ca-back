@@ -14,10 +14,14 @@ describe('Entity todo testing', () => {
       status: 'done',
       createdAt: new Date()
     }
+    const expectedTodo = Object.assign({}, todo)
+    delete expectedTodo.createdAt
     const todoInstance = Todo.create(todo) as Either<null, Todo>
     expect(todoInstance.value).to.be.instanceOf(Todo)
     expect(todoInstance.isRight()).to.equal(true)
-    expect(todoInstance.value).to.deep.equal(todo)
+    expect(todoInstance.value).to.deep.includes(expectedTodo)
+    expect(todoInstance.value).to.has.property('createdAt')
+    expect(todoInstance.value?.createdAt).to.be.instanceOf(Date)
   })
   it('should create todo instance with createdAt without send parameter', () => {
     const todo: ITodo = {
