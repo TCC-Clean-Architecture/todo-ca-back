@@ -7,13 +7,15 @@ import { type InvalidTodoNameError } from '../../entities/errors/invalid-name-er
 import { type InvalidTodoStatusError } from '../../entities/errors/invalid-status-error'
 import { type InvalidTodoDescriptionError } from '../../entities/errors/invalid-description-error'
 
+type ErrorTypes = null | InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError
+
 class CreateNewTodoUseCase {
   private readonly todoRepository: ITodoRepository
   constructor (todoRepository: ITodoRepository) {
     this.todoRepository = todoRepository
   }
 
-  public async execute (todo: ITodo): Promise<Either<null | InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError, ITodoInserted>> {
+  public async execute (todo: ITodo): Promise<Either<ErrorTypes, ITodoInserted>> {
     const todoInstance = Todo.create(todo)
     if (todoInstance.isLeft()) {
       return left(todoInstance.value)
