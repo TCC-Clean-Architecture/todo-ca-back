@@ -1,4 +1,5 @@
 import { type Either, right, left } from '../../shared/either'
+import { type IUseCase } from '../shared/ports/use-case'
 import { type ITodo } from '../../entities/interfaces/todo'
 import { type ITodoInserted } from './interfaces/todo-inserted'
 import { type ITodoRepository } from './ports/todo-repository'
@@ -10,7 +11,7 @@ import { TodoNotFoundError } from './errors/todo-not-found-error'
 
 type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError
 
-class CreateNewTodoUseCase {
+class CreateNewTodoUseCase implements IUseCase {
   private readonly todoRepository: ITodoRepository
   constructor (todoRepository: ITodoRepository) {
     this.todoRepository = todoRepository
