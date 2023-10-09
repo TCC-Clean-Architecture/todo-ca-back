@@ -1,6 +1,6 @@
 import { left, type Either, right } from '../../shared/either'
 import { TodoNotFoundError } from '../create-new-todo/errors/todo-not-found-error'
-import { type ITodoWithId } from '../create-new-todo/interfaces/todo-inserted'
+import { type ITodoWithId } from '../../entities/interfaces/todo'
 import { type ITodoRepository } from '../shared/ports/todo-repository'
 import { type IUseCase } from '../shared/ports/use-case'
 

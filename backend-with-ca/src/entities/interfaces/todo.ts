@@ -19,6 +19,10 @@ interface ICompleteTodo extends Required<ITodo> {
 
 }
 
+export interface ITodoWithId extends ICompleteTodo {
+  id: string
+}
+
 export {
   availableStatus,
   type ITodo,

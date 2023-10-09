@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { FindTodoByIdUseCase } from '../../usecases/find-todo-by-id/find-todo-by-id'
 import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
-import { type ITodoWithId } from '../../usecases/create-new-todo/interfaces/todo-inserted'
+import { type ITodoWithId } from '../../entities/interfaces/todo'
 import { TodoNotFoundError } from '../../usecases/create-new-todo/errors/todo-not-found-error'
 
 describe('Find todo by id', () => {
