@@ -11,12 +11,26 @@ describe('Entity todo testing', () => {
     const todo: ITodo = {
       name: 'thisisname',
       description: 'thisisdescription',
-      status: 'done'
+      status: 'done',
+      createdAt: new Date()
     }
     const todoInstance = Todo.create(todo) as Either<null, Todo>
     expect(todoInstance.value).to.be.instanceOf(Todo)
     expect(todoInstance.isRight()).to.equal(true)
     expect(todoInstance.value).to.deep.equal(todo)
+  })
+  it('should create todo instance with createdAt without send parameter', () => {
+    const todo: ITodo = {
+      name: 'thisisname',
+      description: 'thisisdescription',
+      status: 'done'
+    }
+    const todoInstance = Todo.create(todo) as Either<null, Todo>
+    expect(todoInstance.value).to.be.instanceOf(Todo)
+    expect(todoInstance.isRight()).to.equal(true)
+    expect(todoInstance.value).to.deep.include(todo)
+    expect(todoInstance.value).to.has.property('createdAt')
+    expect(todoInstance.value?.createdAt).to.be.instanceOf(Date)
   })
   it('should return an error for status that not satisfies enum', () => {
     const todo: ITodo = {
