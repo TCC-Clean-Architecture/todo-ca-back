@@ -15,7 +15,12 @@ interface ITodo {
   createdAt?: Date
 }
 
+interface ICompleteTodo extends Required<ITodo> {
+
+}
+
 export {
   availableStatus,
-  type ITodo
+  type ITodo,
+  type ICompleteTodo
 }

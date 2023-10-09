@@ -1,6 +1,5 @@
-import { type ITodo } from '../../../entities/interfaces/todo'
+import { type ICompleteTodo } from '../../../entities/interfaces/todo'
 
-export interface ITodoInserted extends ITodo {
+export interface ITodoWithId extends ICompleteTodo {
   id: string
-  createdAt: Date
 }

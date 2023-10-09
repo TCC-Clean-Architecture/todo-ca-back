@@ -1,7 +1,7 @@
 import { type Either, right, left } from '../../shared/either'
 import { type IUseCase } from '../shared/ports/use-case'
 import { type ITodo } from '../../entities/interfaces/todo'
-import { type ITodoInserted } from './interfaces/todo-inserted'
+import { type ITodoWithId } from './interfaces/todo-inserted'
 import { type ITodoRepository } from '../shared/ports/todo-repository'
 import { type InvalidTodoNameError } from '../../entities/errors/invalid-name-error'
 import { type InvalidTodoStatusError } from '../../entities/errors/invalid-status-error'
@@ -17,7 +17,7 @@ class CreateNewTodoUseCase implements IUseCase {
     this.todoRepository = todoRepository
   }
 
-  public async execute (todo: ITodo): Promise<Either<ErrorTypes, ITodoInserted>> {
+  public async execute (todo: ITodo): Promise<Either<ErrorTypes, ITodoWithId>> {
     const todoInstance = Todo.create(todo)
     if (todoInstance.isLeft()) {
       return left(todoInstance.value)
