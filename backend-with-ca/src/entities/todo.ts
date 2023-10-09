@@ -11,11 +11,13 @@ class Todo {
   public readonly name: string
   public readonly description: string
   public readonly status: AvailableStatus
+  public readonly createdAt: Date
 
-  constructor (name: TodoName, description: TodoDescription, status: TodoStatus) {
+  constructor (name: TodoName, description: TodoDescription, status: TodoStatus, createdAt?: Date) {
     this.name = name.value
     this.description = description.value
     this.status = status.value
+    this.createdAt = createdAt ?? new Date()
   }
 
   static create (value: ITodo): Either<InvalidTodoStatusError | InvalidTodoNameError | InvalidTodoDescriptionError, Todo> {
