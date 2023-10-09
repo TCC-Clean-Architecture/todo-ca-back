@@ -2,7 +2,7 @@ import { type Either, right, left } from '../shared/either'
 import { type InvalidTodoDescriptionError } from './errors/invalid-description-error'
 import { type InvalidTodoNameError } from './errors/invalid-name-error'
 import { type InvalidTodoStatusError } from './errors/invalid-status-error'
-import { type ITodo } from './interfaces/todo'
+import { type AvailableStatus, type ITodo } from './interfaces/todo'
 import { TodoDescription } from './todo-description'
 import { TodoName } from './todo-name'
 import { TodoStatus } from './todo-status'
@@ -10,7 +10,7 @@ import { TodoStatus } from './todo-status'
 class Todo {
   public readonly name: string
   public readonly description: string
-  public readonly status: string
+  public readonly status: AvailableStatus
 
   constructor (name: TodoName, description: TodoDescription, status: TodoStatus) {
     this.name = name.value
