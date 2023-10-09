@@ -4,7 +4,7 @@ enum AvailableStatusEnum {
   done
 }
 
-type AvailableStatus = keyof typeof AvailableStatusEnum
+export type AvailableStatus = keyof typeof AvailableStatusEnum
 
 const availableStatus = Object.values(AvailableStatusEnum)
 
