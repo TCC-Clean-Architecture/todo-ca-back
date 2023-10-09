@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { type ITodo } from '../../../entities/interfaces/todo'
-import { InMemoryTodoRepository } from '../../../usecases/create-new-todo/repository/in-memory-todo-repository'
+import { InMemoryTodoRepository } from '../../../usecases/shared/repository/in-memory-todo-repository'
 
 describe('In memory todo repository testing', () => {
   describe('Create method testing', () => {

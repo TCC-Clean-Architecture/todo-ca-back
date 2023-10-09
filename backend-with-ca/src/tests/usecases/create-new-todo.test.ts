@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import { CreateNewTodoUseCase } from '../../usecases/create-new-todo/create-new-todo'
 import { type ITodo } from '../../entities/interfaces/todo'
-import { InMemoryTodoRepository } from '../../usecases/create-new-todo/repository/in-memory-todo-repository'
+import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
 import { InvalidTodoNameError } from '../../entities/errors/invalid-name-error'
 import { type ITodoRepository } from '../../usecases/create-new-todo/ports/todo-repository'
 import { TodoNotFoundError } from '../../usecases/create-new-todo/errors/todo-not-found-error'

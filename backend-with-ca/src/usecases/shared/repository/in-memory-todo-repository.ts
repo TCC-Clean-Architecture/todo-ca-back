@@ -1,6 +1,6 @@
 import { type ITodo } from '../../../entities/interfaces/todo'
-import { type ITodoInserted } from '../interfaces/todo-inserted'
-import { type ITodoRepository } from '../ports/todo-repository'
+import { type ITodoInserted } from '../../create-new-todo/interfaces/todo-inserted'
+import { type ITodoRepository } from '../../create-new-todo/ports/todo-repository'
 
 class InMemoryTodoRepository implements ITodoRepository {
   public readonly repository: ITodoInserted[]
