@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import { type ICompleteTodo, type ITodoWithId } from '../../../entities/interfaces/todo'
 import { type ITodoRepository } from '../ports/todo-repository'
 
@@ -8,7 +9,7 @@ class InMemoryTodoRepository implements ITodoRepository {
   }
 
   async create (todo: ICompleteTodo): Promise<string> {
-    const id = 'test'
+    const id = crypto.randomUUID()
     this.repository.push({
       id,
       ...todo
