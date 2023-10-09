@@ -1,7 +1,7 @@
 import { left, type Either, right } from '../../shared/either'
 import { TodoNotFoundError } from '../create-new-todo/errors/todo-not-found-error'
 import { type ITodoInserted } from '../create-new-todo/interfaces/todo-inserted'
-import { type ITodoRepository } from '../create-new-todo/ports/todo-repository'
+import { type ITodoRepository } from '../shared/ports/todo-repository'
 import { type IUseCase } from '../shared/ports/use-case'
 
 class FindTodoByIdUseCase implements IUseCase {
