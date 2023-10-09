@@ -5,7 +5,7 @@ import { type ITodoRepository } from '../ports/todo-repository'
 class InMemoryTodoRepository implements ITodoRepository {
   public readonly repository: ITodoInserted[]
   constructor (initialValue: ITodoInserted[]) {
-    this.repository = initialValue || []
+    this.repository = initialValue
   }
 
   async create (todo: ITodo): Promise<string> {
