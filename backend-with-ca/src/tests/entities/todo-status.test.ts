@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import { InvalidTodoStatusError } from '../../entities/errors/invalid-status-error'
 import { type Either } from '../../shared/either'
 import { TodoStatus } from '../../entities/todo-status'
+import { type AvailableStatus } from '../../entities/interfaces/todo'
 
 describe('Entity todo status testing', () => {
   describe('Todo status entity create method testing', () => {
@@ -14,7 +15,7 @@ describe('Entity todo status testing', () => {
     })
 
     it('should return an error when todo status validation is false', () => {
-      const todoStatus = 'banana'
+      const todoStatus = 'banana' as AvailableStatus
       const todoInstance = TodoStatus.create(todoStatus)
       expect(todoInstance.isLeft()).to.equal(true)
       expect(todoInstance.value).to.be.instanceOf(InvalidTodoStatusError)

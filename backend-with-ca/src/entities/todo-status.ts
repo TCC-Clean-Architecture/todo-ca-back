@@ -1,14 +1,14 @@
 import { type Either, left, right } from '../shared/either'
 import { InvalidTodoStatusError } from './errors/invalid-status-error'
-import { availableStatus } from './interfaces/todo'
+import { availableStatus, type AvailableStatus } from './interfaces/todo'
 
 class TodoStatus {
-  public readonly value: string
-  constructor (value: string) {
+  public readonly value: AvailableStatus
+  constructor (value: AvailableStatus) {
     this.value = value
   }
 
-  public static create (todoStatus: string): Either<InvalidTodoStatusError, TodoStatus> {
+  public static create (todoStatus: AvailableStatus): Either<InvalidTodoStatusError, TodoStatus> {
     if (!TodoStatus.validate(todoStatus)) {
       return left(new InvalidTodoStatusError(todoStatus))
     }
