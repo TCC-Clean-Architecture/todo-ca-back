@@ -37,7 +37,7 @@ describe('In memory todo repository testing', () => {
     })
   })
   describe('Find all method testing', () => {
-    it('should all todos', async () => {
+    it('should list all todos', async () => {
       const todo: ITodoWithId = {
         id: 'thisisid',
         name: 'thisisname',
@@ -53,6 +53,22 @@ describe('In memory todo repository testing', () => {
       const repository = new InMemoryTodoRepository([])
       const result = await repository.findAll()
       expect(result).to.deep.equal([])
+    })
+  })
+  describe('Delete method testing', () => {
+    it('should delete one todo', async () => {
+      const todo: ITodoWithId = {
+        id: 'thisisid',
+        name: 'thisisname',
+        description: 'thisisdescription',
+        status: 'todo',
+        createdAt: new Date()
+      }
+      const repository = new InMemoryTodoRepository([todo])
+      const result = await repository.delete(todo.id)
+      expect(result).to.equal(todo.id)
+      const validateId = await repository.findAll()
+      expect(validateId).to.deep.equal([])
     })
   })
 })
