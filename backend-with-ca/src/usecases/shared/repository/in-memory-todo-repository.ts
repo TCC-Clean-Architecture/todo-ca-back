@@ -3,7 +3,7 @@ import { type ICompleteTodo, type ITodoWithId } from '../../../entities/interfac
 import { type ITodoRepository } from '../ports/todo-repository'
 
 class InMemoryTodoRepository implements ITodoRepository {
-  public readonly repository: ITodoWithId[]
+  public repository: ITodoWithId[]
   constructor (initialValue: ITodoWithId[]) {
     this.repository = initialValue
   }
@@ -24,6 +24,12 @@ class InMemoryTodoRepository implements ITodoRepository {
 
   async findAll (): Promise<ITodoWithId[]> {
     return this.repository
+  }
+
+  async delete (todoId: string): Promise<string> {
+    const filteredRepository = this.repository.filter(todo => todo.id !== todoId)
+    this.repository = filteredRepository
+    return todoId
   }
 }
 
