@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { type ICompleteTodo, type ITodoWithId } from '../../../entities/interfaces/todo'
+import { type ITodo, type ICompleteTodo, type ITodoWithId } from '../../../entities/interfaces/todo'
 import { type ITodoRepository } from '../ports/todo-repository'
 
 class InMemoryTodoRepository implements ITodoRepository {
@@ -30,6 +30,19 @@ class InMemoryTodoRepository implements ITodoRepository {
     const filteredRepository = this.repository.filter(todo => todo.id !== todoId)
     this.repository = filteredRepository
     return todoId
+  }
+
+  async update (todoId: string, content: Partial<ITodo>): Promise<ITodoWithId | null> {
+    const index = this.repository.findIndex(todo => todo.id === todoId)
+    if (index === -1) {
+      return null
+    }
+    const updatedContent = {
+      ...this.repository[index],
+      ...content
+    }
+    this.repository[index] = updatedContent
+    return updatedContent
   }
 }
 
