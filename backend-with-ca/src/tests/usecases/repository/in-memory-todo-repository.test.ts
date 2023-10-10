@@ -71,7 +71,7 @@ describe('In memory todo repository testing', () => {
       expect(validateId).to.deep.equal([])
     })
   })
-  describe.only('Update method testing', () => {
+  describe('Update method testing', () => {
     it('should delete one todo', async () => {
       const todo: ITodoWithId = {
         id: 'thisisid',
