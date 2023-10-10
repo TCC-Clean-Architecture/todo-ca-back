@@ -21,6 +21,10 @@ class InMemoryTodoRepository implements ITodoRepository {
     const todo = this.repository.find(item => item.id === todoId)
     return todo ?? null
   }
+
+  async findAll (): Promise<ITodoWithId[]> {
+    return this.repository
+  }
 }
 
 export { InMemoryTodoRepository }
