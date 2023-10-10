@@ -4,4 +4,5 @@ export interface ITodoRepository {
   create: (todo: ICompleteTodo) => Promise<string>
   findById: (todoId: string) => Promise<ITodoWithId | null>
   findAll: () => Promise<ITodoWithId[]>
+  delete: () => Promise<string>
 }
