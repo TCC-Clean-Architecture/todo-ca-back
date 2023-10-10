@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { type ICompleteTodo } from '../../../entities/interfaces/todo'
+import { type ITodoWithId, type ICompleteTodo } from '../../../entities/interfaces/todo'
 import { InMemoryTodoRepository } from '../../../usecases/shared/repository/in-memory-todo-repository'
 
 describe('In memory todo repository testing', () => {
@@ -34,6 +34,25 @@ describe('In memory todo repository testing', () => {
       await repository.create(todo)
       const result = await repository.findById('notexistingid')
       expect(result).to.equal(null)
+    })
+  })
+  describe('Find all method testing', () => {
+    it('should all todos', async () => {
+      const todo: ITodoWithId = {
+        id: 'thisisid',
+        name: 'thisisname',
+        description: 'thisisdescription',
+        status: 'todo',
+        createdAt: new Date()
+      }
+      const repository = new InMemoryTodoRepository([todo])
+      const result = await repository.findAll()
+      expect(result).to.deep.equal([todo])
+    })
+    it('should return empty result', async () => {
+      const repository = new InMemoryTodoRepository([])
+      const result = await repository.findAll()
+      expect(result).to.deep.equal([])
     })
   })
 })
