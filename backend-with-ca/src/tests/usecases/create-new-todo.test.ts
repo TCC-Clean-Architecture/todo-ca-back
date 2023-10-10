@@ -38,10 +38,10 @@ describe('Create new todo', () => {
       description: 'thisisdescription',
       status: 'todo'
     }
-    const todoRepositoryMock: ITodoRepository = {
+    const todoRepositoryMock = {
       create: async () => 'abc',
       findById: async () => null
-    }
+    } as unknown as ITodoRepository
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepositoryMock)
     const result = await createNewTodoUseCase.execute(todo)
     expect(result.isLeft()).to.equal(true)
