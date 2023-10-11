@@ -1,6 +1,6 @@
 type HttpResponseType = 'success' | 'error'
 
-export interface IHttpResponseBody<T> {
+export interface IHttpResponseBody<T = object> {
   statusCode: number
   type: HttpResponseType
   message: string
@@ -8,7 +8,7 @@ export interface IHttpResponseBody<T> {
   content: T
 }
 
-export interface IHttpResponse<T> {
+export interface IHttpResponse<T = object> {
   statusCode: number
   body: IHttpResponseBody<T>
 }
