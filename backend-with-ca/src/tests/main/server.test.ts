@@ -1,8 +1,8 @@
 import request from 'supertest'
-import app from '../../main/server'
+import app from '../../main/configs/express'
 import { expect } from 'chai'
 
-describe.only('Health check routes testing', () => {
+describe('Health check routes testing', () => {
   it('should execute health-check route successfully', async () => {
     const response = await request(app).get('/health')
     expect(response.statusCode).to.equal(200)
