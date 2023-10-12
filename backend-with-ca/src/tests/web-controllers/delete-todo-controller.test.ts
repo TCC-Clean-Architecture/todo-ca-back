@@ -7,7 +7,7 @@ import { DeleteTodoUseCase } from '../../usecases/delete-todo/delete-todo'
 import { DeleteTodoController } from '../../web-controllers/delete-todo-controller'
 
 describe('DeleteTodoController implementation testing', () => {
-  it('should find an specific todo by id and return success', async () => {
+  it('should delete an specific todo by id and return success', async () => {
     const fakeTodo = todoFixture()
     const todoRepository = new InMemoryTodoRepository([fakeTodo])
     const deleteTodoUseCase = new DeleteTodoUseCase(todoRepository)
@@ -26,7 +26,7 @@ describe('DeleteTodoController implementation testing', () => {
       id: fakeTodo.id
     })
   })
-  it('should not find todo and return error', async () => {
+  it('should not find todo and return error on attempt to delete', async () => {
     const todoRepository = new InMemoryTodoRepository([])
     const deleteTodoUseCase = new DeleteTodoUseCase(todoRepository)
     const controllerInstance = new DeleteTodoController(deleteTodoUseCase)
