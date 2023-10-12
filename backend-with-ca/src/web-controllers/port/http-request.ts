@@ -1,4 +1,3 @@
-export interface IHttpRequest<T = object, U = object> {
-  body?: T
-  params?: U
+export interface IHttpRequestWithBody<T = object> {
+  body: T
 }
