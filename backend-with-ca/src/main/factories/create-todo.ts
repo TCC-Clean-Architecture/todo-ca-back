@@ -4,9 +4,9 @@ import { CreateTodoController } from '../../web-controllers/create-todo-controll
 
 const makeCreateTodoController = (): CreateTodoController => {
   const todoRepository = new InMemoryTodoRepository([])
-  const createTodoUseCase = new CreateNewTodoUseCase(todoRepository)
-  const createTodoController = new CreateTodoController(createTodoUseCase)
-  return createTodoController
+  const useCase = new CreateNewTodoUseCase(todoRepository)
+  const controller = new CreateTodoController(useCase)
+  return controller
 }
 
 export { makeCreateTodoController }
