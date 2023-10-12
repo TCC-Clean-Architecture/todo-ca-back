@@ -1,4 +1,6 @@
 import express from 'express'
+import { makeCreateTodoController } from './factories/create-todo'
+import { expressRouteAdapter } from './adapters/express-route-adapter'
 
 const app = express()
 
@@ -11,5 +13,6 @@ app.get('/health', (req, res) => {
   }
   return res.json(healthcheck)
 })
+app.post('/todos', expressRouteAdapter(makeCreateTodoController()))
 
 export default app
