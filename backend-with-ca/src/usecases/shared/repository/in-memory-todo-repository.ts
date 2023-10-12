@@ -32,7 +32,7 @@ class InMemoryTodoRepository implements ITodoRepository {
     return todoId
   }
 
-  async update (todoId: string, content: Partial<ITodo>): Promise<ITodoWithId | null> {
+  async update (todoId: string, content: Partial<ITodo>): Promise<string | null> {
     const index = this.repository.findIndex(todo => todo.id === todoId)
     if (index === -1) {
       return null
@@ -42,7 +42,7 @@ class InMemoryTodoRepository implements ITodoRepository {
       ...content
     }
     this.repository[index] = updatedContent
-    return updatedContent
+    return todoId
   }
 }
 

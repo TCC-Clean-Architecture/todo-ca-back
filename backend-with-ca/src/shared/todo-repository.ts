@@ -5,5 +5,5 @@ export interface ITodoRepository {
   findById: (todoId: string) => Promise<ITodoWithId | null>
   findAll: () => Promise<ITodoWithId[]>
   delete: (todoId: string) => Promise<string>
-  update: (todoId: string, content: Partial<ITodo>) => Promise<ITodoWithId | null>
+  update: (todoId: string, content: Partial<ITodo>) => Promise<string | null>
 }

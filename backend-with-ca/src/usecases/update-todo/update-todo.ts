@@ -11,10 +11,11 @@ class UpdateTodoUseCase implements IUseCase {
   }
 
   public async execute (todoId: string, content: Partial<ITodo>): Promise<Either<TodoNotFoundError, ITodoWithId>> {
-    const result = await this.todoRepository.update(todoId, content)
-    if (!result) {
+    const updateResult = await this.todoRepository.update(todoId, content)
+    if (!updateResult) {
       return left(new TodoNotFoundError(todoId))
     }
+    const result = await this.todoRepository.findById(todoId) as ITodoWithId
     return right(result)
   }
 }
