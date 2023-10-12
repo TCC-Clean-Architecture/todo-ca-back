@@ -14,25 +14,19 @@ class CreateTodoController implements Controller {
     const response = await this.useCase.execute(request.body)
     if (response.isLeft()) {
       return {
+        description: 'Error on create todo',
         statusCode: 400,
-        body: {
-          description: 'Error on create todo',
-          statusCode: 400,
-          message: 'Bad Request',
-          type: 'error',
-          content: response.value
-        }
+        message: 'Bad Request',
+        type: 'error',
+        content: response.value
       }
     }
     return {
+      description: 'Todo created successfully',
       statusCode: 200,
-      body: {
-        description: 'Todo created successfully',
-        statusCode: 200,
-        message: 'OK',
-        type: 'success',
-        content: response.value
-      }
+      message: 'OK',
+      type: 'success',
+      content: response.value
     }
   }
 }

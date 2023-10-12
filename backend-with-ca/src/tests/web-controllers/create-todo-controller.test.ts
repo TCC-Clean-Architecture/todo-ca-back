@@ -5,7 +5,7 @@ import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memo
 import { CreateTodoController } from '../../web-controllers/create-todo-controller'
 import { type IHttpRequestWithBody } from '../../web-controllers/port/http-request'
 
-describe.only('CreateTodoController implementation testing', () => {
+describe('CreateTodoController implementation testing', () => {
   it('should create an instance of create todo controller and return success', async () => {
     const todoRepository = new InMemoryTodoRepository([])
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
@@ -23,12 +23,11 @@ describe.only('CreateTodoController implementation testing', () => {
       status: 'inprogress'
     }
     const response = await controllerInstance.handler(request)
+    expect(response.description).to.equal('Todo created successfully')
     expect(response.statusCode).to.equal(200)
-    expect(response.body.description).to.equal('Todo created successfully')
-    expect(response.body.statusCode).to.equal(200)
-    expect(response.body.message).to.equal('OK')
-    expect(response.body.type).to.equal('success')
-    expect(response.body.content).to.deep.include(expectedTodo)
+    expect(response.message).to.equal('OK')
+    expect(response.type).to.equal('success')
+    expect(response.content).to.deep.include(expectedTodo)
   })
   it('should create an instance of create todo controller and return error', async () => {
     const todoRepository = new InMemoryTodoRepository([])
@@ -43,11 +42,10 @@ describe.only('CreateTodoController implementation testing', () => {
     }
     const expectedContent = {}
     const response = await controllerInstance.handler(request)
+    expect(response.description).to.equal('Error on create todo')
     expect(response.statusCode).to.equal(400)
-    expect(response.body.description).to.equal('Error on create todo')
-    expect(response.body.statusCode).to.equal(400)
-    expect(response.body.message).to.equal('Bad Request')
-    expect(response.body.type).to.equal('error')
-    expect(response.body.content).to.deep.include(expectedContent)
+    expect(response.message).to.equal('Bad Request')
+    expect(response.type).to.equal('error')
+    expect(response.content).to.deep.include(expectedContent)
   })
 })
