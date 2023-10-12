@@ -20,7 +20,7 @@ function getCollection (collectionName: string): Collection<Document> {
 }
 
 async function clearCollection (collectionName: string): Promise<void> {
-  await client.db().collection(collectionName).deleteMany()
+  await client.db('2do4u').collection(collectionName).deleteMany()
 }
 
 export {
