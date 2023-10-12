@@ -1,7 +1,7 @@
 import { type Either, right, left } from '../../shared/either'
 import { type IUseCase } from '../shared/ports/use-case'
 import { type ITodo, type ITodoWithId } from '../../entities/interfaces/todo'
-import { type ITodoRepository } from '../shared/ports/todo-repository'
+import { type ITodoRepository } from '../../shared/todo-repository'
 import { type InvalidTodoNameError } from '../../entities/errors/invalid-name-error'
 import { type InvalidTodoStatusError } from '../../entities/errors/invalid-status-error'
 import { type InvalidTodoDescriptionError } from '../../entities/errors/invalid-description-error'

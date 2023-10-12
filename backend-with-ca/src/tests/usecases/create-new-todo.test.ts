@@ -4,7 +4,7 @@ import { CreateNewTodoUseCase } from '../../usecases/create-new-todo/create-new-
 import { type ITodo } from '../../entities/interfaces/todo'
 import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
 import { InvalidTodoNameError } from '../../entities/errors/invalid-name-error'
-import { type ITodoRepository } from '../../usecases/shared/ports/todo-repository'
+import { type ITodoRepository } from '../../shared/todo-repository'
 import { TodoNotFoundError } from '../../usecases/create-new-todo/errors/todo-not-found-error'
 
 describe('Create new todo', () => {
