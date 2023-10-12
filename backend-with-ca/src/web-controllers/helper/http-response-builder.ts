@@ -1,11 +1,11 @@
 import { type IHttpResponse } from '../port/http-response'
 
-interface IHttpResponsePayload {
+interface IHttpResponsePayload<T = object> {
   description: string
-  content: object
+  content: T
 }
 
-const ok = ({ description, content }: IHttpResponsePayload): IHttpResponse => ({
+const ok = <T = object>({ description, content }: IHttpResponsePayload<T>): IHttpResponse<T> => ({
   statusCode: 200,
   message: 'OK',
   type: 'success',
@@ -13,7 +13,7 @@ const ok = ({ description, content }: IHttpResponsePayload): IHttpResponse => ({
   content
 })
 
-const badRequest = ({ description, content }: IHttpResponsePayload): IHttpResponse => ({
+const badRequest = <T = object>({ description, content }: IHttpResponsePayload<T>): IHttpResponse<T> => ({
   statusCode: 400,
   message: 'Bad Request',
   type: 'error',
