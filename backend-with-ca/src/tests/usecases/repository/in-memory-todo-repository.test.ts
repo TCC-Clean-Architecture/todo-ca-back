@@ -72,7 +72,7 @@ describe('In memory todo repository testing', () => {
     })
   })
   describe('Update method testing', () => {
-    it('should delete one todo', async () => {
+    it('should update one todo', async () => {
       const todo: ITodoWithId = {
         id: 'thisisid',
         name: 'thisisname',
@@ -92,7 +92,7 @@ describe('In memory todo repository testing', () => {
         ...todoUpdate,
         createdAt: todo.createdAt
       }
-      expect(result).to.deep.equal(expectedResult)
+      expect(result).to.equal(todo.id)
       const validateId = await repository.findAll()
       expect(validateId).to.deep.equal([expectedResult])
     })
