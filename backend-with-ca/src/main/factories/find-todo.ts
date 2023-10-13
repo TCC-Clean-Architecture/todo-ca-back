@@ -1,12 +1,12 @@
-import { FindAllTodoUseCase } from '../../usecases/find-all-todos/find-all-todos'
-import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
-import { FindAllTodoController } from '../../web-controllers/find-all-todo-controller'
+import { MongoTodoRepository } from '../../external/repositories/MongoTodoRepository'
+import { FindTodoByIdUseCase } from '../../usecases/find-todo-by-id/find-todo-by-id'
+import { FindSpecificTodoController } from '../../web-controllers/find-specific-todo-controller'
 
-const makeGetTodoController = (): FindAllTodoController => {
-  const todoRepository = new InMemoryTodoRepository([])
-  const useCase = new FindAllTodoUseCase(todoRepository)
-  const controller = new FindAllTodoController(useCase)
+const makeFindSpecificTodoController = (): FindSpecificTodoController => {
+  const todoRepository = new MongoTodoRepository()
+  const useCase = new FindTodoByIdUseCase(todoRepository)
+  const controller = new FindSpecificTodoController(useCase)
   return controller
 }
 
-export { makeGetTodoController }
+export { makeFindSpecificTodoController }

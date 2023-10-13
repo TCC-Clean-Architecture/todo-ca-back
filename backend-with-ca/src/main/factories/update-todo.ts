@@ -1,9 +1,9 @@
-import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
+import { MongoTodoRepository } from '../../external/repositories/MongoTodoRepository'
 import { UpdateTodoUseCase } from '../../usecases/update-todo/update-todo'
 import { UpdateTodoController } from '../../web-controllers/update-todo-controller'
 
 const makeUpdateTodoController = (): UpdateTodoController => {
-  const todoRepository = new InMemoryTodoRepository([])
+  const todoRepository = new MongoTodoRepository()
   const useCase = new UpdateTodoUseCase(todoRepository)
   const controller = new UpdateTodoController(useCase)
   return controller
