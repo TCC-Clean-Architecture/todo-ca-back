@@ -1,5 +1,5 @@
 import { type Either, left, right } from '../shared/either'
-import { InvalidTodoStatusError } from './errors/invalid-status-error'
+import { InvalidTodoStatusError } from './errors'
 import { availableStatus, type AvailableStatus } from './interfaces/todo'
 
 class TodoStatus {

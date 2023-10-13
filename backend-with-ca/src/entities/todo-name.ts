@@ -1,5 +1,5 @@
 import { type Either, left, right } from '../shared/either'
-import { InvalidTodoNameError } from './errors/invalid-name-error'
+import { InvalidTodoNameError } from './errors'
 
 class TodoName {
   public readonly value: string
