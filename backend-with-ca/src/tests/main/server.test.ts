@@ -46,7 +46,7 @@ describe('Health check routes testing', () => {
       status: 'done'
     }
     const insertedTodoResponse = await request(app).post('/todos').send(todo)
-    const response = await request(app).get(`/todos/${insertedTodoResponse.body.content.id}`)
+    const response = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}`)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content).to.deep.include(todo)
   })
@@ -57,11 +57,11 @@ describe('Health check routes testing', () => {
       status: 'done'
     }
     const insertedTodoResponse = await request(app).post('/todos').send(todo)
-    const insertedId = insertedTodoResponse.body.content.id
+    const insertedId = insertedTodoResponse.body.content._id
     const response = await request(app).delete(`/todos/${insertedId}`)
     expect(response.statusCode).to.equal(200)
-    expect(response.body.content.id).to.equal(insertedId)
-    const exists = await request(app).get(`/todos/${insertedTodoResponse.body.content.id}`)
+    expect(response.body.content._id).to.equal(insertedId)
+    const exists = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}`)
     expect(exists.statusCode).to.equal(400)
   })
   it('should update one todo', async () => {
@@ -76,11 +76,11 @@ describe('Health check routes testing', () => {
       status: 'done'
     }
     const insertedTodoResponse = await request(app).post('/todos').send(todo)
-    const insertedId = insertedTodoResponse.body.content.id
+    const insertedId = insertedTodoResponse.body.content._id
     const response = await request(app).put(`/todos/${insertedId}`).send(todoUpdatePayload)
     expect(response.statusCode).to.equal(200)
-    expect(response.body.content.id).to.equal(insertedId)
-    const verifyUpdate = await request(app).get(`/todos/${insertedTodoResponse.body.content.id}`)
+    expect(response.body.content._id).to.equal(insertedId)
+    const verifyUpdate = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}`)
     expect(verifyUpdate.statusCode).to.equal(200)
     expect(verifyUpdate.body.content).to.deep.include(todoUpdatePayload)
   })

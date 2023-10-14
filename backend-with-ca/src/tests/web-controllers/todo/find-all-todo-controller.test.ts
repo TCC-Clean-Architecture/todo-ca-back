@@ -6,7 +6,7 @@ import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todo
 import { FindAllTodoController } from '@/web-controllers/todo/find-all-todo-controller'
 
 describe('FindAllTodoController implementation testing', () => {
-  it('should find all instances created  and return success', async () => {
+  it('should find all instances created and return success', async () => {
     const fakeTodo = todoFixture()
     const todoRepository = new InMemoryTodoRepository([fakeTodo, fakeTodo])
     const findAllTodosUseCase = new FindAllTodoUseCase(todoRepository)
@@ -16,6 +16,11 @@ describe('FindAllTodoController implementation testing', () => {
     expect(response.statusCode).to.equal(200)
     expect(response.message).to.equal('OK')
     expect(response.type).to.equal('success')
-    expect(response.content).to.deep.equal([fakeTodo, fakeTodo])
+    const { id, ...rest } = fakeTodo
+    const expectedFakeTodo = {
+      _id: id,
+      ...rest
+    }
+    expect(response.content).to.deep.equal([expectedFakeTodo, expectedFakeTodo])
   })
 })

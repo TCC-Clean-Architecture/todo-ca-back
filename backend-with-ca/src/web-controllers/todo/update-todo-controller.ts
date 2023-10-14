@@ -1,6 +1,7 @@
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 import { type UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
 import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { idConverter } from '@/web-controllers/helper/id-property-name-converter'
 import { type Controller } from '@/web-controllers/port/controller'
 import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
 import { type IHttpResponse } from '@/web-controllers/port/http-response'
@@ -25,7 +26,7 @@ class UpdateTodoController implements Controller {
     }
     return ok({
       description: 'Todo updated successfully',
-      content: response.value
+      content: idConverter(response.value)
     })
   }
 }

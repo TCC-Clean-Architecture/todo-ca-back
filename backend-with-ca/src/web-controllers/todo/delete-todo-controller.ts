@@ -1,6 +1,7 @@
 import { type ITodoWithId } from '@/entities/interfaces/todo'
 import { type DeleteTodoUseCase } from '@/usecases/todo/delete-todo/delete-todo'
 import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { idConverter } from '@/web-controllers/helper/id-property-name-converter'
 import { type Controller } from '@/web-controllers/port/controller'
 import { type IHttpRequestWithParams } from '@/web-controllers/port/http-request'
 import { type IHttpResponse } from '@/web-controllers/port/http-response'
@@ -23,9 +24,9 @@ class DeleteTodoController implements Controller {
     }
     return ok({
       description: 'Todo deleted successfully',
-      content: {
+      content: idConverter({
         id: response.value
-      }
+      })
     })
   }
 }

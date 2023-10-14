@@ -23,7 +23,12 @@ describe('FindSpecificTodoController implementation testing', () => {
     expect(response.statusCode).to.equal(200)
     expect(response.message).to.equal('OK')
     expect(response.type).to.equal('success')
-    expect(response.content).to.deep.equal(fakeTodo)
+    const { id, ...rest } = fakeTodo
+    const expectedFakeTodo = {
+      _id: id,
+      ...rest
+    }
+    expect(response.content).to.deep.equal(expectedFakeTodo)
   })
   it('should not find todo and return error', async () => {
     const todoRepository = new InMemoryTodoRepository([])

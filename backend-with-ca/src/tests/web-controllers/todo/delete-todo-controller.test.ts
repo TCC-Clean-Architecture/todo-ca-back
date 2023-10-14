@@ -24,7 +24,7 @@ describe('DeleteTodoController implementation testing', () => {
     expect(response.message).to.equal('OK')
     expect(response.type).to.equal('success')
     expect(response.content).to.deep.equal({
-      id: fakeTodo.id
+      _id: fakeTodo.id
     })
   })
   it('should not find todo and return error on attempt to delete', async () => {

@@ -1,6 +1,7 @@
 import { type ITodoWithId } from '@/entities/interfaces/todo'
 import { type FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
 import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { idConverter } from '@/web-controllers/helper/id-property-name-converter'
 import { type Controller } from '@/web-controllers/port/controller'
 import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
@@ -18,9 +19,9 @@ class FindAllTodoController implements Controller {
         content: {}
       })
     }
-    return ok<ITodoWithId[]>({
+    return ok({
       description: 'Find all todos executed successfully',
-      content: response.value
+      content: response.value.map(item => idConverter(item))
     })
   }
 }
