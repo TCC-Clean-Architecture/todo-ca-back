@@ -24,13 +24,15 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "simple-import-sort"
     ],
     "rules": {
         "no-unexpected-multiline": "off",
         "func-call-spacing": "off",
         "@typescript-eslint/func-call-spacing": "off",
         "@typescript-eslint/no-misused-promises": "off",
-        "@typescript-eslint/strict-boolean-expressions": "off"
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error"
     }
 }
