@@ -3,7 +3,7 @@ import { type ITodo, type ITodoWithId } from '../../entities/interfaces/todo'
 import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
 import { type IHttpRequestWithBodyAndParams } from '../../web-controllers/port/http-request'
 import { todoFixture } from '../helper/fixtures/todo-fixture'
-import { UpdateTodoUseCase } from '../../usecases/update-todo/update-todo'
+import { UpdateTodoUseCase } from '../../usecases/todo/update-todo/update-todo'
 import { UpdateTodoController } from '../../web-controllers/update-todo-controller'
 
 describe('UpdateTodoController implementation testing', () => {

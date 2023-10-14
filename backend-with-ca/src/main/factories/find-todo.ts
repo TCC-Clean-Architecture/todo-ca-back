@@ -1,5 +1,5 @@
 import { MongoTodoRepository } from '../../external/repositories/MongoTodoRepository'
-import { FindTodoByIdUseCase } from '../../usecases/find-todo-by-id/find-todo-by-id'
+import { FindTodoByIdUseCase } from '../../usecases/todo/find-todo-by-id/find-todo-by-id'
 import { FindSpecificTodoController } from '../../web-controllers/find-specific-todo-controller'
 
 const makeFindSpecificTodoController = (): FindSpecificTodoController => {

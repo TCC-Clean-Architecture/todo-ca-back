@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { FindAllTodoUseCase } from '../../usecases/find-all-todos/find-all-todos'
+import { FindAllTodoUseCase } from '../../usecases/todo/find-all-todos/find-all-todos'
 import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
 import { type ITodoWithId } from '../../entities/interfaces/todo'
 

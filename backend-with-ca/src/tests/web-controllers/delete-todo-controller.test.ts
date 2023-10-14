@@ -3,7 +3,7 @@ import { type ITodoWithId } from '../../entities/interfaces/todo'
 import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
 import { type IHttpRequestWithParams } from '../../web-controllers/port/http-request'
 import { todoFixture } from '../helper/fixtures/todo-fixture'
-import { DeleteTodoUseCase } from '../../usecases/delete-todo/delete-todo'
+import { DeleteTodoUseCase } from '../../usecases/todo/delete-todo/delete-todo'
 import { DeleteTodoController } from '../../web-controllers/delete-todo-controller'
 
 describe('DeleteTodoController implementation testing', () => {

@@ -1,5 +1,5 @@
 import { MongoTodoRepository } from '../../external/repositories/MongoTodoRepository'
-import { CreateNewTodoUseCase } from '../../usecases/create-new-todo/create-new-todo'
+import { CreateNewTodoUseCase } from '../../usecases/todo/create-new-todo/create-new-todo'
 import { CreateTodoController } from '../../web-controllers/create-todo-controller'
 
 const makeCreateTodoController = (): CreateTodoController => {

@@ -1,5 +1,5 @@
 import { type ITodoWithId } from '../entities/interfaces/todo'
-import { type FindTodoByIdUseCase } from '../usecases/find-todo-by-id/find-todo-by-id'
+import { type FindTodoByIdUseCase } from '../usecases/todo/find-todo-by-id/find-todo-by-id'
 import { badRequest, ok } from './helper/http-response-builder'
 import { type Controller } from './port/controller'
 import { type IHttpRequestWithParams } from './port/http-request'

@@ -1,5 +1,5 @@
 import { type ITodo, type ITodoWithId } from '../entities/interfaces/todo'
-import { type UpdateTodoUseCase } from '../usecases/update-todo/update-todo'
+import { type UpdateTodoUseCase } from '../usecases/todo/update-todo/update-todo'
 import { badRequest, ok } from './helper/http-response-builder'
 import { type Controller } from './port/controller'
 import { type IHttpRequestWithBodyAndParams } from './port/http-request'

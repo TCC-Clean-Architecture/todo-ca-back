@@ -1,5 +1,5 @@
 import { type ITodoWithId } from '../entities/interfaces/todo'
-import { type DeleteTodoUseCase } from '../usecases/delete-todo/delete-todo'
+import { type DeleteTodoUseCase } from '../usecases/todo/delete-todo/delete-todo'
 import { badRequest, ok } from './helper/http-response-builder'
 import { type Controller } from './port/controller'
 import { type IHttpRequestWithParams } from './port/http-request'

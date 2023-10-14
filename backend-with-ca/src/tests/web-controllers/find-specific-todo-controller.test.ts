@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { type ITodoWithId } from '../../entities/interfaces/todo'
 import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
 import { type IHttpRequestWithParams } from '../../web-controllers/port/http-request'
-import { FindTodoByIdUseCase } from '../../usecases/find-todo-by-id/find-todo-by-id'
+import { FindTodoByIdUseCase } from '../../usecases/todo/find-todo-by-id/find-todo-by-id'
 import { todoFixture } from '../helper/fixtures/todo-fixture'
 import { FindSpecificTodoController } from '../../web-controllers/find-specific-todo-controller'
 
