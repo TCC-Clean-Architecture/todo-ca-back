@@ -12,11 +12,10 @@ class DeleteTodoUseCase implements IUseCase {
 
   public async execute (todoId: string): Promise<Either<TodoNotFoundError | UnexpectedError, string>> {
     try {
-      const todoExists = await this.todoRepository.findById(todoId)
-      if (!todoExists) {
+      const result = await this.todoRepository.delete(todoId)
+      if (!result) {
         return left(new TodoNotFoundError(todoId))
       }
-      const result = await this.todoRepository.delete(todoId)
       return right(result)
     } catch (err) {
       return left(new UnexpectedError('Something went wrong on attempt to delete todo'))

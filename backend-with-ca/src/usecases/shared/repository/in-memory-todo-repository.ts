@@ -27,9 +27,12 @@ class InMemoryTodoRepository implements ITodoRepository {
     return this.repository
   }
 
-  async delete (todoId: string): Promise<string> {
-    const filteredRepository = this.repository.filter(todo => todo.id !== todoId)
-    this.repository = filteredRepository
+  async delete (todoId: string): Promise<string | null> {
+    const indexToRemove = this.repository.findIndex(todo => todo.id === todoId)
+    if (indexToRemove < 0) {
+      return null
+    }
+    this.repository.splice(indexToRemove, 1)
     return todoId
   }
 

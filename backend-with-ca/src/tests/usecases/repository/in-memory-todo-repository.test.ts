@@ -71,6 +71,11 @@ describe('In memory todo repository testing', () => {
       const validateId = await repository.findAll()
       expect(validateId).to.deep.equal([])
     })
+    it('should return null when cannot delete', async () => {
+      const repository = new InMemoryTodoRepository([])
+      const result = await repository.delete('abc')
+      expect(result).to.equal(null)
+    })
   })
   describe('Update method testing', () => {
     it('should update one todo', async () => {

@@ -74,6 +74,11 @@ describe('Mongo todo repository testing', () => {
       const result = await repositoryInstance.findById(new ObjectId().toString())
       expect(result).to.equal(null)
     })
+    it('should return null when send something that is not object id as parameter', async () => {
+      const repositoryInstance = new MongoTodoRepository()
+      const result = await repositoryInstance.findById('abc')
+      expect(result).to.equal(null)
+    })
   })
 
   describe('delete repository testing', () => {
@@ -90,6 +95,16 @@ describe('Mongo todo repository testing', () => {
       expect(result).to.equal(insertedId)
       const verifyDb = await repositoryInstance.findAll()
       expect(verifyDb).to.deep.equal([])
+    })
+    it('should not find todo to delete', async () => {
+      const repositoryInstance = new MongoTodoRepository()
+      const result = await repositoryInstance.delete(new ObjectId().toString())
+      expect(result).to.equal(null)
+    })
+    it('should return null when send something that is not object id as parameter', async () => {
+      const repositoryInstance = new MongoTodoRepository()
+      const result = await repositoryInstance.delete('abc')
+      expect(result).to.equal(null)
     })
   })
 
@@ -116,6 +131,11 @@ describe('Mongo todo repository testing', () => {
     it('should not find todo to update', async () => {
       const repositoryInstance = new MongoTodoRepository()
       const result = await repositoryInstance.update(new ObjectId().toString(), {})
+      expect(result).to.equal(null)
+    })
+    it('should return null when send something that is not object id as parameter', async () => {
+      const repositoryInstance = new MongoTodoRepository()
+      const result = await repositoryInstance.update('abc', {})
       expect(result).to.equal(null)
     })
   })
