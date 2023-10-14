@@ -1,10 +1,9 @@
-import { type Either, right, left } from '../../shared/either'
-import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '../errors/'
-
-import { type AvailableStatus, type ITodo } from '../interfaces/todo'
-import { TodoDescription } from './todo-description'
-import { TodoName } from './todo-name'
-import { TodoStatus } from './todo-status'
+import { type Either, right, left } from '@/shared/either'
+import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/errors/'
+import { type AvailableStatus, type ITodo } from '@/entities/interfaces/todo'
+import { TodoDescription } from '@/entities/todo/todo-description'
+import { TodoName } from '@/entities/todo/todo-name'
+import { TodoStatus } from '@/entities/todo/todo-status'
 
 class Todo {
   public readonly name: string

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
-import { TodoDescription } from '../../entities/todo/todo-description'
-import { InvalidTodoDescriptionError } from '../../entities/errors/invalid-description-error'
-import { type Either } from '../../shared/either'
+import { TodoDescription } from '@/entities/todo/todo-description'
+import { InvalidTodoDescriptionError } from '@/entities/errors/invalid-description-error'
+import { type Either } from '@/shared/either'
 
 describe('Entity todo description testing', () => {
   describe('Todo description entity create method testing', () => {

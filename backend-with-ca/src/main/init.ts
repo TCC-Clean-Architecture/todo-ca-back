@@ -1,4 +1,4 @@
-import { connectDatabase } from './configs/mongodb'
+import { connectDatabase } from '@/main/configs/mongodb'
 
 const init = async (): Promise<void> => {
   await connectDatabase()

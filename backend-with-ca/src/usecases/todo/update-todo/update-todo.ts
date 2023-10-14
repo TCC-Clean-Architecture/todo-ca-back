@@ -1,8 +1,8 @@
-import { type ITodoWithId, type ITodo } from '../../../entities/interfaces/todo'
-import { type Either, right, left } from '../../../shared/either'
-import { TodoNotFoundError } from '../create-new-todo/errors/todo-not-found-error'
-import { type ITodoRepository } from '../../../shared/todo-repository'
-import { type IUseCase } from '../../shared/ports/use-case'
+import { type ITodoWithId, type ITodo } from '@/entities/interfaces/todo'
+import { type Either, right, left } from '@/shared/either'
+import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
+import { type ITodoRepository } from '@/shared/todo-repository'
+import { type IUseCase } from '@/usecases/shared/ports/use-case'
 
 class UpdateTodoUseCase implements IUseCase {
   private readonly todoRepository: ITodoRepository

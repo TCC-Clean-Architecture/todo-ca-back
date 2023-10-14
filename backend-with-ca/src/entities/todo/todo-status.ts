@@ -1,6 +1,6 @@
-import { type Either, left, right } from '../../shared/either'
-import { InvalidTodoStatusError } from '../errors'
-import { availableStatus, type AvailableStatus } from '../interfaces/todo'
+import { type Either, left, right } from '@/shared/either'
+import { InvalidTodoStatusError } from '@/entities/errors'
+import { availableStatus, type AvailableStatus } from '@/entities/interfaces/todo'
 
 class TodoStatus {
   public readonly value: AvailableStatus

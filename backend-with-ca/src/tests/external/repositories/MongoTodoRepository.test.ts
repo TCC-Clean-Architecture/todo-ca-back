@@ -1,7 +1,7 @@
 import { expect } from 'chai'
-import { MongoTodoRepository } from '../../../external/repositories/MongoTodoRepository'
-import { clearCollection, connectDatabase } from '../../../main/configs/mongodb'
-import { type ITodo, type ICompleteTodo } from '../../../entities/interfaces/todo'
+import { MongoTodoRepository } from '@/external/repositories/MongoTodoRepository'
+import { clearCollection, connectDatabase } from '@/main/configs/mongodb'
+import { type ITodo, type ICompleteTodo } from '@/entities/interfaces/todo'
 import { ObjectId } from 'mongodb'
 
 describe('Mongo todo repository testing', () => {

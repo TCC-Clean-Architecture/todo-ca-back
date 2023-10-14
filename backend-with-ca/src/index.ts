@@ -1,5 +1,5 @@
-import app from './main/configs/express'
-import init from './main/init'
+import app from '@/main/configs/express'
+import init from '@/main/init'
 
 void (async () => {
   console.log('Inicializando aplicação')

@@ -1,9 +1,9 @@
-import { type ITodo, type ITodoWithId } from '../entities/interfaces/todo'
-import { type UpdateTodoUseCase } from '../usecases/todo/update-todo/update-todo'
-import { badRequest, ok } from './helper/http-response-builder'
-import { type Controller } from './port/controller'
-import { type IHttpRequestWithBodyAndParams } from './port/http-request'
-import { type IHttpResponse } from './port/http-response'
+import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { type UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
+import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { type Controller } from '@/web-controllers/port/controller'
+import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
+import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
 type RequestType = IHttpRequestWithBodyAndParams<Partial<ITodo>, Pick<ITodoWithId, 'id'>>
 

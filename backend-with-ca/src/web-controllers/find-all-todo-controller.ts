@@ -1,8 +1,8 @@
-import { type ITodoWithId } from '../entities/interfaces/todo'
-import { type FindAllTodoUseCase } from '../usecases/todo/find-all-todos/find-all-todos'
-import { badRequest, ok } from './helper/http-response-builder'
-import { type Controller } from './port/controller'
-import { type IHttpResponse } from './port/http-response'
+import { type ITodoWithId } from '@/entities/interfaces/todo'
+import { type FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
+import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { type Controller } from '@/web-controllers/port/controller'
+import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
 class FindAllTodoController implements Controller {
   private readonly useCase: FindAllTodoUseCase

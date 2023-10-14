@@ -1,8 +1,8 @@
 import { expect } from 'chai'
-import { type ITodo } from '../../entities/interfaces/todo'
-import { Todo } from '../../entities/todo/todo'
-import { InvalidTodoStatusError, InvalidTodoNameError, InvalidTodoDescriptionError } from '../../entities/errors'
-import { type Either } from '../../shared/either'
+import { type ITodo } from '@/entities/interfaces/todo'
+import { Todo } from '@/entities/todo/todo'
+import { InvalidTodoStatusError, InvalidTodoNameError, InvalidTodoDescriptionError } from '@/entities/errors'
+import { type Either } from '@/shared/either'
 
 describe('Entity todo testing', () => {
   it('should validate todo parameters and return true', () => {

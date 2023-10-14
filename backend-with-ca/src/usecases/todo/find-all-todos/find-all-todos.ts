@@ -1,7 +1,7 @@
-import { type ITodoWithId } from '../../../entities/interfaces/todo'
-import { type Either, right } from '../../../shared/either'
-import { type ITodoRepository } from '../../../shared/todo-repository'
-import { type IUseCase } from '../../shared/ports/use-case'
+import { type ITodoWithId } from '@/entities/interfaces/todo'
+import { type Either, right } from '@/shared/either'
+import { type ITodoRepository } from '@/shared/todo-repository'
+import { type IUseCase } from '@/usecases/shared/ports/use-case'
 
 class FindAllTodoUseCase implements IUseCase {
   private readonly todoRepository: ITodoRepository

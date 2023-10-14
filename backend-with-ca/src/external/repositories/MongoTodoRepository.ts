@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
-import { type ITodo, type ICompleteTodo, type ITodoWithId } from '../../entities/interfaces/todo'
-import { getCollection } from '../../main/configs/mongodb'
-import { type ITodoRepository } from '../../shared/todo-repository'
-import { convertMongoIdToNormalId } from './helpers/convertMongoIdToNormalId'
+import { type ITodo, type ICompleteTodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { getCollection } from '@/main/configs/mongodb'
+import { type ITodoRepository } from '@/shared/todo-repository'
+import { convertMongoIdToNormalId } from '@/external/repositories/helpers/convertMongoIdToNormalId'
 
 interface ITodoWithMongoId extends ICompleteTodo {
   _id: ObjectId

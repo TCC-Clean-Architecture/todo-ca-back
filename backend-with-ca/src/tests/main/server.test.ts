@@ -1,7 +1,7 @@
 import request from 'supertest'
-import app from '../../main/configs/express'
+import app from '@/main/configs/express'
 import { expect } from 'chai'
-import { clearCollection, connectDatabase } from '../../main/configs/mongodb'
+import { clearCollection, connectDatabase } from '@/main/configs/mongodb'
 
 describe('Health check routes testing', () => {
   before(async () => {

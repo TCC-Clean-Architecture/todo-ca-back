@@ -1,9 +1,9 @@
-import { type ITodoWithId } from '../entities/interfaces/todo'
-import { type FindTodoByIdUseCase } from '../usecases/todo/find-todo-by-id/find-todo-by-id'
-import { badRequest, ok } from './helper/http-response-builder'
-import { type Controller } from './port/controller'
-import { type IHttpRequestWithParams } from './port/http-request'
-import { type IHttpResponse } from './port/http-response'
+import { type ITodoWithId } from '@/entities/interfaces/todo'
+import { type FindTodoByIdUseCase } from '@/usecases/todo/find-todo-by-id/find-todo-by-id'
+import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { type Controller } from '@/web-controllers/port/controller'
+import { type IHttpRequestWithParams } from '@/web-controllers/port/http-request'
+import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
 class FindSpecificTodoController implements Controller {
   private readonly useCase: FindTodoByIdUseCase

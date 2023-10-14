@@ -1,9 +1,9 @@
-import { type ITodo } from '../entities/interfaces/todo'
-import { type CreateNewTodoUseCase } from '../usecases/todo/create-new-todo/create-new-todo'
-import { badRequest, ok } from './helper/http-response-builder'
-import { type Controller } from './port/controller'
-import { type IHttpRequestWithBody } from './port/http-request'
-import { type IHttpResponse } from './port/http-response'
+import { type ITodo } from '@/entities/interfaces/todo'
+import { type CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new-todo'
+import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { type Controller } from '@/web-controllers/port/controller'
+import { type IHttpRequestWithBody } from '@/web-controllers/port/http-request'
+import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
 class CreateTodoController implements Controller {
   private readonly useCase: CreateNewTodoUseCase

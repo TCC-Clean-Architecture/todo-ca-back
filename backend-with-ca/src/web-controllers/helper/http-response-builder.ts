@@ -1,4 +1,4 @@
-import { type IHttpResponse } from '../port/http-response'
+import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
 interface IHttpResponsePayload<T = object> {
   description: string

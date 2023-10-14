@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type ITodoWithId } from '../../../entities/interfaces/todo'
+import { type ITodoWithId } from '@/entities/interfaces/todo'
 
 enum StatusAvailable {
   todo = 'todo',

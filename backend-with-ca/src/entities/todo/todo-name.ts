@@ -1,5 +1,5 @@
-import { type Either, left, right } from '../../shared/either'
-import { InvalidTodoNameError } from '../errors'
+import { type Either, left, right } from '@/shared/either'
+import { InvalidTodoNameError } from '@/entities/errors'
 
 class TodoName {
   public readonly value: string

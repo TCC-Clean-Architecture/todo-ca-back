@@ -1,8 +1,8 @@
 import { expect } from 'chai'
-import { InvalidTodoStatusError } from '../../entities/errors/invalid-status-error'
-import { type Either } from '../../shared/either'
-import { TodoStatus } from '../../entities/todo/todo-status'
-import { type AvailableStatus } from '../../entities/interfaces/todo'
+import { InvalidTodoStatusError } from '@/entities/errors/invalid-status-error'
+import { type Either } from '@/shared/either'
+import { TodoStatus } from '@/entities/todo/todo-status'
+import { type AvailableStatus } from '@/entities/interfaces/todo'
 
 describe('Entity todo status testing', () => {
   describe('Todo status entity create method testing', () => {

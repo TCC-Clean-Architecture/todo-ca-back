@@ -1,6 +1,6 @@
-import { MongoTodoRepository } from '../../external/repositories/MongoTodoRepository'
-import { FindAllTodoUseCase } from '../../usecases/todo/find-all-todos/find-all-todos'
-import { FindAllTodoController } from '../../web-controllers/find-all-todo-controller'
+import { MongoTodoRepository } from '@/external/repositories/MongoTodoRepository'
+import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
+import { FindAllTodoController } from '@/web-controllers/find-all-todo-controller'
 
 const makeGetTodoController = (): FindAllTodoController => {
   const todoRepository = new MongoTodoRepository()

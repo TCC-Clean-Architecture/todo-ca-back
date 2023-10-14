@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { badRequest, ok } from '../../../web-controllers/helper/http-response-builder'
-import { type IHttpResponse } from '../../../web-controllers/port/http-response'
+import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
+import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
 describe('Http Response builder testing', () => {
   it('should create 200 ok response', () => {

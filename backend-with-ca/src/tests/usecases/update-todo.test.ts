@@ -1,8 +1,8 @@
 import { expect } from 'chai'
-import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
-import { type ITodo, type ITodoWithId } from '../../entities/interfaces/todo'
-import { UpdateTodoUseCase } from '../../usecases/todo/update-todo/update-todo'
-import { TodoNotFoundError } from '../../usecases/todo/create-new-todo/errors/todo-not-found-error'
+import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
+import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
 
 describe('Update todo use case testing', () => {
   it('should update todo', async () => {

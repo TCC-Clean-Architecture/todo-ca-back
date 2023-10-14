@@ -1,6 +1,6 @@
-import { MongoTodoRepository } from '../../external/repositories/MongoTodoRepository'
-import { UpdateTodoUseCase } from '../../usecases/todo/update-todo/update-todo'
-import { UpdateTodoController } from '../../web-controllers/update-todo-controller'
+import { MongoTodoRepository } from '@/external/repositories/MongoTodoRepository'
+import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
+import { UpdateTodoController } from '@/web-controllers/update-todo-controller'
 
 const makeUpdateTodoController = (): UpdateTodoController => {
   const todoRepository = new MongoTodoRepository()

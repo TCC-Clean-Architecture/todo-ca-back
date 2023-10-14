@@ -1,8 +1,8 @@
 import { expect } from 'chai'
-import { InMemoryTodoRepository } from '../../usecases/shared/repository/in-memory-todo-repository'
-import { FindAllTodoController } from '../../web-controllers/find-all-todo-controller'
-import { FindAllTodoUseCase } from '../../usecases/todo/find-all-todos/find-all-todos'
-import { todoFixture } from '../helper/fixtures/todo-fixture'
+import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { FindAllTodoController } from '@/web-controllers/find-all-todo-controller'
+import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
+import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
 
 describe('FindAllTodoController implementation testing', () => {
   it('should find all instances created  and return success', async () => {

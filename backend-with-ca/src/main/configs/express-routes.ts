@@ -1,6 +1,12 @@
 import { type Router } from 'express'
-import { expressRouteAdapter } from '../adapters/express-route-adapter'
-import { makeCreateTodoController, makeGetTodoController, makeFindSpecificTodoController, makeDeleteTodoController, makeUpdateTodoController } from '../factories'
+import { expressRouteAdapter } from '@/main/adapters/express-route-adapter'
+import {
+  makeCreateTodoController,
+  makeGetTodoController,
+  makeFindSpecificTodoController,
+  makeDeleteTodoController,
+  makeUpdateTodoController
+} from '@/main/factories'
 
 const routerConfig = (router: Router): void => {
   router.post('/todos', expressRouteAdapter(makeCreateTodoController()))

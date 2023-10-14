@@ -1,5 +1,5 @@
 import { type Response, type Request } from 'express'
-import { type Controller } from '../../web-controllers/port/controller'
+import { type Controller } from '@/web-controllers/port/controller'
 
 const expressRouteAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
