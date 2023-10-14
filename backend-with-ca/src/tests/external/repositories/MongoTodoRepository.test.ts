@@ -113,5 +113,10 @@ describe('Mongo todo repository testing', () => {
       const verifyDb = await repositoryInstance.findById(insertedId)
       expect(verifyDb).to.deep.include(todoUpdatePayload)
     })
+    it('should not find todo to update', async () => {
+      const repositoryInstance = new MongoTodoRepository()
+      const result = await repositoryInstance.update(new ObjectId().toString(), {})
+      expect(result).to.equal(null)
+    })
   })
 })
