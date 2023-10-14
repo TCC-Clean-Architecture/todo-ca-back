@@ -6,7 +6,7 @@ import { type ITodoRepository } from '@/shared/todo-repository'
 import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
 import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
 
-class FakeTodoRepository implements Partial<ITodoRepository> {
+class MockTodoRepository implements Partial<ITodoRepository> {
   async findAll (): Promise<ITodoWithId[]> {
     throw new Error('This is error')
   }
@@ -35,7 +35,7 @@ describe('Find all todo use case testing', () => {
     expect(result.isRight()).to.equal(true)
   })
   it('should return an error when findAll throws an exception', async () => {
-    const todoRepository = new FakeTodoRepository() as ITodoRepository
+    const todoRepository = new MockTodoRepository() as ITodoRepository
     const useCaseInstance = new FindAllTodoUseCase(todoRepository)
     const result = await useCaseInstance.execute()
     expect(result.isLeft()).to.equal(true)
