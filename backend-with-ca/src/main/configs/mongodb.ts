@@ -1,6 +1,6 @@
 import { type Document, MongoClient, ServerApiVersion, type Collection } from 'mongodb'
 
-const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017/test?authSource=admin'
+const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017/test'
 
 const client = new MongoClient(uri, {
   serverApi: {

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { TodoDescription } from '../../entities/todo-description'
+import { TodoDescription } from '../../entities/todo/todo-description'
 import { InvalidTodoDescriptionError } from '../../entities/errors/invalid-description-error'
 import { type Either } from '../../shared/either'
 

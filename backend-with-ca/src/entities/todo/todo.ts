@@ -1,7 +1,7 @@
-import { type Either, right, left } from '../shared/either'
-import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from './errors/'
+import { type Either, right, left } from '../../shared/either'
+import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '../errors/'
 
-import { type AvailableStatus, type ITodo } from './interfaces/todo'
+import { type AvailableStatus, type ITodo } from '../interfaces/todo'
 import { TodoDescription } from './todo-description'
 import { TodoName } from './todo-name'
 import { TodoStatus } from './todo-status'

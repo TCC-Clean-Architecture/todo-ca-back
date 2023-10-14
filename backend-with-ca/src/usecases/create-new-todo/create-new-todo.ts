@@ -4,7 +4,7 @@ import { type ITodo, type ITodoWithId } from '../../entities/interfaces/todo'
 import { type ITodoRepository } from '../../shared/todo-repository'
 import { type InvalidTodoNameError, type InvalidTodoStatusError, type InvalidTodoDescriptionError } from '../../entities/errors'
 
-import { Todo } from '../../entities/todo'
+import { Todo } from '../../entities/todo/todo'
 import { TodoNotFoundError } from './errors/todo-not-found-error'
 
 type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError

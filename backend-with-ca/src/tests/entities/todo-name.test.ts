@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { TodoName } from '../../entities/todo-name'
+import { TodoName } from '../../entities/todo/todo-name'
 import { InvalidTodoNameError } from '../../entities/errors/invalid-name-error'
 import { type Either } from '../../shared/either'
 
