@@ -1,5 +1,5 @@
-import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/errors'
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/todo/errors'
 import { Todo } from '@/entities/todo/todo'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'

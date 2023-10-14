@@ -1,4 +1,4 @@
-import { InvalidTodoDescriptionError } from '@/entities/errors'
+import { InvalidTodoDescriptionError } from '@/entities/todo/errors'
 import { type Either, left, right } from '@/shared/either'
 
 class TodoDescription {

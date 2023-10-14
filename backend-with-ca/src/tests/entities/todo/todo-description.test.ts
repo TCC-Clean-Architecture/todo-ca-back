@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { InvalidTodoDescriptionError } from '@/entities/errors/invalid-description-error'
+import { InvalidTodoDescriptionError } from '@/entities/todo/errors/invalid-description-error'
 import { TodoDescription } from '@/entities/todo/todo-description'
 import { type Either } from '@/shared/either'
 

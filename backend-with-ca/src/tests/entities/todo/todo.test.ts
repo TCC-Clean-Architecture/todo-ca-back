@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { InvalidTodoDescriptionError, InvalidTodoNameError, InvalidTodoStatusError } from '@/entities/errors'
 import { type ITodo } from '@/entities/interfaces/todo'
+import { InvalidTodoDescriptionError, InvalidTodoNameError, InvalidTodoStatusError } from '@/entities/todo/errors'
 import { Todo } from '@/entities/todo/todo'
 import { type Either } from '@/shared/either'
 

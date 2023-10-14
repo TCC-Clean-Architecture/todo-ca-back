@@ -1,5 +1,5 @@
-import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/errors/'
 import { type AvailableStatus, type ITodo } from '@/entities/interfaces/todo'
+import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/todo/errors'
 import { TodoDescription } from '@/entities/todo/todo-description'
 import { TodoName } from '@/entities/todo/todo-name'
 import { TodoStatus } from '@/entities/todo/todo-status'

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { InvalidTodoNameError } from '@/entities/errors/invalid-name-error'
+import { InvalidTodoNameError } from '@/entities/todo/errors/invalid-name-error'
 import { TodoName } from '@/entities/todo/todo-name'
 import { type Either } from '@/shared/either'
 

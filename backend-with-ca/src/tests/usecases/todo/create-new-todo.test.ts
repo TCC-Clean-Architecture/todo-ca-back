@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { InvalidTodoNameError } from '@/entities/errors/invalid-name-error'
 import { type ICompleteTodo, type ITodo } from '@/entities/interfaces/todo'
+import { InvalidTodoNameError } from '@/entities/todo/errors/invalid-name-error'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoRepository } from '@/shared/todo-repository'
 import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'

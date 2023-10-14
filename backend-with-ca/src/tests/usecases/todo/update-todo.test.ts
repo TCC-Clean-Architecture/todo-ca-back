@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { InvalidTodoNameError } from '@/entities/errors'
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { InvalidTodoNameError } from '@/entities/todo/errors'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoRepository } from '@/shared/todo-repository'
 import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'

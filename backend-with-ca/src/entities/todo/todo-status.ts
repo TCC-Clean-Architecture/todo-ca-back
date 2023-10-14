@@ -1,5 +1,5 @@
-import { InvalidTodoStatusError } from '@/entities/errors'
 import { type AvailableStatus, availableStatus } from '@/entities/interfaces/todo'
+import { InvalidTodoStatusError } from '@/entities/todo/errors'
 import { type Either, left, right } from '@/shared/either'
 
 class TodoStatus {

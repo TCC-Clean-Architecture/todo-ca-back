@@ -1,4 +1,4 @@
-import { InvalidTodoNameError } from '@/entities/errors'
+import { InvalidTodoNameError } from '@/entities/todo/errors'
 import { type Either, left, right } from '@/shared/either'
 
 class TodoName {
