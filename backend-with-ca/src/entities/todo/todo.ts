@@ -15,7 +15,7 @@ class Todo {
     this.name = name.value
     this.description = description.value
     this.status = status.value
-    this.createdAt = createdAt ?? new Date()
+    this.createdAt = new Date()
   }
 
   static create (value: ITodo): Either<InvalidTodoStatusError | InvalidTodoNameError | InvalidTodoDescriptionError, Todo> {
