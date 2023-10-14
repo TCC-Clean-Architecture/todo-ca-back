@@ -25,6 +25,6 @@ export interface ITodoWithId extends ICompleteTodo {
 
 export {
   availableStatus,
-  type ITodo,
-  type ICompleteTodo
+  type ICompleteTodo,
+  type ITodo
 }

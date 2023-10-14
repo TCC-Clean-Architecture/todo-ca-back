@@ -1,5 +1,5 @@
-import { type Either, left, right } from '@/shared/either'
 import { InvalidTodoDescriptionError } from '@/entities/errors'
+import { type Either, left, right } from '@/shared/either'
 
 class TodoDescription {
   public readonly value: string

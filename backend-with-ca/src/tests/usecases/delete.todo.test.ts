@@ -1,8 +1,9 @@
 import { expect } from 'chai'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+
 import { type ITodoWithId } from '@/entities/interfaces/todo'
-import { DeleteTodoUseCase } from '@/usecases/todo/delete-todo/delete-todo'
+import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
 import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
+import { DeleteTodoUseCase } from '@/usecases/todo/delete-todo/delete-todo'
 
 describe('Delete todo use case testing', () => {
   it('should delete todo', async () => {

@@ -1,10 +1,11 @@
 import { type Router } from 'express'
+
 import { expressRouteAdapter } from '@/main/adapters/express-route-adapter'
 import {
   makeCreateTodoController,
-  makeGetTodoController,
-  makeFindSpecificTodoController,
   makeDeleteTodoController,
+  makeFindSpecificTodoController,
+  makeGetTodoController,
   makeUpdateTodoController
 } from '@/main/factories'
 

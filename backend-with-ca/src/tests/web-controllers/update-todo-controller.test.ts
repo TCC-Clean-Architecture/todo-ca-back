@@ -1,9 +1,10 @@
 import { expect } from 'chai'
+
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
-import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
 import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
+import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
 import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
+import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
 import { UpdateTodoController } from '@/web-controllers/update-todo-controller'
 
 describe('UpdateTodoController implementation testing', () => {

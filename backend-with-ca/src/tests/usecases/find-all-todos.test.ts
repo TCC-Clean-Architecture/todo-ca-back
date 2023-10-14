@@ -1,7 +1,8 @@
 import { expect } from 'chai'
-import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+
 import { type ITodoWithId } from '@/entities/interfaces/todo'
+import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
 
 describe('Find all todo use case testing', () => {
   it('should return all todos inserted', async () => {

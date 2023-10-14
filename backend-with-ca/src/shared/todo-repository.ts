@@ -1,4 +1,4 @@
-import { type ITodo, type ICompleteTodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { type ICompleteTodo, type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 
 export interface ITodoRepository {
   create: (todo: ICompleteTodo) => Promise<string>

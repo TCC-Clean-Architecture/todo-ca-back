@@ -1,4 +1,5 @@
 import express from 'express'
+
 import { routerConfig } from './express-routes'
 
 const app = express()

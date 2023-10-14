@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 
-import { CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new-todo'
-import { type ITodo } from '@/entities/interfaces/todo'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
 import { InvalidTodoNameError } from '@/entities/errors/invalid-name-error'
+import { type ITodo } from '@/entities/interfaces/todo'
 import { type ITodoRepository } from '@/shared/todo-repository'
+import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new-todo'
 import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
 
 describe('Create new todo', () => {

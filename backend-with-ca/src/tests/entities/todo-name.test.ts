@@ -1,6 +1,7 @@
 import { expect } from 'chai'
-import { TodoName } from '@/entities/todo/todo-name'
+
 import { InvalidTodoNameError } from '@/entities/errors/invalid-name-error'
+import { TodoName } from '@/entities/todo/todo-name'
 import { type Either } from '@/shared/either'
 
 describe('Entity todo name testing', () => {

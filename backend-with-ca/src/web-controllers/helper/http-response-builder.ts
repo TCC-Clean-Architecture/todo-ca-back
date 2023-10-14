@@ -21,4 +21,4 @@ const badRequest = <T = object>({ description, content }: IHttpResponsePayload<T
   content
 })
 
-export { ok, badRequest }
+export { badRequest, ok }

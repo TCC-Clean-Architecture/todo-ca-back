@@ -1,7 +1,8 @@
 import { expect } from 'chai'
+
+import { InvalidTodoDescriptionError, InvalidTodoNameError, InvalidTodoStatusError } from '@/entities/errors'
 import { type ITodo } from '@/entities/interfaces/todo'
 import { Todo } from '@/entities/todo/todo'
-import { InvalidTodoStatusError, InvalidTodoNameError, InvalidTodoDescriptionError } from '@/entities/errors'
 import { type Either } from '@/shared/either'
 
 describe('Entity todo testing', () => {

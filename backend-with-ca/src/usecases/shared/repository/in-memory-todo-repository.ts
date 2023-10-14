@@ -1,5 +1,6 @@
 import crypto from 'crypto'
-import { type ITodo, type ICompleteTodo, type ITodoWithId } from '@/entities/interfaces/todo'
+
+import { type ICompleteTodo, type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 import { type ITodoRepository } from '@/shared/todo-repository'
 
 class InMemoryTodoRepository implements ITodoRepository {

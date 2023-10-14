@@ -1,4 +1,5 @@
-import { type Response, type Request } from 'express'
+import { type Request, type Response } from 'express'
+
 import { type Controller } from '@/web-controllers/port/controller'
 
 const expressRouteAdapter = (controller: Controller) => {

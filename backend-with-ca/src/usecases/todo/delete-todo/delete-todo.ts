@@ -1,7 +1,7 @@
-import { type Either, right, left } from '@/shared/either'
-import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
+import { type Either, left, right } from '@/shared/either'
 import { type ITodoRepository } from '@/shared/todo-repository'
 import { type IUseCase } from '@/usecases/shared/ports/use-case'
+import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
 
 class DeleteTodoUseCase implements IUseCase {
   private readonly todoRepository: ITodoRepository

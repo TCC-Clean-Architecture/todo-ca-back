@@ -1,9 +1,9 @@
-import { type Either, right, left } from '@/shared/either'
 import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/errors/'
 import { type AvailableStatus, type ITodo } from '@/entities/interfaces/todo'
 import { TodoDescription } from '@/entities/todo/todo-description'
 import { TodoName } from '@/entities/todo/todo-name'
 import { TodoStatus } from '@/entities/todo/todo-status'
+import { type Either, left, right } from '@/shared/either'
 
 class Todo {
   public readonly name: string

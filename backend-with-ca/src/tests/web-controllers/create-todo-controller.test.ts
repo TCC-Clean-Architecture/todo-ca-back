@@ -1,7 +1,8 @@
 import { expect } from 'chai'
+
 import { type ITodo } from '@/entities/interfaces/todo'
-import { CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new-todo'
 import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new-todo'
 import { CreateTodoController } from '@/web-controllers/create-todo-controller'
 import { type IHttpRequestWithBody } from '@/web-controllers/port/http-request'
 

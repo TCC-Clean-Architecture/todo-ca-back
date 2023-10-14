@@ -1,4 +1,4 @@
-import { type Document, MongoClient, ServerApiVersion, type Collection } from 'mongodb'
+import { type Collection, type Document, MongoClient, ServerApiVersion } from 'mongodb'
 
 const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017/test'
 
@@ -24,7 +24,7 @@ async function clearCollection (collectionName: string): Promise<void> {
 }
 
 export {
+  clearCollection,
   connectDatabase,
-  getCollection,
-  clearCollection
+  getCollection
 }

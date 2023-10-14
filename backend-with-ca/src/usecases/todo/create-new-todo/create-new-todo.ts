@@ -1,10 +1,9 @@
-import { type Either, right, left } from '@/shared/either'
-import { type IUseCase } from '@/usecases/shared/ports/use-case'
+import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/errors'
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
-import { type ITodoRepository } from '@/shared/todo-repository'
-import { type InvalidTodoNameError, type InvalidTodoStatusError, type InvalidTodoDescriptionError } from '@/entities/errors'
-
 import { Todo } from '@/entities/todo/todo'
+import { type Either, left, right } from '@/shared/either'
+import { type ITodoRepository } from '@/shared/todo-repository'
+import { type IUseCase } from '@/usecases/shared/ports/use-case'
 import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
 
 type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError
