@@ -102,6 +102,11 @@ describe('In memory todo repository testing', () => {
       const validateId = await repository.findAll()
       expect(validateId).to.deep.equal([expectedResult])
     })
+    it('should return null when not found', async () => {
+      const repository = new InMemoryTodoRepository([])
+      const result = await repository.update('abcde', {})
+      expect(result).to.equal(null)
+    })
   }
   )
 })

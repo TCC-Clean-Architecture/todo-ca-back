@@ -1,9 +1,15 @@
+import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/errors'
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { Todo } from '@/entities/todo/todo'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoRepository } from '@/shared/todo-repository'
 import { type IUseCase } from '@/usecases/shared/ports/use-case'
 import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
+
+import { TodoUpdateError } from './errors/todo-update-error'
+
+type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | TodoUpdateError | UnexpectedError
 
 class UpdateTodoUseCase implements IUseCase {
   private readonly todoRepository: ITodoRepository
@@ -11,11 +17,23 @@ class UpdateTodoUseCase implements IUseCase {
     this.todoRepository = todoRepository
   }
 
-  public async execute (todoId: string, content: Partial<ITodo>): Promise<Either<TodoNotFoundError | UnexpectedError, ITodoWithId>> {
+  public async execute (todoId: string, content: Partial<ITodo>): Promise<Either<ErrorTypes, ITodoWithId>> {
     try {
+      const todoExists = await this.todoRepository.findById(todoId)
+      if (!todoExists) {
+        return left(new TodoNotFoundError(todoId))
+      }
+      const todoValidation = Todo.create({
+        name: content.name ?? todoExists.name,
+        description: content.description ?? todoExists.description,
+        status: content.status ?? todoExists.status
+      })
+      if (todoValidation.isLeft()) {
+        return left(todoValidation.value)
+      }
       const updateResult = await this.todoRepository.update(todoId, content)
       if (!updateResult) {
-        return left(new TodoNotFoundError(todoId))
+        return left(new TodoUpdateError(todoId))
       }
       const result = await this.todoRepository.findById(todoId) as ITodoWithId
       return right(result)
