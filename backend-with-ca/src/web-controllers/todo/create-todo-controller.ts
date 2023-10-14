@@ -16,7 +16,9 @@ class CreateTodoController implements Controller {
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on create todo',
-        content: response.value
+        content: {
+          message: response.value.message
+        }
       })
     }
     return ok({

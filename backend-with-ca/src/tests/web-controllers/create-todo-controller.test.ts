@@ -41,12 +41,14 @@ describe('CreateTodoController implementation testing', () => {
         status: 'inprogress'
       }
     }
-    const expectedContent = {}
+    const expectedContent = {
+      message: 'Invalid name: a.'
+    }
     const response = await controllerInstance.handler(request)
     expect(response.description).to.equal('Error on create todo')
     expect(response.statusCode).to.equal(400)
     expect(response.message).to.equal('Bad Request')
     expect(response.type).to.equal('error')
-    expect(response.content).to.deep.include(expectedContent)
+    expect(response.content).to.deep.equal(expectedContent)
   })
 })
