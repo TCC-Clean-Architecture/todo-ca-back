@@ -4,8 +4,8 @@ import { type ITodoWithId } from '@/entities/interfaces/todo'
 import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
 import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
 import { DeleteTodoUseCase } from '@/usecases/todo/delete-todo/delete-todo'
-import { DeleteTodoController } from '@/web-controllers/delete-todo-controller'
 import { type IHttpRequestWithParams } from '@/web-controllers/port/http-request'
+import { DeleteTodoController } from '@/web-controllers/todo/delete-todo-controller'
 
 describe('DeleteTodoController implementation testing', () => {
   it('should delete an specific todo by id and return success', async () => {

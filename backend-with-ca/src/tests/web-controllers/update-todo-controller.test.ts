@@ -5,7 +5,7 @@ import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
 import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
 import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
 import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
-import { UpdateTodoController } from '@/web-controllers/update-todo-controller'
+import { UpdateTodoController } from '@/web-controllers/todo/update-todo-controller'
 
 describe('UpdateTodoController implementation testing', () => {
   it('should update an specific todo and return success', async () => {

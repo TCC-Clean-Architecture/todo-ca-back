@@ -4,8 +4,8 @@ import { type ITodoWithId } from '@/entities/interfaces/todo'
 import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
 import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
 import { FindTodoByIdUseCase } from '@/usecases/todo/find-todo-by-id/find-todo-by-id'
-import { FindSpecificTodoController } from '@/web-controllers/find-specific-todo-controller'
 import { type IHttpRequestWithParams } from '@/web-controllers/port/http-request'
+import { FindSpecificTodoController } from '@/web-controllers/todo/find-specific-todo-controller'
 
 describe('FindSpecificTodoController implementation testing', () => {
   it('should find an specific todo by id and return success', async () => {
