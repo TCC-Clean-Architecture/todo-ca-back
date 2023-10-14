@@ -1,9 +1,11 @@
+import cors from 'cors'
 import express from 'express'
 
 import { routerConfig } from './express-routes'
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.get('/health', (req, res) => {
   const healthcheck = {
