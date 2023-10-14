@@ -16,7 +16,9 @@ class FindAllTodoController implements Controller {
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on find all todos',
-        content: {}
+        content: {
+          message: response.value.message
+        }
       })
     }
     return ok({
