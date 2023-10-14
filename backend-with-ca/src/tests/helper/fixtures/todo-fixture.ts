@@ -12,8 +12,8 @@ const todoFixture = (): ITodoWithId => {
   return {
     id: faker.string.uuid(),
     createdAt: new Date('0'),
-    description: faker.lorem.text(),
-    name: faker.lorem.text(),
+    description: faker.lorem.words(5),
+    name: faker.person.fullName(),
     status: faker.helpers.enumValue(StatusAvailable)
   }
 }
