@@ -2,7 +2,7 @@ import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoRepository } from '@/shared/todo-repository'
 import { type IUseCase } from '@/usecases/shared/ports/use-case'
-import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
+import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
 
 class DeleteTodoUseCase implements IUseCase {
   private readonly todoRepository: ITodoRepository

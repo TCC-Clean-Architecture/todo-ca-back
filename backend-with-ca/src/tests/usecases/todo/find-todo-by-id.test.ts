@@ -4,8 +4,8 @@ import { type ITodoWithId } from '@/entities/interfaces/todo'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoRepository } from '@/shared/todo-repository'
 import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
-import { TodoNotFoundError } from '@/usecases/todo/create-new-todo/errors/todo-not-found-error'
 import { FindTodoByIdUseCase } from '@/usecases/todo/find-todo-by-id/find-todo-by-id'
+import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
 
 class MockTodoRepository implements Partial<ITodoRepository> {
   async findById (todoId: string): Promise<ITodoWithId | null> {
