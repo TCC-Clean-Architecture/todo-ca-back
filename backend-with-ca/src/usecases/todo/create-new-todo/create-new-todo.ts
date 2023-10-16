@@ -1,7 +1,6 @@
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/todo/errors'
 import { type InvalidTodoListName } from '@/entities/todo-list/errors/invalid-todo-list-name'
-import { type InvalidTodosOnList } from '@/entities/todo-list/errors/invalid-todos-on-list'
 import { TodosEmbedded } from '@/entities/todo-list/todos-embedded'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
@@ -10,7 +9,7 @@ import { type IUseCase } from '@/usecases/shared/ports/use-case'
 import { type TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
 import { TodoListNotFoundError } from '@/usecases/todo-list/shared/errors/todo-list-not-found-error'
 
-type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | InvalidTodosOnList | TodoListNotFoundError | InvalidTodoListName | UnexpectedError
+type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | TodoListNotFoundError | InvalidTodoListName | UnexpectedError
 
 class CreateNewTodoUseCase implements IUseCase {
   private readonly todoListRepository: ITodoListRepository
