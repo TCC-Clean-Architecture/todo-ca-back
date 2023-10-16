@@ -24,7 +24,7 @@ describe('In memory todo repository testing', () => {
     })
   })
   describe('Find by id method testing', () => {
-    it('should create a new todo on repository', async () => {
+    it('should find by id the todo on repository', async () => {
       const todo: ICompleteTodo = {
         name: 'thisisname',
         description: 'thisisdescription',

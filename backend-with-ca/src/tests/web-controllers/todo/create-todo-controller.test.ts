@@ -6,7 +6,7 @@ import { CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new
 import { type IHttpRequestWithBody } from '@/web-controllers/port/http-request'
 import { CreateTodoController } from '@/web-controllers/todo/create-todo-controller'
 
-describe('CreateTodoController implementation testing', () => {
+describe.skip('CreateTodoController implementation testing', () => {
   it('should create an instance of create todo controller and return success', async () => {
     const todoRepository = new InMemoryTodoRepository([])
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)

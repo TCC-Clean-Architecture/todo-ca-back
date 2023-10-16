@@ -11,7 +11,7 @@ interface ITodoWithMongoId extends ICompleteTodo {
   _id: ObjectId
 }
 
-class MongoTodoRepository implements Partial<ITodoRepository> {
+class MongoTodoRepository implements ITodoRepository {
   async create (todo: ICompleteTodo): Promise<string> {
     const todoCollection = getCollection('todos')
     const { insertedId } = await todoCollection.insertOne(todo)

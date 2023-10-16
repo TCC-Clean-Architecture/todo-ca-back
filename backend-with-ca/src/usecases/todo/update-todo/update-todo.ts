@@ -1,3 +1,4 @@
+import { type InvalidIdError } from '@/entities/id/errors/id-validation-error'
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/todo/errors'
 import { Todo } from '@/entities/todo/todo'
@@ -9,7 +10,7 @@ import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-
 
 import { TodoUpdateError } from './errors/todo-update-error'
 
-type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | TodoUpdateError | UnexpectedError
+type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | TodoUpdateError | InvalidIdError | UnexpectedError
 
 class UpdateTodoUseCase implements IUseCase {
   private readonly todoRepository: ITodoRepository
@@ -23,10 +24,8 @@ class UpdateTodoUseCase implements IUseCase {
       if (!todoExists) {
         return left(new TodoNotFoundError(todoId))
       }
-      const todoValidation = Todo.create({
-        name: content.name ?? todoExists.name,
-        description: content.description ?? todoExists.description,
-        status: content.status ?? todoExists.status
+      const todoValidation = Todo.validate({
+        ...todoExists, ...content
       })
       if (todoValidation.isLeft()) {
         return left(todoValidation.value)

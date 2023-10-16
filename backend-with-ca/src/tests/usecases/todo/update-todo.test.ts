@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { expect } from 'chai'
 
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
@@ -13,7 +14,7 @@ import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
 describe('Update todo use case testing', () => {
   it('should update todo', async () => {
     const todo: ITodoWithId = {
-      id: 'id',
+      id: faker.string.uuid(),
       name: 'name',
       description: 'description',
       status: 'todo',
