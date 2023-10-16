@@ -1,9 +1,10 @@
 import { type ITodo } from '@/entities/interfaces/todo'
+import { type IListId } from '@/entities/interfaces/todo-list'
 import { type CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new-todo'
 import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
 import { idConverter } from '@/web-controllers/helper/id-property-name-converter'
 import { type Controller } from '@/web-controllers/port/controller'
-import { type IHttpRequestWithBody } from '@/web-controllers/port/http-request'
+import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
 import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
 class CreateTodoController implements Controller {
@@ -12,8 +13,8 @@ class CreateTodoController implements Controller {
     this.useCase = useCase
   }
 
-  async handler (request: IHttpRequestWithBody<ITodo>): Promise<IHttpResponse> {
-    const response = await this.useCase.execute(request.body)
+  async handler (request: IHttpRequestWithBodyAndParams<ITodo, IListId>): Promise<IHttpResponse> {
+    const response = await this.useCase.execute(request.body, request.params.listId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on create todo',

@@ -1,21 +1,28 @@
 import { expect } from 'chai'
 
 import { type ITodo } from '@/entities/interfaces/todo'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { type IListId } from '@/entities/interfaces/todo-list'
+import { todoListFixture } from '@/tests/helper/fixtures/todo-list-fixture'
+import { InMemoryTodoListRepository } from '@/usecases/shared/repository/in-memory-todo-list-repository'
 import { CreateNewTodoUseCase } from '@/usecases/todo/create-new-todo/create-new-todo'
-import { type IHttpRequestWithBody } from '@/web-controllers/port/http-request'
+import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
 import { CreateTodoController } from '@/web-controllers/todo/create-todo-controller'
 
-describe.skip('CreateTodoController implementation testing', () => {
+describe('CreateTodoController implementation testing', () => {
   it('should create an instance of create todo controller and return success', async () => {
-    const todoRepository = new InMemoryTodoRepository([])
+    const lists = [todoListFixture()]
+    const id = lists[0].id
+    const todoRepository = new InMemoryTodoListRepository(lists)
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
     const controllerInstance = new CreateTodoController(createNewTodoUseCase)
-    const request: IHttpRequestWithBody<ITodo> = {
+    const request: IHttpRequestWithBodyAndParams<ITodo, IListId> = {
       body: {
         name: 'todo',
         description: 'desc',
         status: 'inprogress'
+      },
+      params: {
+        listId: id
       }
     }
     const expectedTodo: ITodo = {
@@ -31,14 +38,19 @@ describe.skip('CreateTodoController implementation testing', () => {
     expect(response.content).to.deep.include(expectedTodo)
   })
   it('should create an instance of create todo controller and return error', async () => {
-    const todoRepository = new InMemoryTodoRepository([])
+    const lists = [todoListFixture()]
+    const id = lists[0].id
+    const todoRepository = new InMemoryTodoListRepository(lists)
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
     const controllerInstance = new CreateTodoController(createNewTodoUseCase)
-    const request: IHttpRequestWithBody<ITodo> = {
+    const request: IHttpRequestWithBodyAndParams<ITodo, IListId> = {
       body: {
         name: 'a',
         description: 'desc',
         status: 'inprogress'
+      },
+      params: {
+        listId: id
       }
     }
     const expectedContent = {
