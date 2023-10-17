@@ -1,43 +1,40 @@
 import { expect } from 'chai'
 
-import { type ITodoWithId } from '@/entities/interfaces/todo'
+import { type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
-import { type ITodoRepository } from '@/shared/todo-repository'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { type ITodoListRepository } from '@/shared/todo-list-repository'
+import { todoListFixture } from '@/tests/helper/fixtures/todo-list-fixture'
+import { InMemoryTodoListRepository } from '@/usecases/shared/repository/in-memory-todo-list-repository'
 import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
-
-class MockTodoRepository implements Partial<ITodoRepository> {
-  async findAll (): Promise<ITodoWithId[]> {
-    throw new Error('This is error')
-  }
-}
+import { TodoListNotFoundError } from '@/usecases/todo-list/shared/errors/todo-list-not-found-error'
 
 describe('Find all todo use case testing', () => {
   it('should return all todos inserted', async () => {
-    const todos: ITodoWithId = {
-      id: 'id',
-      name: 'name',
-      description: 'description',
-      status: 'todo',
-      createdAt: new Date()
-    }
-    const todoRepository = new InMemoryTodoRepository([todos, todos])
+    const lists = [todoListFixture()]
+    const listId = lists[0].id
+    const todos = lists[0].todos
+    const todoRepository = new InMemoryTodoListRepository(lists)
     const useCaseInstance = new FindAllTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute()
-    expect(result.value).to.deep.equal([todos, todos])
+    const result = await useCaseInstance.execute(listId)
+    expect(result.value).to.deep.equal(todos)
     expect(result.isRight()).to.equal(true)
   })
-  it('should list empty list of todos', async () => {
-    const todoRepository = new InMemoryTodoRepository([])
-    const useCaseInstance = new FindAllTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute()
-    expect(result.value).to.deep.equal([])
-    expect(result.isRight()).to.equal(true)
+  it('should not find the list', async () => {
+    const repository = new InMemoryTodoListRepository([])
+    const useCaseInstance = new FindAllTodoUseCase(repository)
+    const result = await useCaseInstance.execute('abcde')
+    expect(result.value).to.be.instanceOf(TodoListNotFoundError)
+    expect(result.isLeft()).to.equal(true)
   })
   it('should return an error when findAll throws an exception', async () => {
-    const todoRepository = new MockTodoRepository() as ITodoRepository
-    const useCaseInstance = new FindAllTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute()
+    class MockTodoListRepository implements Partial<ITodoListRepository> {
+      async findById (todoListId: string): Promise<ITodoListWithId | null> {
+        throw new Error('Method not implemented.')
+      }
+    }
+    const repository = new MockTodoListRepository() as ITodoListRepository
+    const useCaseInstance = new FindAllTodoUseCase(repository)
+    const result = await useCaseInstance.execute('abcde')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UnexpectedError)
   })
