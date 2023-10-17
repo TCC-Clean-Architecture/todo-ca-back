@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { type ITodo } from '@/entities/interfaces/todo'
-import { type ITodoListOptional } from '@/entities/interfaces/todo-list'
+import { type ITodoListOptional, type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { InvalidTodoNameError } from '@/entities/todo/errors/invalid-name-error'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoListRepository } from '@/shared/todo-list-repository'
@@ -52,23 +52,30 @@ describe('Create new todo', () => {
     expect(result.value).to.instanceOf(InvalidTodoNameError)
   })
   it('should return error on update', async () => {
+    const fakeList = todoListFixture()
     class MockTodoListRepository implements Partial<ITodoListRepository> {
+      async findById (todoListId: string): Promise<ITodoListWithId | null> {
+        return fakeList
+      }
+
       async update (todoListId: string, content: Partial<ITodoListOptional>): Promise<string | null> {
         return null
       }
     }
     const todo: ITodo = {
-      name: 'a',
+      name: 'thisistodoname',
       description: 'thisisdescription',
       status: 'todo'
     }
-    const lists = [todoListFixture()]
+    const lists = [fakeList]
     const listId = lists[0].id
     const todoRepository = new MockTodoListRepository() as ITodoListRepository
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
     const result = await createNewTodoUseCase.execute(todo, listId)
+    const resultValue = result.value as UnexpectedError
     expect(result.isLeft()).to.equal(true)
-    expect(result.value).to.instanceOf(UnexpectedError)
+    expect(resultValue).to.instanceOf(UnexpectedError)
+    expect(resultValue.message).to.include('Could not update the list inserting the todo')
   })
   it('should return an error if something unexpected happens', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
