@@ -29,6 +29,36 @@ class TodosEmbedded {
     return right(result.value)
   }
 
+  public delete (todoId: string): Either<null, string> {
+    const todoIndex = this.value.findIndex(todo => todo.id === todoId)
+    if (todoIndex < 0) {
+      return left(null)
+    }
+    this.value.splice(todoIndex, 1)
+    return right(todoId)
+  }
+
+  public findById (todoId: string): Either<null, ITodoWithId> {
+    const todoIndex = this.value.findIndex(todo => todo.id === todoId)
+    if (todoIndex < 0) {
+      return left(null)
+    }
+    return right(this.value[todoIndex])
+  }
+
+  public update (todoId: string, content: Partial<ITodo>): Either<null, ITodoWithId> {
+    const todoIndex = this.value.findIndex(todo => todo.id === todoId)
+    if (todoIndex < 0) {
+      return left(null)
+    }
+    const newTodoContent = {
+      ...this.value[todoIndex],
+      ...content
+    }
+    this.value[todoIndex] = newTodoContent
+    return right(newTodoContent)
+  }
+
   public getAll (): ITodoWithId[] {
     return this.value.slice()
   }

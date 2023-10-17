@@ -4,6 +4,7 @@ import { InvalidIdError } from '@/entities/id/errors/id-validation-error'
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 import { InvalidTodoNameError } from '@/entities/todo/errors'
 import { TodosEmbedded } from '@/entities/todo-list/todos-embedded'
+import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
 
 describe('Todos embedded on todo list testing', () => {
   describe('create method testing', () => {
@@ -61,6 +62,63 @@ describe('Todos embedded on todo list testing', () => {
       expect(result.isLeft()).to.equal(true)
       expect(result.value).to.be.instanceOf(InvalidIdError)
       expect(todosEmbedded.getAll()).to.deep.equal([])
+    })
+  })
+
+  describe('delete method testing', () => {
+    it('should delete todo', () => {
+      const todos = [todoFixture()]
+      const id = todos[0].id
+      const todoInstance = new TodosEmbedded(todos)
+      const result = todoInstance.delete(id)
+      expect(result.isRight()).to.equal(true)
+      expect(result.value).to.equal(id)
+      expect(todoInstance.getAll()).to.deep.equal([])
+    })
+    it('should not find todo to delete', () => {
+      const todoInstance = new TodosEmbedded([])
+      const result = todoInstance.delete('abcde')
+      expect(result.isLeft()).to.equal(true)
+      expect(result.value).to.equal(null)
+    })
+  })
+
+  describe('find by id method testing', () => {
+    it('should find todo by id', () => {
+      const todos = [todoFixture()]
+      const id = todos[0].id
+      const todoInstance = new TodosEmbedded(todos)
+      const result = todoInstance.findById(id)
+      expect(result.isRight()).to.equal(true)
+      expect(result.value).to.deep.equal(todos[0])
+    })
+    it('should not find todo by id', () => {
+      const todoInstance = new TodosEmbedded([])
+      const result = todoInstance.findById('abcde')
+      expect(result.isLeft()).to.equal(true)
+      expect(result.value).to.equal(null)
+    })
+  })
+
+  describe('update method testing', () => {
+    it('should update todo', () => {
+      const todos = [todoFixture()]
+      const id = todos[0].id
+      const updateContent: ITodo = {
+        name: 'updated',
+        description: 'updated',
+        status: 'inprogress'
+      }
+      const todoInstance = new TodosEmbedded(todos)
+      const result = todoInstance.update(id, updateContent)
+      expect(result.isRight()).to.equal(true)
+      expect(result.value).to.deep.include(updateContent)
+    })
+    it('should not find todo by id', () => {
+      const todoInstance = new TodosEmbedded([])
+      const result = todoInstance.update('abcde', {})
+      expect(result.isLeft()).to.equal(true)
+      expect(result.value).to.equal(null)
     })
   })
 })
