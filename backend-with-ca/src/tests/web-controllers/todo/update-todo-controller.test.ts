@@ -1,21 +1,24 @@
 import { expect } from 'chai'
 
-import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
-import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { type IListIdTodoIdParams, type ITodo } from '@/entities/interfaces/todo'
+import { todoListFixture } from '@/tests/helper/fixtures/todo-list-fixture'
+import { InMemoryTodoListRepository } from '@/usecases/shared/repository/in-memory-todo-list-repository'
 import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
 import { type IHttpRequestWithBodyAndParams } from '@/web-controllers/port/http-request'
 import { UpdateTodoController } from '@/web-controllers/todo/update-todo-controller'
 
 describe('UpdateTodoController implementation testing', () => {
   it('should update an specific todo and return success', async () => {
-    const fakeTodo = todoFixture()
-    const todoRepository = new InMemoryTodoRepository([fakeTodo])
+    const lists = [todoListFixture()]
+    const listId = lists[0].id
+    const todoId = lists[0].todos[0].id
+    const todoRepository = new InMemoryTodoListRepository(lists)
     const updateTodoUseCase = new UpdateTodoUseCase(todoRepository)
     const controllerInstance = new UpdateTodoController(updateTodoUseCase)
-    const request: IHttpRequestWithBodyAndParams<Partial<ITodo>, Pick<ITodoWithId, 'id'>> = {
+    const request: IHttpRequestWithBodyAndParams<Partial<ITodo>, IListIdTodoIdParams> = {
       params: {
-        id: fakeTodo.id
+        listId,
+        todoId
       },
       body: {
         name: 'updated',
@@ -31,12 +34,13 @@ describe('UpdateTodoController implementation testing', () => {
     expect(response.content).to.deep.include(request.body)
   })
   it('should not find todo and return error on attempt to update', async () => {
-    const todoRepository = new InMemoryTodoRepository([])
+    const todoRepository = new InMemoryTodoListRepository([])
     const updateTodoUseCase = new UpdateTodoUseCase(todoRepository)
     const controllerInstance = new UpdateTodoController(updateTodoUseCase)
-    const request: IHttpRequestWithBodyAndParams<Partial<ITodo>, Pick<ITodoWithId, 'id'>> = {
+    const request: IHttpRequestWithBodyAndParams<Partial<ITodo>, IListIdTodoIdParams> = {
       params: {
-        id: 'todo'
+        listId: 'abcde',
+        todoId: 'abcde'
       },
       body: {
         name: 'updated',
@@ -50,7 +54,7 @@ describe('UpdateTodoController implementation testing', () => {
     expect(response.message).to.equal('Bad Request')
     expect(response.type).to.equal('error')
     expect(response.content).to.deep.equal({
-      message: 'Todo not found: todo.'
+      message: 'Todo list not found: abcde.'
     })
   })
 })
