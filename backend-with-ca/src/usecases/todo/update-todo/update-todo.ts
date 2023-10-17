@@ -1,41 +1,36 @@
 import { type InvalidIdError } from '@/entities/id/errors/id-validation-error'
 import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/todo/errors'
-import { Todo } from '@/entities/todo/todo'
+import { TodosEmbedded } from '@/entities/todo-list/todos-embedded'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
-import { type ITodoRepository } from '@/shared/todo-repository'
+import { type ITodoListRepository } from '@/shared/todo-list-repository'
 import { type IUseCase } from '@/usecases/shared/ports/use-case'
-import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
+import { type TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
+import { TodoListNotFoundError } from '@/usecases/todo-list/shared/errors/todo-list-not-found-error'
 
-import { TodoUpdateError } from './errors/todo-update-error'
+import { type TodoUpdateError } from './errors/todo-update-error'
 
-type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | TodoUpdateError | InvalidIdError | UnexpectedError
+type ErrorTypes = TodoListNotFoundError | InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | TodoUpdateError | InvalidIdError | UnexpectedError
 
 class UpdateTodoUseCase implements IUseCase {
-  private readonly todoRepository: ITodoRepository
-  constructor (todoRepository: ITodoRepository) {
-    this.todoRepository = todoRepository
+  private readonly todoListRepository: ITodoListRepository
+  constructor (todoListRepository: ITodoListRepository) {
+    this.todoListRepository = todoListRepository
   }
 
-  public async execute (todoId: string, content: Partial<ITodo>): Promise<Either<ErrorTypes, ITodoWithId>> {
+  public async execute (todoId: string, listId: string, content: Partial<ITodo>): Promise<Either<ErrorTypes, ITodoWithId>> {
     try {
-      const todoExists = await this.todoRepository.findById(todoId)
-      if (!todoExists) {
-        return left(new TodoNotFoundError(todoId))
+      const list = await this.todoListRepository.findById(listId)
+      if (!list) {
+        return left(new TodoListNotFoundError(listId))
       }
-      const todoValidation = Todo.validate({
-        ...todoExists, ...content
-      })
-      if (todoValidation.isLeft()) {
-        return left(todoValidation.value)
+      const todos = new TodosEmbedded(list.todos)
+      const result = todos.update(todoId, content)
+      if (result.isLeft()) {
+        return left(result.value)
       }
-      const updateResult = await this.todoRepository.update(todoId, content)
-      if (!updateResult) {
-        return left(new TodoUpdateError(todoId))
-      }
-      const result = await this.todoRepository.findById(todoId) as ITodoWithId
-      return right(result)
+      return right(result.value)
     } catch (err) {
       return left(new UnexpectedError('Something went wrong on attempt to update todo'))
     }

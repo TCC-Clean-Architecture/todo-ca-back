@@ -1,94 +1,63 @@
-import { faker } from '@faker-js/faker'
 import { expect } from 'chai'
 
-import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
-import { InvalidTodoNameError } from '@/entities/todo/errors'
+import { type ITodo } from '@/entities/interfaces/todo'
+import { type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
-import { type ITodoRepository } from '@/shared/todo-repository'
-import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { type ITodoListRepository } from '@/shared/todo-list-repository'
+import { todoListFixture } from '@/tests/helper/fixtures/todo-list-fixture'
+import { InMemoryTodoListRepository } from '@/usecases/shared/repository/in-memory-todo-list-repository'
 import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
-import { TodoUpdateError } from '@/usecases/todo/update-todo/errors/todo-update-error'
 import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
+import { TodoListNotFoundError } from '@/usecases/todo-list/shared/errors/todo-list-not-found-error'
 
 describe('Update todo use case testing', () => {
   it('should update todo', async () => {
-    const todo: ITodoWithId = {
-      id: faker.string.uuid(),
-      name: 'name',
-      description: 'description',
-      status: 'todo',
-      createdAt: new Date()
-    }
+    const lists = [todoListFixture()]
+    const listId = lists[0].id
+    const todo = lists[0].todos[0]
     const todoUpdate: ITodo = {
       name: 'dataupdated',
       description: 'dataupdated',
       status: 'inprogress'
     }
-    const todoRepository = new InMemoryTodoRepository([todo])
-    const useCaseInstance = new UpdateTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute(todo.id, todoUpdate)
+    const repository = new InMemoryTodoListRepository(lists)
+    const useCaseInstance = new UpdateTodoUseCase(repository)
+    const result = await useCaseInstance.execute(todo.id, listId, todoUpdate)
     const expectedResult = {
       id: todo.id,
       ...todoUpdate,
       createdAt: todo.createdAt
     }
     expect(result.value).to.deep.equal(expectedResult)
-    const validateId = await todoRepository.findAll()
-    expect(validateId).to.deep.equal([expectedResult])
+    const validateId = await repository.findAll()
+    expect(validateId[0].todos).to.deep.equal([expectedResult])
+  })
+  it('should not find list to update', async () => {
+    const repository = new InMemoryTodoListRepository([])
+    const useCaseInstance = new UpdateTodoUseCase(repository)
+    const result = await useCaseInstance.execute('abcde', 'abcde', {})
+    expect(result.value).to.be.instanceOf(TodoListNotFoundError)
+    expect(result.isLeft()).to.equal(true)
   })
   it('should not find todo to update', async () => {
-    const todoRepository = new InMemoryTodoRepository([])
-    const useCaseInstance = new UpdateTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute('abcde', {})
+    const lists = [todoListFixture()]
+    const listId = lists[0].id
+    const repository = new InMemoryTodoListRepository(lists)
+    const useCaseInstance = new UpdateTodoUseCase(repository)
+    const result = await useCaseInstance.execute('abcde', listId, {})
     expect(result.value).to.be.instanceOf(TodoNotFoundError)
     expect(result.isLeft()).to.equal(true)
   })
-  it('should cannot update when the some property is not valid', async () => {
-    const todo: ITodoWithId = {
-      id: 'id',
-      name: 'name',
-      description: 'description',
-      status: 'todo',
-      createdAt: new Date()
-    }
-    const todoUpdate: ITodo = {
-      name: 'a'.repeat(300),
-      description: 'dataupdated',
-      status: 'inprogress'
-    }
-    const todoRepository = new InMemoryTodoRepository([todo])
-    const useCaseInstance = new UpdateTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute(todo.id, todoUpdate)
-    expect(result.isLeft()).to.equal(true)
-    expect(result.value).to.be.instanceOf(InvalidTodoNameError)
-  })
-  it('should return null on update repository', async () => {
-    class MockTodoRepositoryNull implements Partial<ITodoRepository> {
-      async findById (todoId: string): Promise<ITodoWithId | null> {
-        return todoFixture()
-      }
-
-      async update (todoId: string, content: Partial<ITodo>): Promise<string | null> {
-        return null
-      }
-    }
-    const todoRepository = new MockTodoRepositoryNull() as ITodoRepository
-    const useCaseInstance = new UpdateTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute('abcde', {})
-    expect(result.value).to.be.instanceOf(TodoUpdateError)
-    expect(result.isLeft()).to.equal(true)
-  })
   it('should return an error when something unexpected happens', async () => {
-    class MockTodoRepositoryException implements Partial<ITodoRepository> {
-      async update (todoId: string, content: Partial<ITodo>): Promise<string | null> {
+    class MockTodoListRepository implements Partial<ITodoListRepository> {
+      async findById (todoListId: string): Promise<ITodoListWithId | null> {
         throw new Error('This is error')
       }
     }
-    const todoRepository = new MockTodoRepositoryException() as ITodoRepository
-    const useCaseInstance = new UpdateTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute('abcde', {})
-    expect(result.value).to.be.instanceOf(UnexpectedError)
+    const repository = new MockTodoListRepository() as ITodoListRepository
+    const useCaseInstance = new UpdateTodoUseCase(repository)
+    const result = await useCaseInstance.execute('abcde', 'abcde', {})
     expect(result.isLeft()).to.equal(true)
+    expect(result.value).instanceOf(UnexpectedError)
   })
 })
