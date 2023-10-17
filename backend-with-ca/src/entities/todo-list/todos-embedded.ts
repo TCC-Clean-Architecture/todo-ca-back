@@ -1,4 +1,5 @@
 import { type Either, left, right } from '@/shared/either'
+import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
 
 import { type InvalidIdError } from '../id/errors/id-validation-error'
 import { type ITodo, type ITodoWithId } from '../interfaces/todo'
@@ -46,14 +47,18 @@ class TodosEmbedded {
     return right(this.value[todoIndex])
   }
 
-  public update (todoId: string, content: Partial<ITodo>): Either<null, ITodoWithId> {
+  public update (todoId: string, content: Partial<ITodo>): Either<TodoNotFoundError | InvalidTodoStatusError | InvalidTodoDescriptionError | InvalidTodoNameError | InvalidIdError, ITodoWithId> {
     const todoIndex = this.value.findIndex(todo => todo.id === todoId)
     if (todoIndex < 0) {
-      return left(null)
+      return left(new TodoNotFoundError(todoId))
     }
     const newTodoContent = {
       ...this.value[todoIndex],
       ...content
+    }
+    const validateTodo = Todo.validate(newTodoContent)
+    if (validateTodo.isLeft()) {
+      return validateTodo
     }
     this.value[todoIndex] = newTodoContent
     return right(newTodoContent)

@@ -5,6 +5,7 @@ import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
 import { InvalidTodoNameError } from '@/entities/todo/errors'
 import { TodosEmbedded } from '@/entities/todo-list/todos-embedded'
 import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
+import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
 
 describe('Todos embedded on todo list testing', () => {
   describe('create method testing', () => {
@@ -114,11 +115,24 @@ describe('Todos embedded on todo list testing', () => {
       expect(result.isRight()).to.equal(true)
       expect(result.value).to.deep.include(updateContent)
     })
+    it('should return error when try to update with invalid text', () => {
+      const todos = [todoFixture()]
+      const id = todos[0].id
+      const updateContent: ITodo = {
+        name: 'a',
+        description: 'updated',
+        status: 'inprogress'
+      }
+      const todoInstance = new TodosEmbedded(todos)
+      const result = todoInstance.update(id, updateContent)
+      expect(result.isLeft()).to.equal(true)
+      expect(result.value).to.be.instanceOf(InvalidTodoNameError)
+    })
     it('should not find todo by id', () => {
       const todoInstance = new TodosEmbedded([])
       const result = todoInstance.update('abcde', {})
       expect(result.isLeft()).to.equal(true)
-      expect(result.value).to.equal(null)
+      expect(result.value).to.be.instanceOf(TodoNotFoundError)
     })
   })
 })
