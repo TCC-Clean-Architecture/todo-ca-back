@@ -3,4 +3,8 @@ interface IUser {
   password: string
 }
 
-export type { IUser }
+interface IUserWithId extends IUser {
+  id: string
+}
+
+export type { IUser, IUserWithId }
