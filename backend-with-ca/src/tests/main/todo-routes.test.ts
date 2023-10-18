@@ -18,7 +18,7 @@ describe('Todo routes testing', () => {
     const todoList = {
       name: 'teste'
     }
-    list = (await request(app).post('/list').send(todoList)).body.content
+    list = (await request(app).post('/todos/list').send(todoList)).body.content
   })
   afterEach(async () => {
     await clearCollection('todos')

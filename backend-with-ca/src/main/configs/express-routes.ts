@@ -18,9 +18,9 @@ const routerConfig = (router: Router): void => {
   router.get('/todos/:todoId/list/:listId', expressRouteAdapter(makeFindSpecificTodoController()))
   router.delete('/todos/:todoId/list/:listId', expressRouteAdapter(makeDeleteTodoController()))
   router.put('/todos/:todoId/list/:listId', expressRouteAdapter(makeUpdateTodoController()))
-  router.post('/list', expressRouteAdapter(makeCreateTodoListController()))
-  router.delete('/list/:listId', expressRouteAdapter(makeDeleteTodoListController()))
-  router.get('/lists', expressRouteAdapter(makeGetTodoListController()))
+  router.post('/todos/list', expressRouteAdapter(makeCreateTodoListController()))
+  router.delete('/todos/list/:listId', expressRouteAdapter(makeDeleteTodoListController()))
+  router.get('/todos/lists', expressRouteAdapter(makeGetTodoListController()))
 }
 
 export { routerConfig }

@@ -15,7 +15,7 @@ describe('Todo list routes testing', () => {
     const todoList = {
       name: 'teste'
     }
-    const response = await request(app).post('/list').send(todoList)
+    const response = await request(app).post('/todos/list').send(todoList)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content).to.deep.include(todoList)
   })
@@ -23,9 +23,9 @@ describe('Todo list routes testing', () => {
     const todoList = {
       name: 'teste'
     }
-    const postResponse = await request(app).post('/list').send(todoList)
+    const postResponse = await request(app).post('/todos/list').send(todoList)
     const id = postResponse.body.content._id
-    const response = await request(app).delete(`/list/${id}`).send(todoList)
+    const response = await request(app).delete(`/todos/list/${id}`).send(todoList)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content).to.deep.equal({
       _id: id
@@ -35,9 +35,9 @@ describe('Todo list routes testing', () => {
     const todoList = {
       name: 'teste'
     }
-    const postResponse1 = await request(app).post('/list').send(todoList)
-    const postResponse2 = await request(app).post('/list').send(todoList)
-    const response = await request(app).get('/lists')
+    const postResponse1 = await request(app).post('/todos/list').send(todoList)
+    const postResponse2 = await request(app).post('/todos/list').send(todoList)
+    const response = await request(app).get('/todos/lists')
     expect(response.statusCode).to.equal(200)
     expect(response.body.content).to.deep.equal([postResponse1.body.content, postResponse2.body.content])
   })
