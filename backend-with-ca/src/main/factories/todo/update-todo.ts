@@ -1,10 +1,10 @@
-import { MongoTodoRepository } from '@/external/repositories/mongo-todo-repository'
+import { MongoTodoListRepository } from '@/external/repositories/mongo-todo-list-repository'
 import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
 import { UpdateTodoController } from '@/web-controllers/todo/update-todo-controller'
 
 const makeUpdateTodoController = (): UpdateTodoController => {
-  const todoRepository = new MongoTodoRepository()
-  const useCase = new UpdateTodoUseCase(todoRepository)
+  const repository = new MongoTodoListRepository()
+  const useCase = new UpdateTodoUseCase(repository)
   const controller = new UpdateTodoController(useCase)
   return controller
 }

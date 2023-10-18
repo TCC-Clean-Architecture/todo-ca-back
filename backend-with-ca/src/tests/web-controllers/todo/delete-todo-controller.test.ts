@@ -1,21 +1,24 @@
 import { expect } from 'chai'
 
-import { type ITodoWithId } from '@/entities/interfaces/todo'
-import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
-import { InMemoryTodoRepository } from '@/usecases/shared/repository/in-memory-todo-repository'
+import { type IListIdTodoIdParams } from '@/entities/interfaces/todo'
+import { todoListFixture } from '@/tests/helper/fixtures/todo-list-fixture'
+import { InMemoryTodoListRepository } from '@/usecases/shared/repository/in-memory-todo-list-repository'
 import { DeleteTodoUseCase } from '@/usecases/todo/delete-todo/delete-todo'
 import { type IHttpRequestWithParams } from '@/web-controllers/port/http-request'
 import { DeleteTodoController } from '@/web-controllers/todo/delete-todo-controller'
 
 describe('DeleteTodoController implementation testing', () => {
   it('should delete an specific todo by id and return success', async () => {
-    const fakeTodo = todoFixture()
-    const todoRepository = new InMemoryTodoRepository([fakeTodo])
-    const deleteTodoUseCase = new DeleteTodoUseCase(todoRepository)
+    const lists = [todoListFixture()]
+    const listId = lists[0].id
+    const todoId = lists[0].todos[0].id
+    const repository = new InMemoryTodoListRepository(lists)
+    const deleteTodoUseCase = new DeleteTodoUseCase(repository)
     const controllerInstance = new DeleteTodoController(deleteTodoUseCase)
-    const request: IHttpRequestWithParams<Pick<ITodoWithId, 'id'>> = {
+    const request: IHttpRequestWithParams<IListIdTodoIdParams> = {
       params: {
-        id: fakeTodo.id
+        listId,
+        todoId
       }
     }
     const response = await controllerInstance.handler(request)
@@ -24,16 +27,17 @@ describe('DeleteTodoController implementation testing', () => {
     expect(response.message).to.equal('OK')
     expect(response.type).to.equal('success')
     expect(response.content).to.deep.equal({
-      _id: fakeTodo.id
+      _id: todoId
     })
   })
   it('should not find todo and return error on attempt to delete', async () => {
-    const todoRepository = new InMemoryTodoRepository([])
-    const deleteTodoUseCase = new DeleteTodoUseCase(todoRepository)
+    const repository = new InMemoryTodoListRepository([])
+    const deleteTodoUseCase = new DeleteTodoUseCase(repository)
     const controllerInstance = new DeleteTodoController(deleteTodoUseCase)
-    const request: IHttpRequestWithParams<Pick<ITodoWithId, 'id'>> = {
+    const request: IHttpRequestWithParams<IListIdTodoIdParams> = {
       params: {
-        id: 'todo'
+        listId: 'abcde',
+        todoId: 'abcde'
       }
     }
     const response = await controllerInstance.handler(request)
@@ -42,7 +46,7 @@ describe('DeleteTodoController implementation testing', () => {
     expect(response.message).to.equal('Bad Request')
     expect(response.type).to.equal('error')
     expect(response.content).to.deep.equal({
-      message: 'Todo not found: todo.'
+      message: 'Todo list not found: abcde.'
     })
   })
 })

@@ -1,4 +1,4 @@
-import { type ITodoWithId } from '@/entities/interfaces/todo'
+import { type IListIdTodoIdParams } from '@/entities/interfaces/todo'
 import { type DeleteTodoUseCase } from '@/usecases/todo/delete-todo/delete-todo'
 import { badRequest, ok } from '@/web-controllers/helper/http-response-builder'
 import { idConverter } from '@/web-controllers/helper/id-property-name-converter'
@@ -12,8 +12,8 @@ class DeleteTodoController implements Controller {
     this.useCase = useCase
   }
 
-  async handler (request: IHttpRequestWithParams<Pick<ITodoWithId, 'id'>>): Promise<IHttpResponse> {
-    const response = await this.useCase.execute(request.params.id)
+  async handler (request: IHttpRequestWithParams<IListIdTodoIdParams>): Promise<IHttpResponse> {
+    const response = await this.useCase.execute(request.params.todoId, request.params.listId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on delete todo',

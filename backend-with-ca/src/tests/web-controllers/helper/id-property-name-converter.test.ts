@@ -15,4 +15,23 @@ describe('Id property name converter testing', () => {
     expect(convertedObj.property1).to.equal(objToConvert.property1)
     expect(convertedObj.property2).to.equal(objToConvert.property2)
   })
+  it('should convert nested object property id to _id', () => {
+    const objToConvert = {
+      id: 'thisisid',
+      todos: [
+        {
+          id: 'sunda'
+        }
+      ]
+    }
+    const convertedObj = idConverter(objToConvert)
+    expect(convertedObj).to.deep.equal({
+      _id: 'thisisid',
+      todos: [
+        {
+          _id: 'sunda'
+        }
+      ]
+    })
+  })
 })

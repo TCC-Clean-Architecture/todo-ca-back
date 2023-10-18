@@ -4,7 +4,7 @@ enum AvailableStatusEnum {
   done
 }
 
-export type AvailableStatus = keyof typeof AvailableStatusEnum
+type AvailableStatus = keyof typeof AvailableStatusEnum
 
 const availableStatus = Object.values(AvailableStatusEnum)
 
@@ -19,12 +19,20 @@ interface ICompleteTodo extends Required<ITodo> {
 
 }
 
-export interface ITodoWithId extends ICompleteTodo {
+interface ITodoWithId extends ICompleteTodo {
   id: string
 }
 
+interface IListIdTodoIdParams {
+  listId: string
+  todoId: string
+}
+
 export {
+  type AvailableStatus,
   availableStatus,
   type ICompleteTodo,
-  type ITodo
+  type IListIdTodoIdParams,
+  type ITodo,
+  type ITodoWithId
 }
