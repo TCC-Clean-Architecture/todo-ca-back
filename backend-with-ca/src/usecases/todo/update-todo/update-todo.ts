@@ -32,7 +32,7 @@ class UpdateTodoUseCase implements IUseCase {
       }
       const updateResult = await this.todoListRepository.update(listId, {
         ...list,
-        ...todoUpdateResult.value
+        todos: todos.getAll()
       })
       if (!updateResult) {
         return left(new TodoListNotFoundError(listId))
