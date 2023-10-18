@@ -30,7 +30,10 @@ describe('FindAllTodoController implementation testing', () => {
       _id: id,
       ...rest
     }
-    expect(response.content).to.deep.equal([expectedFakeTodo])
+    expect(response.content).to.deep.equal({
+      ...lists[0],
+      todos: [expectedFakeTodo]
+    })
   })
   it('should return an error happen something unexpected on use case', async () => {
     const todoRepository = new InMemoryTodoListRepository([])

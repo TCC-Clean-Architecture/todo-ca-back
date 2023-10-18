@@ -1,4 +1,4 @@
-import { type ITodoWithId } from '@/entities/interfaces/todo'
+import { type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoListRepository } from '@/shared/todo-list-repository'
@@ -11,14 +11,13 @@ class FindAllTodoUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  public async execute (listId: string): Promise<Either<TodoListNotFoundError | UnexpectedError, ITodoWithId[]>> {
+  public async execute (listId: string): Promise<Either<TodoListNotFoundError | UnexpectedError, ITodoListWithId>> {
     try {
       const list = await this.todoListRepository.findById(listId)
       if (!list) {
         return left(new TodoListNotFoundError(listId))
       }
-      const todos = list.todos
-      return right(todos)
+      return right(list)
     } catch (err) {
       return left(new UnexpectedError('Something went wrong on list all todos'))
     }

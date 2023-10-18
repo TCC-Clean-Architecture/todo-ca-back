@@ -12,11 +12,10 @@ describe('Find all todo use case testing', () => {
   it('should return all todos inserted', async () => {
     const lists = [todoListFixture()]
     const listId = lists[0].id
-    const todos = lists[0].todos
     const todoRepository = new InMemoryTodoListRepository(lists)
     const useCaseInstance = new FindAllTodoUseCase(todoRepository)
     const result = await useCaseInstance.execute(listId)
-    expect(result.value).to.deep.equal(todos)
+    expect(result.value).to.deep.equal(lists[0])
     expect(result.isRight()).to.equal(true)
   })
   it('should not find the list', async () => {

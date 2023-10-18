@@ -43,7 +43,7 @@ describe('Todo routes testing', () => {
     await request(app).post(`/todos/list/${list._id}`).send(todo)
     const response = await request(app).get(`/todos/list/${list._id}`)
     expect(response.statusCode).to.equal(200)
-    expect(response.body.content[0]).to.deep.include(todo)
+    expect(response.body.content.todos[0]).to.deep.include(todo)
   })
   it('should find one todo', async () => {
     const todo = {
