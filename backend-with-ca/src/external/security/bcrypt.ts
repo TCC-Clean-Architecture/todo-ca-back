@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 
-import { type IHashRepository } from '@/shared/security-repository'
+import { type IHashProvider } from '@/shared/security-repository'
 
-class Bcrypt implements IHashRepository {
+class Bcrypt implements IHashProvider {
   async hash (value: string): Promise<string> {
     const result = await bcrypt.hash(value, 10)
     return result
