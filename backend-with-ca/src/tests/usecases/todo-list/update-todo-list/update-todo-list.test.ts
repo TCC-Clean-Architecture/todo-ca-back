@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { type ITodoList, type ITodoListWithId } from '@/entities/interfaces/todo-list'
+import { type ITodoList, type ITodoListOptional, type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { InvalidTodosOnList } from '@/entities/todo-list/errors/invalid-todos-on-list'
 import { type Either } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
@@ -55,5 +55,22 @@ describe('Update todo list by id use case testing', () => {
     const result = await useCase.execute('abcde', {})
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UnexpectedError)
+  })
+  it('should return an error when not find todolist to update', async () => {
+    const todoList: ITodoListWithId[] = [todoListFixture()]
+    class MockTodoListRepository implements Partial<ITodoListRepository> {
+      async findById (todoId: string): Promise<ITodoListWithId> {
+        return todoList[0]
+      }
+
+      async update (listId: string, content: Partial<ITodoListOptional>): Promise<null | string> {
+        return null
+      }
+    }
+    const todoListRepository = new MockTodoListRepository() as ITodoListRepository
+    const useCase = new UpdateTodoListUseCase(todoListRepository)
+    const result = await useCase.execute(todoList[0].id, {}) as Either<null, ITodoListWithId>
+    expect(result.isLeft()).to.equal(true)
+    expect(result.value).to.be.instanceOf(TodoListNotFoundError)
   })
 })

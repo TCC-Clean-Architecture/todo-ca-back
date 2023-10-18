@@ -9,7 +9,7 @@ interface ITodoListWith_id extends ITodoList {
   _id: string
 }
 
-describe.skip('Todo routes testing', () => {
+describe('Todo routes testing', () => {
   let list: ITodoListWith_id
   before(async () => {
     await connectDatabase()
@@ -30,7 +30,7 @@ describe.skip('Todo routes testing', () => {
       description: 'this is description',
       status: 'done'
     }
-    const response = await request(app).post(`/todos/${list._id}`).send(todo)
+    const response = await request(app).post(`/todos/list/${list._id}`).send(todo)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content).to.deep.include(todo)
   })
@@ -40,8 +40,8 @@ describe.skip('Todo routes testing', () => {
       description: 'this is description',
       status: 'done'
     }
-    await request(app).post('/todos').send(todo)
-    const response = await request(app).get('/todos')
+    await request(app).post(`/todos/list/${list._id}`).send(todo)
+    const response = await request(app).get(`/todos/list/${list._id}`)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content[0]).to.deep.include(todo)
   })
@@ -51,8 +51,8 @@ describe.skip('Todo routes testing', () => {
       description: 'this is description',
       status: 'done'
     }
-    const insertedTodoResponse = await request(app).post('/todos').send(todo)
-    const response = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}`)
+    const insertedTodoResponse = await request(app).post(`/todos/list/${list._id}`).send(todo)
+    const response = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}/list/${list._id}`)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content).to.deep.include(todo)
   })
@@ -62,12 +62,12 @@ describe.skip('Todo routes testing', () => {
       description: 'this is description',
       status: 'done'
     }
-    const insertedTodoResponse = await request(app).post('/todos').send(todo)
+    const insertedTodoResponse = await request(app).post(`/todos/list/${list._id}`).send(todo)
     const insertedId = insertedTodoResponse.body.content._id
-    const response = await request(app).delete(`/todos/${insertedId}`)
+    const response = await request(app).delete(`/todos/${insertedId}/list/${list._id}`)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content._id).to.equal(insertedId)
-    const exists = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}`)
+    const exists = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}/list/${list._id}`)
     expect(exists.statusCode).to.equal(400)
   })
   it('should update one todo', async () => {
@@ -81,12 +81,12 @@ describe.skip('Todo routes testing', () => {
       description: 'updated',
       status: 'done'
     }
-    const insertedTodoResponse = await request(app).post('/todos').send(todo)
+    const insertedTodoResponse = await request(app).post(`/todos/list/${list._id}`).send(todo)
     const insertedId = insertedTodoResponse.body.content._id
-    const response = await request(app).put(`/todos/${insertedId}`).send(todoUpdatePayload)
+    const response = await request(app).put(`/todos/${insertedId}/list/${list._id}`).send(todoUpdatePayload)
     expect(response.statusCode).to.equal(200)
     expect(response.body.content._id).to.equal(insertedId)
-    const verifyUpdate = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}`)
+    const verifyUpdate = await request(app).get(`/todos/${insertedTodoResponse.body.content._id}/list/${list._id}`)
     expect(verifyUpdate.statusCode).to.equal(200)
     expect(verifyUpdate.body.content).to.deep.include(todoUpdatePayload)
   })

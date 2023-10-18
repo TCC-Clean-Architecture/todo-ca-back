@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 
 import { type ITodoList } from '@/entities/interfaces/todo-list'
+import { InvalidTodoListName } from '@/entities/todo-list/errors/invalid-todo-list-name'
 import { InvalidTodosOnList } from '@/entities/todo-list/errors/invalid-todos-on-list'
 import { TodoList } from '@/entities/todo-list/todo-list'
 import { TodoListName } from '@/entities/todo-list/todo-list-name'
@@ -32,6 +33,15 @@ describe('todo-list testing', () => {
       expect(todoListValidated.value).to.be.instanceOf(TodoList)
       expect(todoListValidated.isRight()).to.equal(true)
       expect(todoListValidated.value).to.deep.equal(todoList)
+    })
+    it('should validate todo list name and not insert', () => {
+      const paramTodoList: ITodoList = {
+        name: 'a',
+        todos: []
+      }
+      const todoListValidated = TodoList.validate(paramTodoList)
+      expect(todoListValidated.value).to.be.instanceOf(InvalidTodoListName)
+      expect(todoListValidated.isLeft()).to.equal(true)
     })
     it('should validate todos and do not insert if contains something wrong', () => {
       const paramTodoList: ITodoList = {

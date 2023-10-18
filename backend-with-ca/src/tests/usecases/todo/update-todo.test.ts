@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { type ITodo } from '@/entities/interfaces/todo'
-import { type ITodoListWithId } from '@/entities/interfaces/todo-list'
+import { type ITodoListOptional, type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
 import { type ITodoListRepository } from '@/shared/todo-list-repository'
 import { todoListFixture } from '@/tests/helper/fixtures/todo-list-fixture'
@@ -46,6 +46,25 @@ describe('Update todo use case testing', () => {
     const useCaseInstance = new UpdateTodoUseCase(repository)
     const result = await useCaseInstance.execute('abcde', listId, {})
     expect(result.value).to.be.instanceOf(TodoNotFoundError)
+    expect(result.isLeft()).to.equal(true)
+  })
+  it('should not find todo list to update', async () => {
+    const lists = [todoListFixture()]
+    class MockTodoListRepository implements Partial<ITodoListRepository> {
+      async findById (todoId: string): Promise<ITodoListWithId> {
+        return lists[0]
+      }
+
+      async update (listId: string, content: Partial<ITodoListOptional>): Promise<null | string> {
+        return null
+      }
+    }
+
+    const listId = lists[0].id
+    const repository = new MockTodoListRepository() as ITodoListRepository
+    const useCaseInstance = new UpdateTodoUseCase(repository)
+    const result = await useCaseInstance.execute(lists[0].todos[0].id, listId, {})
+    expect(result.value).to.be.instanceOf(TodoListNotFoundError)
     expect(result.isLeft()).to.equal(true)
   })
   it('should return an error when something unexpected happens', async () => {

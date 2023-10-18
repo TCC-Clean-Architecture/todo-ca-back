@@ -26,11 +26,18 @@ class UpdateTodoUseCase implements IUseCase {
         return left(new TodoListNotFoundError(listId))
       }
       const todos = new TodosEmbedded(list.todos)
-      const result = todos.update(todoId, content)
-      if (result.isLeft()) {
-        return left(result.value)
+      const todoUpdateResult = todos.update(todoId, content)
+      if (todoUpdateResult.isLeft()) {
+        return left(todoUpdateResult.value)
       }
-      return right(result.value)
+      const updateResult = await this.todoListRepository.update(listId, {
+        ...list,
+        ...todoUpdateResult.value
+      })
+      if (!updateResult) {
+        return left(new TodoListNotFoundError(listId))
+      }
+      return right(todoUpdateResult.value)
     } catch (err) {
       return left(new UnexpectedError('Something went wrong on attempt to update todo'))
     }
