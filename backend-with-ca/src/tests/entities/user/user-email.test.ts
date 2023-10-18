@@ -21,12 +21,12 @@ describe('Entity user email testing', () => {
     })
   })
 
-  describe('Todo name entity validate method testing', () => {
-    it('should validate todo and return true', () => {
+  describe('User email entity validate method testing', () => {
+    it('should validate user email and return true', () => {
       const userEmail = 'user@email.com'
       expect(Email.validate(userEmail)).to.equal(true)
     })
-    it('should validate todo and return false', () => {
+    it('should validate user email and return false', () => {
       const userEmail = 'useremail.com'
       expect(Email.validate(userEmail)).to.equal(false)
     })
