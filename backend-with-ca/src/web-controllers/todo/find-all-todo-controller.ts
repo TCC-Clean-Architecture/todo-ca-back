@@ -26,10 +26,7 @@ class FindAllTodoController implements Controller {
     }
     return ok({
       description: 'Find all todos executed successfully',
-      content: {
-        ...response.value,
-        todos: response.value.todos.map(item => idConverter(item))
-      }
+      content: idConverter(response.value)
     })
   }
 }
