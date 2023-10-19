@@ -36,7 +36,6 @@ describe('Create user controller testing', () => {
     const response = await controller.handler({
       body: user
     })
-    console.log(response.content)
     expect(response.description).to.equal('Error on create user')
     expect(response.statusCode).to.equal(400)
     expect(response.message).to.equal('Bad Request')
