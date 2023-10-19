@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 
 import { type IUser } from '@/entities/interfaces/user'
+import { Bcrypt } from '@/external/security/bcrypt'
 import { InMemoryUserRepository } from '@/usecases/shared/repository/in-memory-user-repository'
 import { CreateUserUseCase } from '@/usecases/user/create-user'
 import { CreateUserController } from '@/web-controllers/user/create-user-controller'
@@ -12,7 +13,8 @@ describe('Create user controller testing', () => {
       password: 'Password100'
     }
     const repository = new InMemoryUserRepository([])
-    const useCase = new CreateUserUseCase(repository)
+    const hashProvider = new Bcrypt()
+    const useCase = new CreateUserUseCase(repository, hashProvider)
     const controller = new CreateUserController(useCase)
     const response = await controller.handler({
       body: user
@@ -31,7 +33,8 @@ describe('Create user controller testing', () => {
       password: 'Password100'
     }
     const repository = new InMemoryUserRepository([])
-    const useCase = new CreateUserUseCase(repository)
+    const hashProvider = new Bcrypt()
+    const useCase = new CreateUserUseCase(repository, hashProvider)
     const controller = new CreateUserController(useCase)
     const response = await controller.handler({
       body: user

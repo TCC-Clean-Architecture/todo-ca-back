@@ -2,6 +2,7 @@ import { expect } from 'chai'
 
 import { type IUser, type IUserWithId } from '@/entities/interfaces/user'
 import { InvalidEmailError } from '@/entities/user/errors/InvalidEmailError'
+import { Bcrypt } from '@/external/security/bcrypt'
 import { type IUserRepository } from '@/shared/user-repository'
 import { InMemoryUserRepository } from '@/usecases/shared/repository/in-memory-user-repository'
 import { CreateUserUseCase } from '@/usecases/user/create-user'
@@ -9,18 +10,21 @@ import { UserAlreadyExists } from '@/usecases/user/errors/UserAlreadyExists'
 import { UserCreateError } from '@/usecases/user/errors/UserCreateError'
 
 describe('Create user use case testing', () => {
-  it('should create an user', async () => {
+  it('should create an user with hashed password', async () => {
     const user: IUser = {
       email: 'email@email.com',
       password: 'Password100'
     }
     const repository = new InMemoryUserRepository([])
-    const useCase = new CreateUserUseCase(repository)
+    const hashProvider = new Bcrypt()
+    const useCase = new CreateUserUseCase(repository, hashProvider)
     const result = await useCase.execute(user)
     expect(result.isRight()).to.equal(true)
     expect(result.value).to.have.property('id')
     expect(result.value).to.deep.include({ email: user.email })
     expect(result.value).to.not.have.property('password')
+    const userInDb = await repository.findByEmail(user.email)
+    expect(userInDb?.password).to.not.equal(user.password)
   })
   it('should not create invalid user', async () => {
     const user: IUser = {
@@ -28,7 +32,8 @@ describe('Create user use case testing', () => {
       password: 'Password100'
     }
     const repository = new InMemoryUserRepository([])
-    const useCase = new CreateUserUseCase(repository)
+    const hashProvider = new Bcrypt()
+    const useCase = new CreateUserUseCase(repository, hashProvider)
     const result = await useCase.execute(user)
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(InvalidEmailError)
@@ -48,7 +53,8 @@ describe('Create user use case testing', () => {
       password: 'Password100'
     }
     const repository = new MockUserRepository() as IUserRepository
-    const useCase = new CreateUserUseCase(repository)
+    const hashProvider = new Bcrypt()
+    const useCase = new CreateUserUseCase(repository, hashProvider)
     const result = await useCase.execute(user)
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UserCreateError)
@@ -59,7 +65,8 @@ describe('Create user use case testing', () => {
       password: 'Password100'
     }
     const repository = new InMemoryUserRepository([{ ...user, id: 'id' }])
-    const useCase = new CreateUserUseCase(repository)
+    const hashProvider = new Bcrypt()
+    const useCase = new CreateUserUseCase(repository, hashProvider)
     const result = await useCase.execute(user)
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UserAlreadyExists)
