@@ -21,7 +21,9 @@ describe('Create user controller testing', () => {
     expect(response.statusCode).to.equal(200)
     expect(response.message).to.equal('OK')
     expect(response.type).to.equal('success')
-    expect(response.content).to.deep.include(user)
+    expect(response.content).to.have.property('_id')
+    expect(response.content).to.deep.include({ email: user.email })
+    expect(response.content).to.not.have.property('password')
   })
   it('should return fail', async () => {
     const user: IUser = {

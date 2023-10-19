@@ -18,7 +18,9 @@ describe('Create user use case testing', () => {
     const useCase = new CreateUserUseCase(repository)
     const result = await useCase.execute(user)
     expect(result.isRight()).to.equal(true)
-    expect(result.value).to.include(user)
+    expect(result.value).to.have.property('id')
+    expect(result.value).to.deep.include({ email: user.email })
+    expect(result.value).to.not.have.property('password')
   })
   it('should not create invalid user', async () => {
     const user: IUser = {

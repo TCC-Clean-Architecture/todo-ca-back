@@ -7,4 +7,9 @@ interface IUserWithId extends IUser {
   id: string
 }
 
-export type { IUser, IUserWithId }
+interface IUserWithoutPassword {
+  id: string
+  email: string
+}
+
+export type { IUser, IUserWithId, IUserWithoutPassword }
