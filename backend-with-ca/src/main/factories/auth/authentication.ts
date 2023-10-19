@@ -4,7 +4,7 @@ import { Jwt } from '@/external/security/jwt'
 import { AuthenticationUseCase } from '@/usecases/auth/authentication'
 import { AuthenticationController } from '@/web-controllers/auth/authentication-controller'
 
-const makeCreateUserController = (): AuthenticationController => {
+const makeCreateAuthenticationController = (): AuthenticationController => {
   const repository = new MongoUserRepository()
   const hashProvider = new Bcrypt()
   const jwtProvider = new Jwt('abcde')
@@ -13,4 +13,4 @@ const makeCreateUserController = (): AuthenticationController => {
   return controller
 }
 
-export { makeCreateUserController }
+export { makeCreateAuthenticationController }

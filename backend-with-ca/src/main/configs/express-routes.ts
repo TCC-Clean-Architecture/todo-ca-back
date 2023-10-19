@@ -2,8 +2,10 @@ import { type Router } from 'express'
 
 import { expressRouteAdapter } from '@/main/adapters/express-route-adapter'
 import {
+  makeCreateAuthenticationController,
   makeCreateTodoController,
   makeCreateTodoListController,
+  makeCreateUserController,
   makeDeleteTodoController,
   makeDeleteTodoListController,
   makeFindSpecificTodoController,
@@ -21,6 +23,8 @@ const routerConfig = (router: Router): void => {
   router.post('/todos/list', expressRouteAdapter(makeCreateTodoListController()))
   router.delete('/todos/list/:listId', expressRouteAdapter(makeDeleteTodoListController()))
   router.get('/todos/lists', expressRouteAdapter(makeGetTodoListController()))
+  router.post('/users/register', expressRouteAdapter(makeCreateUserController()))
+  router.post('/authenticate', expressRouteAdapter(makeCreateAuthenticationController()))
 }
 
 export { routerConfig }
