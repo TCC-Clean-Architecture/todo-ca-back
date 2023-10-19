@@ -25,6 +25,7 @@ describe('Create user use case testing', () => {
     expect(result.value).to.deep.include({ email: user.email })
     expect(result.value).to.not.have.property('password')
     const userInDb = await repository.findByEmail(user.email)
+    console.log(userInDb)
     expect(userInDb?.password).to.not.equal(user.password)
   })
   it('should not create invalid user', async () => {
