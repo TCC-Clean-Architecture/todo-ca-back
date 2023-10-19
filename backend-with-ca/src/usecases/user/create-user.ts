@@ -1,5 +1,6 @@
 import { type IUser, type IUserWithoutPassword } from '@/entities/interfaces/user'
 import { type InvalidEmailError } from '@/entities/user/errors/InvalidEmailError'
+import { type InvalidNameError } from '@/entities/user/errors/InvalidNameError'
 import { type InvalidPasswordError } from '@/entities/user/errors/InvalidPasswordError'
 import { User } from '@/entities/user/user'
 import { type Either, left, right } from '@/shared/either'
@@ -18,7 +19,7 @@ class CreateUserUseCase implements IUseCase {
     this.hashProvider = hashProvider
   }
 
-  async execute (user: IUser): Promise<Either<InvalidEmailError | InvalidPasswordError | UserAlreadyExists | UserCreateError, IUserWithoutPassword>> {
+  async execute (user: IUser): Promise<Either<InvalidNameError | InvalidEmailError | InvalidPasswordError | UserAlreadyExists | UserCreateError, IUserWithoutPassword>> {
     const userInstance = User.create(user)
     if (userInstance.isLeft()) {
       return left(userInstance.value)

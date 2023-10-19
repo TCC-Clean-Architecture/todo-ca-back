@@ -12,6 +12,7 @@ import { UserCreateError } from '@/usecases/user/errors/UserCreateError'
 describe('Create user use case testing', () => {
   it('should create an user with hashed password', async () => {
     const user: IUser = {
+      name: 'John Doe',
       email: 'email@email.com',
       password: 'Password100'
     }
@@ -28,6 +29,7 @@ describe('Create user use case testing', () => {
   })
   it('should not create invalid user', async () => {
     const user: IUser = {
+      name: 'John Doe',
       email: 'emailemail.com',
       password: 'Password100'
     }
@@ -49,6 +51,7 @@ describe('Create user use case testing', () => {
       }
     }
     const user: IUser = {
+      name: 'John Doe',
       email: 'email@email.com',
       password: 'Password100'
     }
@@ -61,6 +64,7 @@ describe('Create user use case testing', () => {
   })
   it('should attempt to insert user already exists', async () => {
     const user: IUser = {
+      name: 'John Doe',
       email: 'email@email.com',
       password: 'Password100'
     }

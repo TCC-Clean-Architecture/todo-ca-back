@@ -1,4 +1,5 @@
 interface IUser {
+  name: string
   email: string
   password: string
 }
@@ -9,6 +10,7 @@ interface IUserWithId extends IUser {
 
 interface IUserWithoutPassword {
   id: string
+  name: string
   email: string
 }
 

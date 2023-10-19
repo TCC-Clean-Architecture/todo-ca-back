@@ -8,6 +8,7 @@ describe('In memory user repository test', () => {
     it('should create an user repository', async () => {
       const instance = new InMemoryUserRepository([])
       const user: IUser = {
+        name: 'John Doe',
         email: 'email@email.com',
         password: 'Password100'
       }
@@ -19,6 +20,7 @@ describe('In memory user repository test', () => {
     it('should find an user by email', async () => {
       const user: IUserWithId = {
         id: 'thisisid',
+        name: 'John Doe',
         email: 'email@email.com',
         password: 'Password100'
       }
@@ -29,6 +31,7 @@ describe('In memory user repository test', () => {
     it('should not find an user by email', async () => {
       const user: IUserWithId = {
         id: 'thisisid',
+        name: 'John Doe',
         email: 'email@email.com',
         password: 'Password100'
       }

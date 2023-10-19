@@ -9,6 +9,7 @@ import { CreateUserController } from '@/web-controllers/user/create-user-control
 describe('Create user controller testing', () => {
   it('should return success', async () => {
     const user: IUser = {
+      name: 'John Doe',
       email: 'email@email.com',
       password: 'Password100'
     }
@@ -29,6 +30,7 @@ describe('Create user controller testing', () => {
   })
   it('should return fail', async () => {
     const user: IUser = {
+      name: 'John Doe',
       email: 'emailemail.com',
       password: 'Password100'
     }
