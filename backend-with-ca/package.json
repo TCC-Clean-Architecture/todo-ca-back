@@ -1,6 +1,6 @@
 {
     "name": "2do4u-backend-with-clean-architecture",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "description": "Software criado para fins de pesquisa de TCC",
     "main": "index.js",
     "scripts": {
