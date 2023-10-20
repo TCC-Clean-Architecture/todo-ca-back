@@ -12,9 +12,9 @@ class DeleteTodoUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  public async execute (todoId: string, listId: string): Promise<Either<TodoListNotFoundError | TodoNotFoundError | UnexpectedError, string>> {
+  public async execute (todoId: string, listId: string, userId: string): Promise<Either<TodoListNotFoundError | TodoNotFoundError | UnexpectedError, string>> {
     try {
-      const list = await this.todoListRepository.findById(listId)
+      const list = await this.todoListRepository.findById(listId, userId)
       if (!list) {
         return left(new TodoListNotFoundError(listId))
       }
@@ -24,7 +24,7 @@ class DeleteTodoUseCase implements IUseCase {
         return left(new TodoNotFoundError(todoId))
       }
       const todoList = { ...list, todos: todos.getAll() }
-      const updatedResult = await this.todoListRepository.update(listId, todoList)
+      const updatedResult = await this.todoListRepository.update(listId, todoList, userId)
       if (!updatedResult) {
         return left(new UnexpectedError('Could not update the list deleting todo'))
       }

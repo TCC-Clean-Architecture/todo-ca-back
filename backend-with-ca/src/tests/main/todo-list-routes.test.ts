@@ -27,8 +27,7 @@ describe('Todo list routes testing', () => {
   })
   it('should create a new todo list', async () => {
     const todoList = {
-      name: 'teste',
-      userId: 'userId'
+      name: 'teste'
     }
     const response = await request(app).post('/todos/list')
       .set('x-access-token', testHelpers.token)
@@ -38,8 +37,7 @@ describe('Todo list routes testing', () => {
   })
   it('should delete a todo list', async () => {
     const todoList = {
-      name: 'teste',
-      userId: 'userId'
+      name: 'teste'
     }
     const postResponse = await request(app)
       .post('/todos/list')
@@ -57,8 +55,7 @@ describe('Todo list routes testing', () => {
   })
   it('should get all lists', async () => {
     const todoList = {
-      name: 'teste',
-      userId: 'userId'
+      name: 'teste'
     }
     const postResponse1 = await request(app)
       .post('/todos/list')

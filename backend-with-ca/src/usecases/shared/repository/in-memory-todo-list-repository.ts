@@ -19,17 +19,17 @@ class InMemoryTodoListRepository implements ITodoListRepository {
     return id
   }
 
-  async findById (todoListId: string): Promise<ITodoListWithId | null> {
-    const todoList = this.repository.find(item => item.id === todoListId)
+  async findById (todoListId: string, userId: string): Promise<ITodoListWithId | null> {
+    const todoList = this.repository.find(item => item.id === todoListId && item.userId === userId)
     return todoList ?? null
   }
 
-  async findAll (): Promise<ITodoListWithId[]> {
+  async findAll (userId: string): Promise<ITodoListWithId[]> {
     return this.repository.slice()
   }
 
-  async delete (todoListId: string): Promise<string | null> {
-    const indexToRemove = this.repository.findIndex(todo => todo.id === todoListId)
+  async delete (todoListId: string, userId: string): Promise<string | null> {
+    const indexToRemove = this.repository.findIndex(todo => todo.id === todoListId && todo.userId === userId)
     if (indexToRemove < 0) {
       return null
     }
@@ -37,8 +37,8 @@ class InMemoryTodoListRepository implements ITodoListRepository {
     return todoListId
   }
 
-  async update (todoListId: string, content: Partial<ITodoListOptional>): Promise<string | null> {
-    const index = this.repository.findIndex(todoList => todoList.id === todoListId)
+  async update (todoListId: string, content: Partial<ITodoListOptional>, userId: string): Promise<string | null> {
+    const index = this.repository.findIndex(todoList => todoList.id === todoListId && todoList.userId === userId)
     if (index === -1) {
       return null
     }

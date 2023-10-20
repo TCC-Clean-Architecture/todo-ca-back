@@ -19,6 +19,9 @@ describe('DeleteTodoController implementation testing', () => {
       params: {
         listId,
         todoId
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)
@@ -38,6 +41,9 @@ describe('DeleteTodoController implementation testing', () => {
       params: {
         listId: 'abcde',
         todoId: 'abcde'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)

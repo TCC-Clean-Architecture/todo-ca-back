@@ -6,9 +6,14 @@ interface ITodoList {
   todos: ITodoWithId[]
 }
 
-interface ITodoListOptional {
+interface ITodoListCreate {
   name: string
   userId: string
+  todos?: ITodoWithId[]
+}
+
+interface ITodoListOptional {
+  name: string
   todos?: ITodoWithId[]
 }
 
@@ -23,6 +28,7 @@ interface IListId {
 export type {
   IListId,
   ITodoList,
+  ITodoListCreate,
   ITodoListOptional,
   ITodoListWithId
 }

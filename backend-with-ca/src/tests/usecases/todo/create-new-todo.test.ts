@@ -21,7 +21,7 @@ describe('Create new todo', () => {
     const listId = lists[0].id
     const todoListRepository = new InMemoryTodoListRepository(lists)
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoListRepository)
-    const result = await createNewTodoUseCase.execute(todo, listId)
+    const result = await createNewTodoUseCase.execute(todo, listId, 'userId')
     expect(result.isRight()).to.equal(true)
     expect(result.value).to.deep.include(todo)
   })
@@ -33,7 +33,7 @@ describe('Create new todo', () => {
     }
     const todoRepository = new InMemoryTodoListRepository([])
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
-    const result = await createNewTodoUseCase.execute(todo, 'abcde')
+    const result = await createNewTodoUseCase.execute(todo, 'abcde', 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.instanceOf(TodoListNotFoundError)
   })
@@ -47,18 +47,18 @@ describe('Create new todo', () => {
     const listId = lists[0].id
     const todoRepository = new InMemoryTodoListRepository(lists)
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
-    const result = await createNewTodoUseCase.execute(todo, listId)
+    const result = await createNewTodoUseCase.execute(todo, listId, 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.instanceOf(InvalidTodoNameError)
   })
   it('should return error on update', async () => {
     const fakeList = todoListFixture()
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async findById (todoListId: string): Promise<ITodoListWithId | null> {
+      async findById (todoListId: string, userId: string): Promise<ITodoListWithId | null> {
         return fakeList
       }
 
-      async update (todoListId: string, content: Partial<ITodoListOptional>): Promise<string | null> {
+      async update (todoListId: string, content: Partial<ITodoListOptional>, userId: string): Promise<string | null> {
         return null
       }
     }
@@ -71,7 +71,7 @@ describe('Create new todo', () => {
     const listId = lists[0].id
     const todoRepository = new MockTodoListRepository() as ITodoListRepository
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
-    const result = await createNewTodoUseCase.execute(todo, listId)
+    const result = await createNewTodoUseCase.execute(todo, listId, 'userId')
     const resultValue = result.value as UnexpectedError
     expect(result.isLeft()).to.equal(true)
     expect(resultValue).to.instanceOf(UnexpectedError)
@@ -79,7 +79,7 @@ describe('Create new todo', () => {
   })
   it('should return an error if something unexpected happens', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async update (todoListId: string, content: Partial<ITodoListOptional>): Promise<string | null> {
+      async update (todoListId: string, content: Partial<ITodoListOptional>, userId: string): Promise<string | null> {
         throw new Error('This is error')
       }
     }
@@ -92,7 +92,7 @@ describe('Create new todo', () => {
     const listId = lists[0].id
     const todoRepository = new MockTodoListRepository() as ITodoListRepository
     const createNewTodoUseCase = new CreateNewTodoUseCase(todoRepository)
-    const result = await createNewTodoUseCase.execute(todo, listId)
+    const result = await createNewTodoUseCase.execute(todo, listId, 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.instanceOf(UnexpectedError)
   })

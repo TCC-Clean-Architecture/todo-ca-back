@@ -37,7 +37,7 @@ describe('Mongo user repository testing', () => {
       expect(result).to.have.property('id')
       expect(result?.id).to.be.a('string')
     })
-    it('should find one user by email', async () => {
+    it('should not find one user by email', async () => {
       const repositoryInstance = new MongoUserRepository()
       const result = await repositoryInstance.findByEmail('')
       expect(result).to.equal(null)

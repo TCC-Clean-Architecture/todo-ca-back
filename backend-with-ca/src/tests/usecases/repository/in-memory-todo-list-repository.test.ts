@@ -14,7 +14,7 @@ describe('In memory todo list repository testing', () => {
       }
       const repository = new InMemoryTodoListRepository([])
       const createdId = await repository.create(todoList)
-      const result = await repository.findById(createdId)
+      const result = await repository.findById(createdId, todoList.userId)
       expect(result).to.deep.include({
         ...todoList
       })
@@ -28,7 +28,7 @@ describe('In memory todo list repository testing', () => {
       }
       const repository = new InMemoryTodoListRepository([])
       const createdId = await repository.create(todoList)
-      const result = await repository.findById(createdId)
+      const result = await repository.findById(createdId, todoList.userId)
       expect(result).to.deep.include({
         ...todoList
       })
@@ -44,12 +44,12 @@ describe('In memory todo list repository testing', () => {
       }
       const repository = new InMemoryTodoListRepository([])
       const createdId = await repository.create(todoList)
-      const result = await repository.findById(createdId)
+      const result = await repository.findById(createdId, todoList.userId)
       expect(result).to.deep.include(todoList)
     })
     it('should not find by id the todo list', async () => {
       const repository = new InMemoryTodoListRepository([])
-      const result = await repository.findById('nonexistingid')
+      const result = await repository.findById('nonexistingid', '')
       expect(result).to.equal(null)
     })
   })
@@ -57,12 +57,12 @@ describe('In memory todo list repository testing', () => {
     it('should list all todos lists', async () => {
       const todoLists = [todoListFixture(), todoListFixture()]
       const repository = new InMemoryTodoListRepository(todoLists)
-      const result = await repository.findAll()
+      const result = await repository.findAll('userId')
       expect(result).to.deep.equal(todoLists)
     })
     it('should return empty result', async () => {
       const repository = new InMemoryTodoListRepository([])
-      const result = await repository.findAll()
+      const result = await repository.findAll('')
       expect(result).to.deep.equal([])
     })
   })
@@ -71,14 +71,14 @@ describe('In memory todo list repository testing', () => {
       const todoList = [todoListFixture()]
       const expectedId = todoList[0].id
       const repository = new InMemoryTodoListRepository(todoList)
-      const result = await repository.delete(expectedId)
+      const result = await repository.delete(expectedId, 'userId')
       expect(result).to.equal(expectedId)
-      const validateId = await repository.findAll()
+      const validateId = await repository.findAll('userId')
       expect(validateId).to.deep.equal([])
     })
     it('should return null when cannot delete', async () => {
       const repository = new InMemoryTodoListRepository([])
-      const result = await repository.delete('abc')
+      const result = await repository.delete('abc', 'userId')
       expect(result).to.equal(null)
     })
   })
@@ -91,18 +91,18 @@ describe('In memory todo list repository testing', () => {
         userId: 'userId'
       }
       const repository = new InMemoryTodoListRepository(todoList)
-      const result = await repository.update(todoList[0].id, todoListUpdate)
+      const result = await repository.update(todoList[0].id, todoListUpdate, todoListUpdate.userId)
       const expectedResult = {
         id: todoList[0].id,
         ...todoListUpdate
       }
       expect(result).to.equal(todoList[0].id)
-      const validateResult = await repository.findAll()
+      const validateResult = await repository.findAll(todoListUpdate.userId)
       expect(validateResult).to.deep.equal([expectedResult])
     })
     it('should return null when not found', async () => {
       const repository = new InMemoryTodoListRepository([])
-      const result = await repository.update('abcde', {})
+      const result = await repository.update('abcde', {}, '')
       expect(result).to.equal(null)
     })
   }

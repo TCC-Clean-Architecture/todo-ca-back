@@ -17,9 +17,9 @@ class CreateNewTodoUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  public async execute (todo: ITodo, listId: string): Promise<Either<ErrorTypes, ITodoWithId>> {
+  public async execute (todo: ITodo, listId: string, userId: string): Promise<Either<ErrorTypes, ITodoWithId>> {
     try {
-      const list = await this.todoListRepository.findById(listId)
+      const list = await this.todoListRepository.findById(listId, userId)
       if (!list) {
         return left(new TodoListNotFoundError(listId))
       }
@@ -29,7 +29,7 @@ class CreateNewTodoUseCase implements IUseCase {
         return left(createResult.value)
       }
       const todoList = { ...list, todos: todos.getAll() }
-      const updatedResult = await this.todoListRepository.update(listId, todoList)
+      const updatedResult = await this.todoListRepository.update(listId, todoList, userId)
       if (!updatedResult) {
         return left(new UnexpectedError('Could not update the list inserting the todo'))
       }

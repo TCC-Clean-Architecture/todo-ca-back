@@ -13,7 +13,7 @@ class DeleteTodoController implements Controller {
   }
 
   async handler (request: IHttpRequestWithParams<IListIdTodoIdParams>): Promise<IHttpResponse> {
-    const response = await this.useCase.execute(request.params.todoId, request.params.listId)
+    const response = await this.useCase.execute(request.params.todoId, request.params.listId, request.tokenData.userId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on delete todo',

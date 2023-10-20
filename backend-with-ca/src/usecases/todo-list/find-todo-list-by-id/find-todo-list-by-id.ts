@@ -12,9 +12,9 @@ class FindTodoListByIdUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  async execute (todoListId: string): Promise<Either<TodoListNotFoundError | UnexpectedError, ITodoListWithId>> {
+  async execute (todoListId: string, userId: string): Promise<Either<TodoListNotFoundError | UnexpectedError, ITodoListWithId>> {
     try {
-      const todoListFound = await this.todoListRepository.findById(todoListId)
+      const todoListFound = await this.todoListRepository.findById(todoListId, userId)
       if (!todoListFound) {
         return left(new TodoListNotFoundError(todoListId))
       }

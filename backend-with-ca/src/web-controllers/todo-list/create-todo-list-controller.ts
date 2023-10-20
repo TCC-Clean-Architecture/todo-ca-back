@@ -13,7 +13,7 @@ class CreateTodoListController implements Controller {
   }
 
   async handler (request: IHttpRequestWithBody<ITodoListOptional>): Promise<IHttpResponse> {
-    const response = await this.useCase.execute(request.body)
+    const response = await this.useCase.execute(request.body, request.tokenData.userId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on create todo list',

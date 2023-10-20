@@ -14,26 +14,26 @@ describe('Delete todo list by id use case testing', () => {
     const expectedId = todoList[0].id
     const todoListRepository = new InMemoryTodoListRepository(todoList)
     const useCase = new DeleteTodoListUseCase(todoListRepository)
-    const result = await useCase.execute(expectedId)
+    const result = await useCase.execute(expectedId, 'userId')
     expect(result.isRight()).to.equal(true)
     expect(result.value).to.equal(expectedId)
   })
   it('should return an error if not find some item to delete', async () => {
     const todoListRepository = new InMemoryTodoListRepository([])
     const useCase = new DeleteTodoListUseCase(todoListRepository)
-    const result = await useCase.execute('abcde')
+    const result = await useCase.execute('abcde', 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(TodoListNotFoundError)
   })
   it('should return an error when something unexpected happens', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async delete (todoId: string): Promise<string | null> {
+      async delete (todoId: string, userId: string): Promise<string | null> {
         throw new Error('This is error')
       }
     }
     const todoListRepository = new MockTodoListRepository() as ITodoListRepository
     const useCase = new DeleteTodoListUseCase(todoListRepository)
-    const result = await useCase.execute('abcde')
+    const result = await useCase.execute('abcde', 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UnexpectedError)
   })

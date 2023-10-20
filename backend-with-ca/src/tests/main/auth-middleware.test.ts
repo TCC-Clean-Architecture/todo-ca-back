@@ -18,7 +18,7 @@ describe('Auth middleware testing', () => {
   })
   beforeEach(async () => {
     const userAllParams = await loginTestHelper()
-    const list = await insertList()
+    const list = await insertList(userAllParams.id)
     testHelpers = {
       token: userAllParams.token,
       listId: list.id

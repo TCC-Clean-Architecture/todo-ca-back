@@ -16,14 +16,14 @@ describe('Find todo by id', () => {
     const todo = lists[0].todos[0]
     const repository = new InMemoryTodoListRepository(lists)
     const useCaseInstance = new FindTodoByIdUseCase(repository)
-    const result = await useCaseInstance.execute(todo.id, listId)
+    const result = await useCaseInstance.execute(todo.id, listId, 'userId')
     expect(result.isRight()).to.equal(true)
     expect(result.value).to.deep.equal(todo)
   })
   it('should not find list to get from', async () => {
     const repository = new InMemoryTodoListRepository([])
     const useCaseInstance = new FindTodoByIdUseCase(repository)
-    const result = await useCaseInstance.execute('abcde', 'abcde')
+    const result = await useCaseInstance.execute('abcde', 'abcde', 'userId')
     expect(result.value).to.be.instanceOf(TodoListNotFoundError)
     expect(result.isLeft()).to.equal(true)
   })
@@ -35,19 +35,19 @@ describe('Find todo by id', () => {
       userId: 'userId'
     }])
     const useCaseInstance = new FindTodoByIdUseCase(repository)
-    const result = await useCaseInstance.execute('abcde', 'abcde')
+    const result = await useCaseInstance.execute('abcde', 'abcde', 'userId')
     expect(result.value).to.be.instanceOf(TodoNotFoundError)
     expect(result.isLeft()).to.equal(true)
   })
   it('should return an error when something unexpected happens', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async findById (todoListId: string): Promise<ITodoListWithId | null> {
+      async findById (todoListId: string, userId: string): Promise<ITodoListWithId | null> {
         throw new Error('This is error')
       }
     }
     const repository = new MockTodoListRepository() as ITodoListRepository
     const useCaseInstance = new FindTodoByIdUseCase(repository)
-    const result = await useCaseInstance.execute('abcde', 'abcde')
+    const result = await useCaseInstance.execute('abcde', 'abcde', 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).instanceOf(UnexpectedError)
   })

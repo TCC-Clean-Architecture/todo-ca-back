@@ -15,7 +15,7 @@ class FindAllTodoController implements Controller {
   }
 
   async handler (request: IHttpRequestWithParams<IListId>): Promise<IHttpResponse<ITodoWithId[] | object>> {
-    const response = await this.useCase.execute(request.params.listId)
+    const response = await this.useCase.execute(request.params.listId, request.tokenData.userId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on find all todos',

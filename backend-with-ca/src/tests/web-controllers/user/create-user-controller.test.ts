@@ -18,7 +18,10 @@ describe('Create user controller testing', () => {
     const useCase = new CreateUserUseCase(repository, hashProvider)
     const controller = new CreateUserController(useCase)
     const response = await controller.handler({
-      body: user
+      body: user,
+      tokenData: {
+        userId: 'userId'
+      }
     })
     expect(response.description).to.equal('User created successfully')
     expect(response.statusCode).to.equal(200)
@@ -39,7 +42,10 @@ describe('Create user controller testing', () => {
     const useCase = new CreateUserUseCase(repository, hashProvider)
     const controller = new CreateUserController(useCase)
     const response = await controller.handler({
-      body: user
+      body: user,
+      tokenData: {
+        userId: 'userId'
+      }
     })
     expect(response.description).to.equal('Error on create user')
     expect(response.statusCode).to.equal(400)

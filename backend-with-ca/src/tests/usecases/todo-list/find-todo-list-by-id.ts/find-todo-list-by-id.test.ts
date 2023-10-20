@@ -14,26 +14,26 @@ describe('List todo list by id use case testing', () => {
     const todoList: ITodoListWithId[] = [todoListFixture()]
     const todoListRepository = new InMemoryTodoListRepository(todoList)
     const useCase = new FindTodoListByIdUseCase(todoListRepository)
-    const result = await useCase.execute(todoList[0].id) as Either<null, ITodoListWithId>
+    const result = await useCase.execute(todoList[0].id, 'userId') as Either<null, ITodoListWithId>
     expect(result.isRight()).to.equal(true)
     expect(result.value).to.deep.include(todoList[0])
   })
   it('should return an error if not find some list', async () => {
     const todoListRepository = new InMemoryTodoListRepository([])
     const useCase = new FindTodoListByIdUseCase(todoListRepository)
-    const result = await useCase.execute('abcde')
+    const result = await useCase.execute('abcde', 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(TodoListNotFoundError)
   })
   it('should return an error when something unexpected happens', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async findById (todoId: string): Promise<ITodoListWithId> {
+      async findById (todoId: string, userId: string): Promise<ITodoListWithId> {
         throw new Error('This is error')
       }
     }
     const todoListRepository = new MockTodoListRepository() as ITodoListRepository
     const useCase = new FindTodoListByIdUseCase(todoListRepository)
-    const result = await useCase.execute('abcde')
+    const result = await useCase.execute('abcde', 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UnexpectedError)
   })

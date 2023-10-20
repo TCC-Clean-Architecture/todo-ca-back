@@ -15,7 +15,7 @@ class UpdateTodoController implements Controller {
   }
 
   async handler (request: RequestType): Promise<IHttpResponse> {
-    const response = await this.useCase.execute(request.params.todoId, request.params.listId, request.body)
+    const response = await this.useCase.execute(request.params.todoId, request.params.listId, request.body, request.tokenData.userId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on update todo',

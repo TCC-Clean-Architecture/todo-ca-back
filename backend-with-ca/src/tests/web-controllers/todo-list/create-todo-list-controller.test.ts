@@ -13,7 +13,9 @@ describe('CreateTodoListController implementation testing', () => {
     const controllerInstance = new CreateTodoListController(useCase)
     const request: IHttpRequestWithBody<ITodoListOptional> = {
       body: {
-        name: 'todolist',
+        name: 'todolist'
+      },
+      tokenData: {
         userId: 'userId'
       }
     }
@@ -35,7 +37,9 @@ describe('CreateTodoListController implementation testing', () => {
     const controllerInstance = new CreateTodoListController(useCase)
     const request: IHttpRequestWithBody<ITodoListOptional> = {
       body: {
-        name: 'a',
+        name: 'a'
+      },
+      tokenData: {
         userId: 'userId'
       }
     }

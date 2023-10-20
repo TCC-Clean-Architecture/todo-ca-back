@@ -1,7 +1,7 @@
 import { type Either, left, right } from '@/shared/either'
 
 import { type ITodoWithId } from '../interfaces/todo'
-import { type ITodoList, type ITodoListOptional } from '../interfaces/todo-list'
+import { type ITodoList, type ITodoListCreate } from '../interfaces/todo-list'
 import { type InvalidTodoListName } from './errors/invalid-todo-list-name'
 import { InvalidTodosOnList } from './errors/invalid-todos-on-list'
 import { InvalidUserIdError } from './errors/invalid-user-id'
@@ -18,7 +18,7 @@ class TodoList {
     this.userId = userId
   }
 
-  static create (value: ITodoListOptional): Either<InvalidTodoListName | InvalidUserIdError, TodoList> {
+  static create (value: ITodoListCreate): Either<InvalidTodoListName | InvalidUserIdError, TodoList> {
     const todoListName = TodoListName.create(value.name)
     if (todoListName.isLeft()) {
       return left(todoListName.value)

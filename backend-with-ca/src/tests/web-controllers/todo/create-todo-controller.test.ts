@@ -23,6 +23,9 @@ describe('CreateTodoController implementation testing', () => {
       },
       params: {
         listId: id
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const expectedTodo: ITodo = {
@@ -51,6 +54,9 @@ describe('CreateTodoController implementation testing', () => {
       },
       params: {
         listId: id
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const expectedContent = {

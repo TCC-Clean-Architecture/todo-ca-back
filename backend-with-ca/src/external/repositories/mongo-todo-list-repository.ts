@@ -12,20 +12,21 @@ interface ITodoListWithMongoId extends ITodoList {
 }
 
 class MongoTodoListRepository implements ITodoListRepository {
-  async create (todoList: ITodoListOptional): Promise<string> {
+  async create (todoList: ITodoList): Promise<string> {
     const todoListCollection = getCollection('todoLists')
     const { insertedId } = await todoListCollection.insertOne(todoList)
     return insertedId.toString()
   }
 
-  async findById (todoListId: string): Promise<ITodoListWithId | null> {
+  async findById (todoListId: string, userId: string): Promise<ITodoListWithId | null> {
     const todoListCollection = getCollection('todoLists')
     const _id = isObjectId(todoListId)
     if (!_id) {
       return null
     }
     const todo = await todoListCollection.findOne({
-      _id
+      _id,
+      userId
     })
     if (!todo) {
       return null
@@ -34,20 +35,21 @@ class MongoTodoListRepository implements ITodoListRepository {
     return convertMongoIdToNormalId(todo)
   }
 
-  async findAll (): Promise<ITodoListWithId[]> {
+  async findAll (userId: string): Promise<ITodoListWithId[]> {
     const todoListCollection = getCollection('todoLists')
-    const result = await todoListCollection.find().toArray() as ITodoListWithMongoId[]
+    const result = await todoListCollection.find({ userId }).toArray() as ITodoListWithMongoId[]
     return result.map(item => convertMongoIdToNormalId(item))
   }
 
-  async delete (todoListId: string): Promise<string | null> {
+  async delete (todoListId: string, userId: string): Promise<string | null> {
     const todoListCollection = getCollection('todoLists')
     const _id = isObjectId(todoListId)
     if (!_id) {
       return null
     }
     const { deletedCount } = await todoListCollection.deleteOne({
-      _id
+      _id,
+      userId
     })
     if (!deletedCount) {
       return null
@@ -55,14 +57,15 @@ class MongoTodoListRepository implements ITodoListRepository {
     return todoListId
   }
 
-  async update (todoListId: string, content: Partial<ITodoListOptional>): Promise<string | null> {
+  async update (todoListId: string, content: Partial<ITodoListOptional>, userId: string): Promise<string | null> {
     const todoListCollection = getCollection('todoLists')
     const _id = isObjectId(todoListId)
     if (!_id) {
       return null
     }
     const updated = await todoListCollection.updateOne({
-      _id
+      _id,
+      userId
     }, {
       $set: content
     })

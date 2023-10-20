@@ -17,6 +17,9 @@ describe('DeleteTodoListController implementation testing', () => {
     const request = {
       params: {
         listId: expectedId
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)
@@ -30,7 +33,7 @@ describe('DeleteTodoListController implementation testing', () => {
   })
   it('should create an instance of find todo list by id and return error', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async delete (todoId: string): Promise<string | null> {
+      async delete (todoId: string, userId: string): Promise<string | null> {
         throw new Error('This is error')
       }
     }
@@ -41,6 +44,9 @@ describe('DeleteTodoListController implementation testing', () => {
     const request = {
       params: {
         listId: 'abcde'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)

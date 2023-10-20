@@ -25,7 +25,10 @@ describe('Authentication controller testing', () => {
     const useCase = new AuthenticationUseCase(repository, hashProvider, jwtProvider)
     const controller = new AuthenticationController(useCase)
     const response = await controller.handler({
-      body: login
+      body: login,
+      tokenData: {
+        userId: 'userId'
+      }
     })
     expect(response.description).to.equal('User authenticated successfully')
     expect(response.statusCode).to.equal(200)
@@ -49,7 +52,10 @@ describe('Authentication controller testing', () => {
     const useCase = new AuthenticationUseCase(repository, hashProvider, jwtProvider)
     const controller = new AuthenticationController(useCase)
     const response = await controller.handler({
-      body: login
+      body: login,
+      tokenData: {
+        userId: 'userId'
+      }
     })
     expect(response.description).to.equal('Error on authenticate user')
     expect(response.statusCode).to.equal(400)
