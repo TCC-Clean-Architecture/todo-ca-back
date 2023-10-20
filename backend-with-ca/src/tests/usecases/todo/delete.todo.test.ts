@@ -35,7 +35,8 @@ describe('Delete todo use case testing', () => {
     const repository = new InMemoryTodoListRepository([{
       id: 'abcde',
       name: 'thisisname',
-      todos: []
+      todos: [],
+      userId: 'userId'
     }])
     const useCaseInstance = new DeleteTodoUseCase(repository)
     const result = await useCaseInstance.execute('abcde', 'abcde')

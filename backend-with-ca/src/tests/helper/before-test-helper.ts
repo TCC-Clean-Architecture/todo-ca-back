@@ -36,7 +36,8 @@ const loginTestHelper = async (): Promise<IUserAllParams> => {
 const insertList = async (): Promise<ITodoListWithId> => {
   const repository = new MongoTodoListRepository()
   const id = await repository.create({
-    name: 'teste'
+    name: 'teste',
+    userId: 'userId'
   })
   const list = await repository.findById(id) as ITodoListWithId
   return list

@@ -31,7 +31,8 @@ describe('Find todo by id', () => {
     const repository = new InMemoryTodoListRepository([{
       id: 'abcde',
       name: 'thisisname',
-      todos: []
+      todos: [],
+      userId: 'userId'
     }])
     const useCaseInstance = new FindTodoByIdUseCase(repository)
     const result = await useCaseInstance.execute('abcde', 'abcde')

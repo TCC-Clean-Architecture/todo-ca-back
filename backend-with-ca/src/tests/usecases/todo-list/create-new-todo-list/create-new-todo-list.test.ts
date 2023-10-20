@@ -11,7 +11,8 @@ import { CreateNewTodoListUseCase } from '@/usecases/todo-list/create-new-todo-l
 describe('Create new todo list use case testing', () => {
   it('should create a new use case with empty todos', async () => {
     const todoList: ITodoListOptional = {
-      name: 'thisislist'
+      name: 'thisislist',
+      userId: 'userId'
     }
     const todoListRepository = new InMemoryTodoListRepository([])
     const useCase = new CreateNewTodoListUseCase(todoListRepository)
@@ -26,7 +27,8 @@ describe('Create new todo list use case testing', () => {
   })
   it('should return an error if create some list with invalid name', async () => {
     const todoList: ITodoListOptional = {
-      name: 'a'
+      name: 'a',
+      userId: 'userId'
     }
     const todoListRepository = new InMemoryTodoListRepository([])
     const useCase = new CreateNewTodoListUseCase(todoListRepository)
@@ -41,7 +43,8 @@ describe('Create new todo list use case testing', () => {
       }
     }
     const todoList: ITodoListOptional = {
-      name: 'thisistodolist'
+      name: 'thisistodolist',
+      userId: 'userId'
     }
     const todoListRepository = new MockTodoListRepository() as ITodoListRepository
     const useCase = new CreateNewTodoListUseCase(todoListRepository)

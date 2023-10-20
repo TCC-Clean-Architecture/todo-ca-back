@@ -18,7 +18,8 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const result = await repositoryInstance.create({
         name: 'test',
-        todos: []
+        todos: [],
+        userId: 'userId'
       })
       expect(result).to.be.a('string')
     })
@@ -29,7 +30,8 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const todoListExpected = Object.assign({}, todoList)
       await repositoryInstance.create(todoList)
@@ -45,7 +47,8 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const todoListExpected = Object.assign({}, todoList)
       const insertedId = await repositoryInstance.create(todoList)
@@ -72,7 +75,8 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const insertedId = await repositoryInstance.create(todoList)
       const result = await repositoryInstance.delete(insertedId)
@@ -97,12 +101,14 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const insertedId = await repositoryInstance.create(todoList)
       const todoListUpdatePayload: ITodoList = {
         name: 'updated',
-        todos: [todoFixture(), todoFixture()]
+        todos: [todoFixture(), todoFixture()],
+        userId: 'userId'
       }
       const result = await repositoryInstance.update(insertedId, todoListUpdatePayload)
       expect(result).to.equal(insertedId)

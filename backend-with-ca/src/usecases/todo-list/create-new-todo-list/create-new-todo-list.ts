@@ -1,5 +1,6 @@
 import { type ITodoListOptional, type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { type InvalidTodoListName } from '@/entities/todo-list/errors/invalid-todo-list-name'
+import { type InvalidUserIdError } from '@/entities/todo-list/errors/invalid-user-id'
 import { TodoList } from '@/entities/todo-list/todo-list'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
@@ -12,7 +13,7 @@ class CreateNewTodoListUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  async execute (todoList: ITodoListOptional): Promise<Either<InvalidTodoListName | UnexpectedError, ITodoListWithId>> {
+  async execute (todoList: ITodoListOptional): Promise<Either<InvalidTodoListName | InvalidUserIdError | UnexpectedError, ITodoListWithId>> {
     try {
       const todoListInstance = TodoList.create(todoList)
       if (todoListInstance.isLeft()) {

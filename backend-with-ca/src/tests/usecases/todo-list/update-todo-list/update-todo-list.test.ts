@@ -16,7 +16,8 @@ describe('Update todo list by id use case testing', () => {
     const todoList: ITodoListWithId[] = [todoListFixture()]
     const updateContent: ITodoList = {
       name: 'updatedContent',
-      todos: [todoFixture(), todoFixture()]
+      todos: [todoFixture(), todoFixture()],
+      userId: 'userId'
     }
     const todoListRepository = new InMemoryTodoListRepository(todoList)
     const useCase = new UpdateTodoListUseCase(todoListRepository)
@@ -36,7 +37,8 @@ describe('Update todo list by id use case testing', () => {
     const todoList: ITodoListWithId[] = [todoListFixture()]
     const updateContent: ITodoList = {
       name: 'thisisname',
-      todos: [todoFixture(), { id: 'a', createdAt: new Date(), description: 'desc', name: 'nam', status: 'inprogress' }]
+      todos: [todoFixture(), { id: 'a', createdAt: new Date(), description: 'desc', name: 'nam', status: 'inprogress' }],
+      userId: 'userId'
     }
     const todoListRepository = new InMemoryTodoListRepository(todoList)
     const useCase = new UpdateTodoListUseCase(todoListRepository)

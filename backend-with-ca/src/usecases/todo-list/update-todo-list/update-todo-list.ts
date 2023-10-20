@@ -1,6 +1,7 @@
 import { type ITodoList, type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { type InvalidTodoListName } from '@/entities/todo-list/errors/invalid-todo-list-name'
 import { type InvalidTodosOnList } from '@/entities/todo-list/errors/invalid-todos-on-list'
+import { type InvalidUserIdError } from '@/entities/todo-list/errors/invalid-user-id'
 import { TodoList } from '@/entities/todo-list/todo-list'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
@@ -15,7 +16,7 @@ class UpdateTodoListUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  async execute (todoListId: string, content: Partial<ITodoList>): Promise<Either<TodoListNotFoundError | InvalidTodoListName | InvalidTodosOnList | UnexpectedError, ITodoListWithId>> {
+  async execute (todoListId: string, content: Partial<ITodoList>): Promise<Either<TodoListNotFoundError | InvalidTodoListName | InvalidTodosOnList | InvalidUserIdError | UnexpectedError, ITodoListWithId>> {
     try {
       const todoListExists = await this.todoListRepository.findById(todoListId)
       if (!todoListExists) {

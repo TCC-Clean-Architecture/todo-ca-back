@@ -9,7 +9,8 @@ describe('In memory todo list repository testing', () => {
     it('should create a new todo list on repository', async () => {
       const todoList = {
         name: 'thisisname',
-        todos: []
+        todos: [],
+        userId: 'userId'
       }
       const repository = new InMemoryTodoListRepository([])
       const createdId = await repository.create(todoList)
@@ -22,7 +23,8 @@ describe('In memory todo list repository testing', () => {
     it('should create a new todo list with todos on repository', async () => {
       const todoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const repository = new InMemoryTodoListRepository([])
       const createdId = await repository.create(todoList)
@@ -37,7 +39,8 @@ describe('In memory todo list repository testing', () => {
     it('should find by id the todo list', async () => {
       const todoList = {
         name: 'thisisname',
-        todos: []
+        todos: [],
+        userId: 'userId'
       }
       const repository = new InMemoryTodoListRepository([])
       const createdId = await repository.create(todoList)
@@ -84,7 +87,8 @@ describe('In memory todo list repository testing', () => {
       const todoList = [todoListFixture()]
       const todoListUpdate = {
         name: 'dataupdated',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const repository = new InMemoryTodoListRepository(todoList)
       const result = await repository.update(todoList[0].id, todoListUpdate)
