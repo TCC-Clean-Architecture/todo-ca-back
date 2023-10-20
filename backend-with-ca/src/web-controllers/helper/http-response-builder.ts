@@ -21,4 +21,20 @@ const badRequest = <T = object>({ description, content }: IHttpResponsePayload<T
   content
 })
 
-export { badRequest, ok }
+const forbidden = <T = object>({ description, content }: IHttpResponsePayload<T>): IHttpResponse<T> => ({
+  statusCode: 403,
+  message: 'Forbidden',
+  type: 'error',
+  description,
+  content
+})
+
+const unauthorized = <T = object>({ description, content }: IHttpResponsePayload<T>): IHttpResponse<T> => ({
+  statusCode: 401,
+  message: 'Unauthorized',
+  type: 'error',
+  description,
+  content
+})
+
+export { badRequest, forbidden, ok, unauthorized }
