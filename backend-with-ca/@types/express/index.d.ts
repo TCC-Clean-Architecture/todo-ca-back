@@ -10,11 +10,3 @@ declare module 'express-serve-static-core' {
     tokenData: ITokenData
   }
 }
-
-// declare global {
-//   namespace Express {
-//     interface Request {
-//       user: JwtPayloadType
-//     }
-//   }
-// }
