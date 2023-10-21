@@ -13,19 +13,19 @@ describe('List todo list by id use case testing', () => {
     const todoList: ITodoListWithId[] = [todoListFixture(), todoListFixture()]
     const todoListRepository = new InMemoryTodoListRepository(todoList)
     const useCase = new FindAllTodoListsUseCase(todoListRepository)
-    const result = await useCase.execute() as Either<null, ITodoListWithId[]>
+    const result = await useCase.execute('userId') as Either<null, ITodoListWithId[]>
     expect(result.isRight()).to.equal(true)
     expect(result.value).to.deep.equal(todoList)
   })
   it('should return an error when something unexpected happens', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async findAll (): Promise<ITodoListWithId[]> {
+      async findAll (userId: string): Promise<ITodoListWithId[]> {
         throw new Error('This is error')
       }
     }
     const todoListRepository = new MockTodoListRepository() as ITodoListRepository
     const useCase = new FindAllTodoListsUseCase(todoListRepository)
-    const result = await useCase.execute()
+    const result = await useCase.execute('userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UnexpectedError)
   })

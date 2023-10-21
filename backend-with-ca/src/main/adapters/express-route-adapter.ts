@@ -6,7 +6,8 @@ const expressRouteAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const response = await controller.handler({
       body: req.body,
-      params: req.params
+      params: req.params,
+      tokenData: req.tokenData
     })
     return res.status(response.statusCode).json(response)
   }

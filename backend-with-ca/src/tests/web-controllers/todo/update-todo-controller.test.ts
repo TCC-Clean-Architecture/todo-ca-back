@@ -24,6 +24,9 @@ describe('UpdateTodoController implementation testing', () => {
         name: 'updated',
         description: 'updated',
         status: 'done'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)
@@ -46,6 +49,9 @@ describe('UpdateTodoController implementation testing', () => {
         name: 'updated',
         description: 'updated',
         status: 'done'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)

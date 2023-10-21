@@ -14,11 +14,15 @@ describe('CreateTodoListController implementation testing', () => {
     const request: IHttpRequestWithBody<ITodoListOptional> = {
       body: {
         name: 'todolist'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const expectedResponse: ITodoList = {
       name: 'todolist',
-      todos: []
+      todos: [],
+      userId: 'userId'
     }
     const response = await controllerInstance.handler(request)
     expect(response.description).to.equal('Todo list created successfully')
@@ -34,6 +38,9 @@ describe('CreateTodoListController implementation testing', () => {
     const request: IHttpRequestWithBody<ITodoListOptional> = {
       body: {
         name: 'a'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const expectedContent = {

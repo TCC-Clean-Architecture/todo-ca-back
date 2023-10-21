@@ -11,9 +11,9 @@ class DeleteTodoListUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  async execute (todoListId: string): Promise<Either<TodoListNotFoundError | UnexpectedError, string>> {
+  async execute (todoListId: string, userId: string): Promise<Either<TodoListNotFoundError | UnexpectedError, string>> {
     try {
-      const result = await this.todoListRepository.delete(todoListId)
+      const result = await this.todoListRepository.delete(todoListId, userId)
       if (!result) {
         return left(new TodoListNotFoundError(todoListId))
       }

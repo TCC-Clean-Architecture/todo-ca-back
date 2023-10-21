@@ -4,14 +4,16 @@ import { idConverter } from '@/web-controllers/helper/id-property-name-converter
 import { type Controller } from '@/web-controllers/port/controller'
 import { type IHttpResponse } from '@/web-controllers/port/http-response'
 
+import { type IHttpRequestWithTokenData } from '../port/http-request'
+
 class FindAllTodoListsController implements Controller {
   private readonly useCase: FindAllTodoListsUseCase
   constructor (useCase: FindAllTodoListsUseCase) {
     this.useCase = useCase
   }
 
-  async handler (): Promise<IHttpResponse> {
-    const response = await this.useCase.execute()
+  async handler (request: IHttpRequestWithTokenData): Promise<IHttpResponse> {
+    const response = await this.useCase.execute(request.tokenData.userId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on find all todo lists',

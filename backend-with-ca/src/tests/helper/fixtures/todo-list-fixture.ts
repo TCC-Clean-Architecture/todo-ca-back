@@ -8,7 +8,8 @@ const todoListFixture = (): ITodoListWithId => {
   return {
     id: faker.string.uuid(),
     name: faker.person.fullName(),
-    todos: [todoFixture()]
+    todos: [todoFixture()],
+    userId: 'userId'
   }
 }
 

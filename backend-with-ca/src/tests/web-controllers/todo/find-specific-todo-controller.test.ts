@@ -20,6 +20,9 @@ describe('FindSpecificTodoController implementation testing', () => {
       params: {
         todoId: todo.id,
         listId
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)
@@ -37,6 +40,9 @@ describe('FindSpecificTodoController implementation testing', () => {
       params: {
         todoId: 'abcde',
         listId: 'abcde'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)

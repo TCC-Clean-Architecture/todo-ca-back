@@ -15,7 +15,7 @@ describe('Create new todo list use case testing', () => {
     }
     const todoListRepository = new InMemoryTodoListRepository([])
     const useCase = new CreateNewTodoListUseCase(todoListRepository)
-    const result = await useCase.execute(todoList) as Either<null, ITodoListWithId>
+    const result = await useCase.execute(todoList, 'userId') as Either<null, ITodoListWithId>
     expect(result.isRight()).to.equal(true)
     expect(result.value).to.deep.include({
       ...todoList,
@@ -30,7 +30,7 @@ describe('Create new todo list use case testing', () => {
     }
     const todoListRepository = new InMemoryTodoListRepository([])
     const useCase = new CreateNewTodoListUseCase(todoListRepository)
-    const result = await useCase.execute(todoList)
+    const result = await useCase.execute(todoList, 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(InvalidTodoListName)
   })
@@ -45,7 +45,7 @@ describe('Create new todo list use case testing', () => {
     }
     const todoListRepository = new MockTodoListRepository() as ITodoListRepository
     const useCase = new CreateNewTodoListUseCase(todoListRepository)
-    const result = await useCase.execute(todoList)
+    const result = await useCase.execute(todoList, 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UnexpectedError)
   })

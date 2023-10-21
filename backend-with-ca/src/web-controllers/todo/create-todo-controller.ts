@@ -14,7 +14,7 @@ class CreateTodoController implements Controller {
   }
 
   async handler (request: IHttpRequestWithBodyAndParams<ITodo, IListId>): Promise<IHttpResponse> {
-    const response = await this.useCase.execute(request.body, request.params.listId)
+    const response = await this.useCase.execute(request.body, request.params.listId, request.tokenData.userId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on create todo',

@@ -18,7 +18,8 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const result = await repositoryInstance.create({
         name: 'test',
-        todos: []
+        todos: [],
+        userId: 'userId'
       })
       expect(result).to.be.a('string')
     })
@@ -29,11 +30,12 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const todoListExpected = Object.assign({}, todoList)
       await repositoryInstance.create(todoList)
-      const result = await repositoryInstance.findAll()
+      const result = await repositoryInstance.findAll(todoList.userId)
       expect(result[0]).to.deep.include(todoListExpected)
       expect(result[0]).to.have.property('id')
       expect(result[0].id).to.be.a('string')
@@ -45,11 +47,12 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const todoListExpected = Object.assign({}, todoList)
       const insertedId = await repositoryInstance.create(todoList)
-      const result = await repositoryInstance.findById(insertedId)
+      const result = await repositoryInstance.findById(insertedId, todoList.userId)
 
       expect(result).to.deep.include(todoListExpected)
       expect(result).to.have.property('id')
@@ -57,12 +60,12 @@ describe('Mongo todo lists repository testing', () => {
     })
     it('should find one and not find', async () => {
       const repositoryInstance = new MongoTodoListRepository()
-      const result = await repositoryInstance.findById(new ObjectId().toString())
+      const result = await repositoryInstance.findById(new ObjectId().toString(), '')
       expect(result).to.equal(null)
     })
     it('should return null when send something that is not object id as parameter', async () => {
       const repositoryInstance = new MongoTodoListRepository()
-      const result = await repositoryInstance.findById('abc')
+      const result = await repositoryInstance.findById('abc', '')
       expect(result).to.equal(null)
     })
   })
@@ -72,22 +75,23 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const insertedId = await repositoryInstance.create(todoList)
-      const result = await repositoryInstance.delete(insertedId)
+      const result = await repositoryInstance.delete(insertedId, todoList.userId)
       expect(result).to.equal(insertedId)
-      const verifyDb = await repositoryInstance.findAll()
+      const verifyDb = await repositoryInstance.findAll(todoList.userId)
       expect(verifyDb).to.deep.equal([])
     })
     it('should not find todo to delete', async () => {
       const repositoryInstance = new MongoTodoListRepository()
-      const result = await repositoryInstance.delete(new ObjectId().toString())
+      const result = await repositoryInstance.delete(new ObjectId().toString(), '')
       expect(result).to.equal(null)
     })
     it('should return null when send something that is not object id as parameter', async () => {
       const repositoryInstance = new MongoTodoListRepository()
-      const result = await repositoryInstance.delete('abc')
+      const result = await repositoryInstance.delete('abc', '')
       expect(result).to.equal(null)
     })
   })
@@ -97,26 +101,28 @@ describe('Mongo todo lists repository testing', () => {
       const repositoryInstance = new MongoTodoListRepository()
       const todoList: ITodoList = {
         name: 'thisisname',
-        todos: [todoFixture()]
+        todos: [todoFixture()],
+        userId: 'userId'
       }
       const insertedId = await repositoryInstance.create(todoList)
       const todoListUpdatePayload: ITodoList = {
         name: 'updated',
-        todos: [todoFixture(), todoFixture()]
+        todos: [todoFixture(), todoFixture()],
+        userId: 'userId'
       }
-      const result = await repositoryInstance.update(insertedId, todoListUpdatePayload)
+      const result = await repositoryInstance.update(insertedId, todoListUpdatePayload, todoList.userId)
       expect(result).to.equal(insertedId)
-      const verifyDb = await repositoryInstance.findById(insertedId)
+      const verifyDb = await repositoryInstance.findById(insertedId, todoList.userId)
       expect(verifyDb).to.deep.include(todoListUpdatePayload)
     })
     it('should not find todo to update', async () => {
       const repositoryInstance = new MongoTodoListRepository()
-      const result = await repositoryInstance.update(new ObjectId().toString(), {})
+      const result = await repositoryInstance.update(new ObjectId().toString(), {}, '')
       expect(result).to.equal(null)
     })
     it('should return null when send something that is not object id as parameter', async () => {
       const repositoryInstance = new MongoTodoListRepository()
-      const result = await repositoryInstance.update('abc', {})
+      const result = await repositoryInstance.update('abc', {}, '')
       expect(result).to.equal(null)
     })
   })

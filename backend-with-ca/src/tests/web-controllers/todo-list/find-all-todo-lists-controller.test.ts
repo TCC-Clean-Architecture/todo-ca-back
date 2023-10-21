@@ -6,6 +6,7 @@ import { todoListFixture } from '@/tests/helper/fixtures/todo-list-fixture'
 import { InMemoryTodoListRepository } from '@/usecases/shared/repository/in-memory-todo-list-repository'
 import { FindAllTodoListsUseCase } from '@/usecases/todo-list/find-all-todo-lists/find-all-todo-lists'
 import { idConverter } from '@/web-controllers/helper/id-property-name-converter'
+import { type IHttpRequestWithTokenData } from '@/web-controllers/port/http-request'
 import { FindAllTodoListsController } from '@/web-controllers/todo-list/find-all-todo-lists-controller'
 
 describe('FindAllTodoListsController implementation testing', () => {
@@ -14,7 +15,12 @@ describe('FindAllTodoListsController implementation testing', () => {
     const repository = new InMemoryTodoListRepository(lists)
     const useCase = new FindAllTodoListsUseCase(repository)
     const controllerInstance = new FindAllTodoListsController(useCase)
-    const response = await controllerInstance.handler()
+    const request: IHttpRequestWithTokenData = {
+      tokenData: {
+        userId: 'userId'
+      }
+    }
+    const response = await controllerInstance.handler(request)
     expect(response.description).to.equal('Find all todos lists executed successfully')
     expect(response.statusCode).to.equal(200)
     expect(response.message).to.equal('OK')
@@ -23,7 +29,7 @@ describe('FindAllTodoListsController implementation testing', () => {
   })
   it('should create an instance of find todo lists controller and return error', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async findAll (): Promise<ITodoListWithId[]> {
+      async findAll (userId: string): Promise<ITodoListWithId[]> {
         throw new Error('This is error')
       }
     }
@@ -31,7 +37,12 @@ describe('FindAllTodoListsController implementation testing', () => {
     const repository = new MockTodoListRepository() as ITodoListRepository
     const useCase = new FindAllTodoListsUseCase(repository)
     const controllerInstance = new FindAllTodoListsController(useCase)
-    const response = await controllerInstance.handler()
+    const request: IHttpRequestWithTokenData = {
+      tokenData: {
+        userId: 'userId'
+      }
+    }
+    const response = await controllerInstance.handler(request)
     expect(response.description).to.equal('Error on find all todo lists')
     expect(response.statusCode).to.equal(400)
     expect(response.message).to.equal('Bad Request')

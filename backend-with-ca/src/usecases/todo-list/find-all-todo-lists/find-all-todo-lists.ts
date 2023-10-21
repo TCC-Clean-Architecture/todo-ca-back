@@ -10,9 +10,9 @@ class FindAllTodoListsUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  async execute (): Promise<Either< UnexpectedError, ITodoListWithId[]>> {
+  async execute (userId: string): Promise<Either< UnexpectedError, ITodoListWithId[]>> {
     try {
-      const todoListsFound = await this.todoListRepository.findAll()
+      const todoListsFound = await this.todoListRepository.findAll(userId)
       return right(todoListsFound)
     } catch (err) {
       return left(new UnexpectedError('Something went wrong on attempt to find all todo lists'))

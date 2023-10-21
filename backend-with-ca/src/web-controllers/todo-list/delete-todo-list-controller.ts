@@ -16,7 +16,7 @@ class DeleteTodoListController implements Controller {
   }
 
   async handler (request: IHttpRequestWithParams<IDeleteRouteParams>): Promise<IHttpResponse> {
-    const response = await this.useCase.execute(request.params.listId)
+    const response = await this.useCase.execute(request.params.listId, request.tokenData.userId)
     if (response.isLeft()) {
       return badRequest({
         description: 'Error on delete todo list',

@@ -1,6 +1,7 @@
 import { type ITodoList, type ITodoListWithId } from '@/entities/interfaces/todo-list'
 import { type InvalidTodoListName } from '@/entities/todo-list/errors/invalid-todo-list-name'
 import { type InvalidTodosOnList } from '@/entities/todo-list/errors/invalid-todos-on-list'
+import { type InvalidUserIdError } from '@/entities/todo-list/errors/invalid-user-id'
 import { TodoList } from '@/entities/todo-list/todo-list'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
@@ -15,9 +16,9 @@ class UpdateTodoListUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  async execute (todoListId: string, content: Partial<ITodoList>): Promise<Either<TodoListNotFoundError | InvalidTodoListName | InvalidTodosOnList | UnexpectedError, ITodoListWithId>> {
+  async execute (todoListId: string, content: Partial<ITodoList>, userId: string): Promise<Either<TodoListNotFoundError | InvalidTodoListName | InvalidTodosOnList | InvalidUserIdError | UnexpectedError, ITodoListWithId>> {
     try {
-      const todoListExists = await this.todoListRepository.findById(todoListId)
+      const todoListExists = await this.todoListRepository.findById(todoListId, userId)
       if (!todoListExists) {
         return left(new TodoListNotFoundError(todoListId))
       }
@@ -28,11 +29,11 @@ class UpdateTodoListUseCase implements IUseCase {
       if (todoListValidation.isLeft()) {
         return left(todoListValidation.value)
       }
-      const updateResult = await this.todoListRepository.update(todoListId, content)
+      const updateResult = await this.todoListRepository.update(todoListId, content, userId)
       if (!updateResult) {
         return left(new TodoListNotFoundError(todoListId))
       }
-      const result = await this.todoListRepository.findById(todoListId) as ITodoListWithId
+      const result = await this.todoListRepository.findById(todoListId, userId) as ITodoListWithId
       return right(result)
     } catch (err) {
       return left(new UnexpectedError('Something went wrong on attempt to find todo list by id'))

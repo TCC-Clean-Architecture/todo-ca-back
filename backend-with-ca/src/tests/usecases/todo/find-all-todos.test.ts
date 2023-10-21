@@ -14,26 +14,26 @@ describe('Find all todo use case testing', () => {
     const listId = lists[0].id
     const todoRepository = new InMemoryTodoListRepository(lists)
     const useCaseInstance = new FindAllTodoUseCase(todoRepository)
-    const result = await useCaseInstance.execute(listId)
+    const result = await useCaseInstance.execute(listId, 'userId')
     expect(result.value).to.deep.equal(lists[0])
     expect(result.isRight()).to.equal(true)
   })
   it('should not find the list', async () => {
     const repository = new InMemoryTodoListRepository([])
     const useCaseInstance = new FindAllTodoUseCase(repository)
-    const result = await useCaseInstance.execute('abcde')
+    const result = await useCaseInstance.execute('abcde', 'userId')
     expect(result.value).to.be.instanceOf(TodoListNotFoundError)
     expect(result.isLeft()).to.equal(true)
   })
   it('should return an error when findAll throws an exception', async () => {
     class MockTodoListRepository implements Partial<ITodoListRepository> {
-      async findById (todoListId: string): Promise<ITodoListWithId | null> {
+      async findById (todoListId: string, userId: string): Promise<ITodoListWithId | null> {
         throw new Error('Method not implemented.')
       }
     }
     const repository = new MockTodoListRepository() as ITodoListRepository
     const useCaseInstance = new FindAllTodoUseCase(repository)
-    const result = await useCaseInstance.execute('abcde')
+    const result = await useCaseInstance.execute('abcde', 'userId')
     expect(result.isLeft()).to.equal(true)
     expect(result.value).to.be.instanceOf(UnexpectedError)
   })

@@ -19,9 +19,9 @@ class UpdateTodoUseCase implements IUseCase {
     this.todoListRepository = todoListRepository
   }
 
-  public async execute (todoId: string, listId: string, content: Partial<ITodo>): Promise<Either<ErrorTypes, ITodoWithId>> {
+  public async execute (todoId: string, listId: string, content: Partial<ITodo>, userId: string): Promise<Either<ErrorTypes, ITodoWithId>> {
     try {
-      const list = await this.todoListRepository.findById(listId)
+      const list = await this.todoListRepository.findById(listId, userId)
       if (!list) {
         return left(new TodoListNotFoundError(listId))
       }
@@ -33,7 +33,7 @@ class UpdateTodoUseCase implements IUseCase {
       const updateResult = await this.todoListRepository.update(listId, {
         ...list,
         todos: todos.getAll()
-      })
+      }, userId)
       if (!updateResult) {
         return left(new TodoListNotFoundError(listId))
       }

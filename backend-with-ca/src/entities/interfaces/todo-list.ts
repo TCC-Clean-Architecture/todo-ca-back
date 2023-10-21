@@ -2,7 +2,14 @@ import { type ITodoWithId } from './todo'
 
 interface ITodoList {
   name: string
+  userId: string
   todos: ITodoWithId[]
+}
+
+interface ITodoListCreate {
+  name: string
+  userId: string
+  todos?: ITodoWithId[]
 }
 
 interface ITodoListOptional {
@@ -21,6 +28,7 @@ interface IListId {
 export type {
   IListId,
   ITodoList,
+  ITodoListCreate,
   ITodoListOptional,
   ITodoListWithId
 }

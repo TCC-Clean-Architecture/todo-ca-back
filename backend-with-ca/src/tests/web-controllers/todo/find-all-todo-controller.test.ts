@@ -18,6 +18,9 @@ describe('FindAllTodoController implementation testing', () => {
     const request: IHttpRequestWithParams<IListId> = {
       params: {
         listId
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)
@@ -34,6 +37,9 @@ describe('FindAllTodoController implementation testing', () => {
     const request: IHttpRequestWithParams<IListId> = {
       params: {
         listId: 'abcde'
+      },
+      tokenData: {
+        userId: 'userId'
       }
     }
     const response = await controllerInstance.handler(request)
