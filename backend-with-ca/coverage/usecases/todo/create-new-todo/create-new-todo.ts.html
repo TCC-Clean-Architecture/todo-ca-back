@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -99,20 +99,11 @@
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a>
-<a name='L41'></a><a href='#L41'>41</a>
-<a name='L42'></a><a href='#L42'>42</a>
-<a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -122,14 +113,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -137,11 +123,11 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,42 +135,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
-import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/todo/errors'
-import { type InvalidTodoListName } from '@/entities/todo-list/errors/invalid-todo-list-name'
-import { TodosEmbedded } from '@/entities/todo-list/todos-embedded'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type InvalidTodoDescriptionError, type InvalidTodoNameError, type InvalidTodoStatusError } from '@/entities/errors'
+import { type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
+import { Todo } from '@/entities/todo/todo'
 import { type Either, left, right } from '@/shared/either'
 import { UnexpectedError } from '@/shared/errors/unexpected-error'
-import { type ITodoListRepository } from '@/shared/todo-list-repository'
+import { type ITodoRepository } from '@/shared/todo-repository'
 import { type IUseCase } from '@/usecases/shared/ports/use-case'
-import { type TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
-import { TodoListNotFoundError } from '@/usecases/todo-list/shared/errors/todo-list-not-found-error'
+import { TodoNotFoundError } from '@/usecases/todo/shared/errors/todo-not-found-error'
 &nbsp;
-type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | TodoListNotFoundError | InvalidTodoListName | UnexpectedError
+type ErrorTypes = InvalidTodoNameError | InvalidTodoDescriptionError | InvalidTodoStatusError | TodoNotFoundError | UnexpectedError
 &nbsp;
 class CreateNewTodoUseCase implements IUseCase {
-  private readonly todoListRepository: ITodoListRepository
-  constructor (todoListRepository: ITodoListRepository) {
-    this.todoListRepository = todoListRepository
+  private readonly todoRepository: ITodoRepository
+  constructor (todoRepository: ITodoRepository) {
+    this.todoRepository = todoRepository
   }
 &nbsp;
-  public async execute (todo: ITodo, listId: string, userId: string): Promise&lt;Either&lt;ErrorTypes, ITodoWithId&gt;&gt; {
+  public async execute (todo: ITodo): Promise&lt;Either&lt;ErrorTypes, ITodoWithId&gt;&gt; {
     try {
-      const list = await this.todoListRepository.findById(listId, userId)
-      if (!list) {
-        return left(new TodoListNotFoundError(listId))
+      const todoInstance = Todo.create(todo)
+      if (todoInstance.isLeft()) {
+        return left(todoInstance.value)
       }
-      const todos = new TodosEmbedded(list.todos)
-      const createResult = todos.create(todo)
-      if (createResult.isLeft()) {
-        return left(createResult.value)
+      const createdId = await this.todoRepository.create(todoInstance.value)
+      const todoCreated = await this.todoRepository.findById(createdId)
+      if (!todoCreated) {
+        return left(new TodoNotFoundError(createdId))
       }
-      const todoList = { ...list, todos: todos.getAll() }
-      const updatedResult = await this.todoListRepository.update(listId, todoList, userId)
-      if (!updatedResult) {
-        return left(new UnexpectedError('Could not update the list inserting the todo'))
-      }
-      return right(createResult.value)
+      return right(todoCreated)
     } catch (err) {
       return left(new UnexpectedError('Something went wrong on attempt to create new todo'))
     }
@@ -199,7 +178,7 @@ export { CreateNewTodoUseCase }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-20T02:17:26.512Z
+                at 2023-10-21T02:15:22.949Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
