@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { type IUser } from '@/entities/interfaces/user'
-import { MongoUserRepository } from '@/external/repositories/mongo-user-repository'
+import { MongoUserRepository } from '@/external-dependencies/repositories/mongo-user-repository'
 import { clearCollection, connectDatabase } from '@/main/configs/mongodb'
 
 describe('Mongo user repository testing', () => {

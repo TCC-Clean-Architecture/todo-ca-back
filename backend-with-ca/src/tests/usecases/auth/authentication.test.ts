@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 
 import { type IUserAuth } from '@/entities/interfaces/user'
-import { Bcrypt } from '@/external/security/bcrypt'
-import { Jwt } from '@/external/security/jwt'
+import { Bcrypt } from '@/external-dependencies/security/bcrypt'
+import { Jwt } from '@/external-dependencies/security/jwt'
 import { AuthenticationUseCase } from '@/usecases/auth/authentication'
 import { AuthenticationFailedError } from '@/usecases/auth/errors/AuthenticationFailedError'
 import { InMemoryUserRepository } from '@/usecases/shared/repository/in-memory-user-repository'

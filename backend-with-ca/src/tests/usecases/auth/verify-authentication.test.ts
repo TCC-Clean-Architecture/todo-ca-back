@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 
 import { type IUserAuth, type IUserAuthResponse } from '@/entities/interfaces/user'
-import { Bcrypt } from '@/external/security/bcrypt'
-import { InvalidTokenError } from '@/external/security/error/InvalidTokenError'
-import { Jwt } from '@/external/security/jwt'
+import { Bcrypt } from '@/external-dependencies/security/bcrypt'
+import { InvalidTokenError } from '@/external-dependencies/security/error/InvalidTokenError'
+import { Jwt } from '@/external-dependencies/security/jwt'
 import { AuthenticationUseCase } from '@/usecases/auth/authentication'
 import { VerifyAuthenticationUseCase } from '@/usecases/auth/verify-authentication'
 import { InMemoryUserRepository } from '@/usecases/shared/repository/in-memory-user-repository'

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { type IUser } from '@/entities/interfaces/user'
-import { Bcrypt } from '@/external/security/bcrypt'
+import { Bcrypt } from '@/external-dependencies/security/bcrypt'
 import { InMemoryUserRepository } from '@/usecases/shared/repository/in-memory-user-repository'
 import { CreateUserUseCase } from '@/usecases/user/create-user'
 import { CreateUserController } from '@/web-controllers/user/create-user-controller'

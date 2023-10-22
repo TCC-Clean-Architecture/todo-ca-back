@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import { type IUser, type IUserWithId } from '@/entities/interfaces/user'
 import { InvalidEmailError } from '@/entities/user/errors/InvalidEmailError'
-import { Bcrypt } from '@/external/security/bcrypt'
+import { Bcrypt } from '@/external-dependencies/security/bcrypt'
 import { type IUserRepository } from '@/shared/user-repository'
 import { InMemoryUserRepository } from '@/usecases/shared/repository/in-memory-user-repository'
 import { CreateUserUseCase } from '@/usecases/user/create-user'

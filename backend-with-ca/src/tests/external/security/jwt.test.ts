@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { InvalidTokenError } from '@/external/security/error/InvalidTokenError'
-import { Jwt } from '@/external/security/jwt'
+import { InvalidTokenError } from '@/external-dependencies/security/error/InvalidTokenError'
+import { Jwt } from '@/external-dependencies/security/jwt'
 
 describe('Jwt testing', () => {
   it('should sign using jwt and verify', () => {

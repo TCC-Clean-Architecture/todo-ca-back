@@ -1,5 +1,5 @@
-import { MongoUserRepository } from '@/external/repositories/mongo-user-repository'
-import { Bcrypt } from '@/external/security/bcrypt'
+import { MongoUserRepository } from '@/external-dependencies/repositories/mongo-user-repository'
+import { Bcrypt } from '@/external-dependencies/security/bcrypt'
 import { CreateUserUseCase } from '@/usecases/user/create-user'
 import { CreateUserController } from '@/web-controllers/user/create-user-controller'
 

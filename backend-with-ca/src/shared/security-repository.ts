@@ -1,6 +1,6 @@
 import { type JwtPayload } from 'jsonwebtoken'
 
-import { type InvalidTokenError } from '@/external/security/error/InvalidTokenError'
+import { type InvalidTokenError } from '@/external-dependencies/security/error/InvalidTokenError'
 
 import { type Either } from './either'
 

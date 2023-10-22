@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { ObjectId } from 'mongodb'
 
-import { isObjectId } from '@/external/repositories/helpers/is-object-id'
+import { isObjectId } from '@/external-dependencies/repositories/helpers/is-object-id'
 
 describe('Is object id function testing', () => {
   it('should return objectid if the id is object id', () => {

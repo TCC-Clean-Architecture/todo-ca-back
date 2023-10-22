@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { Bcrypt } from '@/external/security/bcrypt'
+import { Bcrypt } from '@/external-dependencies/security/bcrypt'
 
 describe('Bcrypt testing', () => {
   it('should hash and compare', async () => {

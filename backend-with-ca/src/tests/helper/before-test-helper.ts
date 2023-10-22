@@ -1,8 +1,8 @@
 import { type ITodoListWithId } from '@/entities/interfaces/todo-list'
-import { MongoTodoListRepository } from '@/external/repositories/mongo-todo-list-repository'
-import { MongoUserRepository } from '@/external/repositories/mongo-user-repository'
-import { Bcrypt } from '@/external/security/bcrypt'
-import { Jwt } from '@/external/security/jwt'
+import { MongoTodoListRepository } from '@/external-dependencies/repositories/mongo-todo-list-repository'
+import { MongoUserRepository } from '@/external-dependencies/repositories/mongo-user-repository'
+import { Bcrypt } from '@/external-dependencies/security/bcrypt'
+import { Jwt } from '@/external-dependencies/security/jwt'
 
 interface IUserAllParams {
   id: string

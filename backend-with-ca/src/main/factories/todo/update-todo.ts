@@ -1,4 +1,4 @@
-import { MongoTodoListRepository } from '@/external/repositories/mongo-todo-list-repository'
+import { MongoTodoListRepository } from '@/external-dependencies/repositories/mongo-todo-list-repository'
 import { UpdateTodoUseCase } from '@/usecases/todo/update-todo/update-todo'
 import { UpdateTodoController } from '@/web-controllers/todo/update-todo-controller'
 

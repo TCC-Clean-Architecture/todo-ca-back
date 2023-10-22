@@ -1,4 +1,4 @@
-import { InvalidTokenError } from '@/external/security/error/InvalidTokenError'
+import { InvalidTokenError } from '@/external-dependencies/security/error/InvalidTokenError'
 import { type Either, left, right } from '@/shared/either'
 import { type IJwtProvider, type ITokenPayload } from '@/shared/security-repository'
 

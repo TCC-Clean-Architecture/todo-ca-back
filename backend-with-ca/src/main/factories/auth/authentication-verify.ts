@@ -1,4 +1,4 @@
-import { Jwt } from '@/external/security/jwt'
+import { Jwt } from '@/external-dependencies/security/jwt'
 import { VerifyAuthenticationUseCase } from '@/usecases/auth/verify-authentication'
 
 const makeAuthenticationVerifyUseCase = (): VerifyAuthenticationUseCase => {
