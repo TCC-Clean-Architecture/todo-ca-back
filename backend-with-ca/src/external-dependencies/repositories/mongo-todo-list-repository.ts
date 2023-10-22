@@ -1,7 +1,7 @@
 import { type ObjectId } from 'mongodb'
 
 import { type ITodoList, type ITodoListOptional, type ITodoListWithId } from '@/entities/interfaces/todo-list'
-import { convertMongoIdToNormalId } from '@/external/repositories/helpers/convertMongoIdToNormalId'
+import { convertMongoIdToNormalId } from '@/external-dependencies/repositories/helpers/convertMongoIdToNormalId'
 import { getCollection } from '@/main/configs/mongodb'
 import { type ITodoListRepository } from '@/shared/todo-list-repository'
 

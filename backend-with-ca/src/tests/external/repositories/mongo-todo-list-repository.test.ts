@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { ObjectId } from 'mongodb'
 
 import { type ITodoList } from '@/entities/interfaces/todo-list'
-import { MongoTodoListRepository } from '@/external/repositories/mongo-todo-list-repository'
+import { MongoTodoListRepository } from '@/external-dependencies/repositories/mongo-todo-list-repository'
 import { clearCollection, connectDatabase } from '@/main/configs/mongodb'
 import { todoFixture } from '@/tests/helper/fixtures/todo-fixture'
 
