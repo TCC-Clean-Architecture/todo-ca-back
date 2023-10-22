@@ -1,7 +1,7 @@
 import { type ObjectId } from 'mongodb'
 
 import { type ICompleteTodo, type ITodo, type ITodoWithId } from '@/entities/interfaces/todo'
-import { convertMongoIdToNormalId } from '@/external/repositories/helpers/convertMongoIdToNormalId'
+import { convertMongoIdToNormalId } from '@/external-dependencies/repositories/helpers/convertMongoIdToNormalId'
 import { getCollection } from '@/main/configs/mongodb'
 import { type ITodoRepository } from '@/shared/todo-repository'
 

@@ -1,4 +1,4 @@
-import { MongoTodoRepository } from '@/external/repositories/mongo-todo-repository'
+import { MongoTodoRepository } from '@/external-dependencies/repositories/mongo-todo-repository'
 import { FindAllTodoUseCase } from '@/usecases/todo/find-all-todos/find-all-todos'
 import { FindAllTodoController } from '@/web-controllers/todo/find-all-todo-controller'
 
