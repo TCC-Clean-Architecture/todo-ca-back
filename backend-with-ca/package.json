@@ -6,7 +6,7 @@
     "scripts": {
         "coverage": "nyc report --reporter html",
         "mocha": "cross-env NODE_ENV=test mocha --timeout=3000 --exit --require ts-node/register -r tsconfig-paths/register src/**/*.test.ts",
-        "test": "cross-env NODE_ENV=test nyc --reporter html --reporter text mocha --timeout=3000 --exit --require ts-node/register -r tsconfig-paths/register src/**/*.test.ts",
+        "test": "cross-env NODE_ENV=test nyc --reporter lcov --reporter html --reporter text mocha --timeout=3000 --exit --require ts-node/register -r tsconfig-paths/register src/**/*.test.ts",
         "dev": "cross-env NODE_ENV=dev nodemon --watch src/** --ext ts,json --ignore src/**/*.test.ts --exec ts-node -r tsconfig-paths/register src/index.ts",
         "start": "cross-env NODE_ENV=dev node dist/index.js",
         "lint": "eslint src/ --ext .ts,.js",
